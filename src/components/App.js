@@ -1,16 +1,17 @@
 import React from 'react';
-import '../App.css';
+import '../stylesheets/App.css';
 import Wtf from "./Wtf";
+import Graph from "./Graph";
 
 function App() {
+
   return (
     <div className="App">
-      <div>
         <header className="App-header">Coweed-19</header>
         <h1>____________________________________________________</h1>
-        <p>Under kommer en egen komponent</p>
-      </div>
-      <Wtf/>
+        <Graph/>
+        <h1>____________________________________________________</h1>
+        <Wtf/>
     </div>
   );
 }

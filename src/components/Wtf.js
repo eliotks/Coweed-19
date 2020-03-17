@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Wtf() {
+export default function Wtf() {
     return (
         <div className="Wtf">
             <h1>COWEED</h1>
@@ -12,5 +12,3 @@ function Wtf() {
         </div>
     );
 }
-
-export default Wtf;
