@@ -2,16 +2,16 @@ import React from 'react';
 
 import '../chess_index.css';
 import Board from "./Board";
-import Fallen_pieces from "./Fallen_pieces";
+import Taken_pieces from "./Taken_pieces";
 import Initializer from "../helpers/Initializer";
 
-export default class Game extends React.Component {
-    constructor(){
-        super();
+export default class P_V_P extends React.Component {
+    constructor(props){
+        super(props);
         this.state = {
             squares: Initializer(),
-            whiteFallenSoldiers: [],
-            blackFallenSoldiers: [],
+            white_taken_pieces: [],
+            black_taken_pieces: [],
             player: 1,
             sourceSelection: -1,
             status: '',
@@ -30,7 +30,7 @@ export default class Game extends React.Component {
                 }
             }
             else{
-                squares[i].style = {...squares[i].style, backgroundColor: "RGB(111,143,114)"}; // Emerald from http://omgchess.blogspot.com/2015/09/chess-board-color-schemes.html
+                squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
                 this.setState({
                     status: "Choose destination for the selected piece",
                     sourceSelection: i
@@ -49,9 +49,9 @@ export default class Game extends React.Component {
             else{
 
                 const squares = this.state.squares.slice();
-                const whiteFallenSoldiers = this.state.whiteFallenSoldiers.slice();
-                const blackFallenSoldiers = this.state.blackFallenSoldiers.slice();
-                const isDestEnemyOccupied = squares[i]? true : false;
+                const white_taken_pieces = this.state.white_taken_pieces.slice();
+                const black_taken_pieces = this.state.black_taken_pieces.slice();
+                const isDestEnemyOccupied = !!squares[i];
                 const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
                 const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                 const isMoveLegal = this.isMoveLegal(srcToDestPath);
@@ -59,10 +59,10 @@ export default class Game extends React.Component {
                 if(isMovePossible && isMoveLegal){
                     if(squares[i] !== null){
                         if(squares[i].player === 1){
-                            whiteFallenSoldiers.push(squares[i]);
+                            white_taken_pieces.push(squares[i]);
                         }
                         else{
-                            blackFallenSoldiers.push(squares[i]);
+                            black_taken_pieces.push(squares[i]);
                         }
                     }
                     squares[i] = squares[this.state.sourceSelection];
@@ -72,8 +72,8 @@ export default class Game extends React.Component {
                     this.setState({
                         sourceSelection: -1,
                         squares: squares,
-                        whiteFallenSoldiers: whiteFallenSoldiers,
-                        blackFallenSoldiers: blackFallenSoldiers,
+                        white_taken_pieces: white_taken_pieces,
+                        black_taken_pieces: black_taken_pieces,
                         player: player,
                         status: '',
                         turn: turn
@@ -105,29 +105,20 @@ export default class Game extends React.Component {
         return (
             <div>
                 <div className="game">
-                    <div className="game-board">
+                    <div className="taken_pieces">
+                        <Taken_pieces taken_pieces = {this.state.white_taken_pieces} />
+                    </div>
+                    <div className="game_board">
                         <Board
                             squares = {this.state.squares}
                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>
-                    <div className="game-info">
-                        <h3>Turn</h3>
-                        <div id="player-turn-box" style={{backgroundColor: this.state.turn}}>
-
-                        </div>
-                        <div className="game-status">{this.state.status}</div>
-
-                        <div className="fallen-soldier-block">
-
-                            {<Fallen_pieces
-                                whiteFallenSoldiers = {this.state.whiteFallenSoldiers}
-                                blackFallenSoldiers = {this.state.blackFallenSoldiers}
-                            />
-                            }
-                        </div>
-
+                    <div className="taken_pieces">
+                        <Taken_pieces taken_pieces = {this.state.black_taken_pieces} />
                     </div>
+                    <div id="player_turn_box" style={{backgroundColor: this.state.turn}}/>
+                    <div className="game_status">{this.state.status}</div>
                 </div>
             </div>
         );

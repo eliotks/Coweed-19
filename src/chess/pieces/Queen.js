@@ -8,7 +8,6 @@ export default class Queen extends Piece {
     isMovePossible(src, dest){
         let mod = src % 8;
         let diff = 8 - mod;
-
         return (Math.abs(src - dest) % 9 === 0 || Math.abs(src - dest) % 7 === 0) ||
             (Math.abs(src - dest) % 8 === 0 || (dest >= (src - mod) && dest < (src + diff)));
     }

@@ -8,5 +8,4 @@ export default function Square(props) {
                 style={props.style}>
         </button>
     );
-
 }
