@@ -15,7 +15,9 @@ export default class P_V_AI extends React.Component {
             sourceSelection: -1,
             status: '',
             turn: 'white',
-            ai_turn_text: "Det er din tur. Gjør no lurt!"
+            ai_turn_text: "Det er din tur. Gjør no lurt!",
+            debug_1: "",
+            debug_2: ""
         }
     }
 
@@ -49,29 +51,17 @@ export default class P_V_AI extends React.Component {
                 }
                 else {
                     const squares = this.state.squares.slice();
-                    const white_taken_pieces = this.state.white_taken_pieces.slice();
-                    const black_taken_pieces = this.state.black_taken_pieces.slice();
-                    const isDestEnemyOccupied = !!squares[i];
-                    const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
+                    const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, !!squares[i]);
                     const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
                     const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
                     if (isMovePossible && isMoveLegal) {
-                        if (squares[i] !== null) {
-                            if (squares[i].player === 1) {
-                                white_taken_pieces.push(squares[i]);
-                            }
-                            else {
-                                black_taken_pieces.push(squares[i]);
-                            }
-                        }
+                        this.add_taken_piece(i);
                         squares[i] = squares[this.state.sourceSelection];
                         squares[this.state.sourceSelection] = null;
                         this.setState({
                             sourceSelection: -1,
                             squares: squares,
-                            white_taken_pieces: white_taken_pieces,
-                            black_taken_pieces: black_taken_pieces,
                             status: '',
                             turn: "black",
                             ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
@@ -87,22 +77,50 @@ export default class P_V_AI extends React.Component {
             }
         }
         else {
-            this.makeBlackMove(10, 26)
+            this.makeBlackMove();
         }
     }
 
-    makeBlackMove(source, dest) {
+    makeBlackMove() {
         const squares = this.state.squares.slice();
-        const white_taken_pieces = this.state.white_taken_pieces.slice();
-        const black_taken_pieces = this.state.black_taken_pieces.slice();
+
+        const sources = [];
+        for (let i = 0; i < 64; i++) {
+            if (squares[i] !== null) {
+                if (squares[i].player === 2) {
+                    sources.push(i)
+                }
+            }
+        }
+
+        const possible_moves = [];
+        for (let i = 0; i < sources.length; i++) {
+            for (let y = 0; y < 64; y++) {
+                if (squares[y] !== null) {
+                    if (squares[y].player === 2) {
+                        continue;
+                    }
+                }
+                let isMovePossible = squares[sources[i]].isMovePossible(sources[i], y, );
+                let srcToDestPath = squares[sources[i]].getSrcToDestPath(sources[i], y);
+                let isMoveLegal = this.isMoveLegal(srcToDestPath);
+                if (isMoveLegal && isMovePossible) {
+                    possible_moves.push([sources[i], y])
+                }
+            }
+        }
+
+        const move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
+        const source = move[0];
+        const dest = move[1];
+
+        this.add_taken_piece(dest);
 
         squares[dest] = squares[source];
         squares[source] = null;
         this.setState({
             sourceSelection: -1,
             squares: squares,
-            white_taken_pieces: white_taken_pieces,
-            black_taken_pieces: black_taken_pieces,
             status: '',
             turn: "white",
             ai_turn_text: "Det er din tur. Gjør noe lurt!"
@@ -117,6 +135,24 @@ export default class P_V_AI extends React.Component {
             }
         }
         return isLegal;
+    }
+
+    add_taken_piece(i) {
+        const squares = this.state.squares;
+        const white_taken_pieces = this.state.white_taken_pieces.slice();
+        const black_taken_pieces = this.state.black_taken_pieces.slice();
+        if (squares[i] !== null) {
+            if (squares[i].player === 1) {
+                white_taken_pieces.push(squares[i]);
+            }
+            else {
+                black_taken_pieces.push(squares[i]);
+            }
+        }
+        this.setState({
+            white_taken_pieces: white_taken_pieces,
+            black_taken_pieces: black_taken_pieces,
+        });
     }
 
     render() {
@@ -138,6 +174,8 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="ai_turn_text">{this.state.ai_turn_text}</div>
                     <div className="game_status">{this.state.status}</div>
+                    <div className="debug">{this.state.debug_1}</div>
+                    <div className="debug">{this.state.debug_2}</div>
                 </div>
             </div>
         );
