@@ -3,6 +3,8 @@ import '../chess_index.css';
 import Board from "./Board";
 import Taken_pieces from "./Taken_pieces";
 import Initializer from "../helpers/Initializer";
+import All_legal_moves from "../helpers/All_legal_moves";
+import Evaluate_board from "../helpers/Evaluate_board";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
@@ -19,6 +21,17 @@ export default class P_V_AI extends React.Component {
             debug_2: ""
         }
     }
+
+    // mangler rokkade - easy
+    // mangler an passant - ganske easy
+    // mangler patt _ hvertfall easy
+    // mangler sjakkmatt - eeeasy
+    // mangler bonde->dronning - ikke såå easy
+    // mangler trekkgjentagelse og stillingsrepetisjon
+    // kanskje tid/klokke hadde vært nais
+    // mangler at brukeren skal kunne velge enten PvP eller PvAi
+    // mangler at brukeren skal kunne velge farge hvis PvAi er valgt
+    // mangler en grov AI
 
     handleClick(i){
         const squares = this.state.squares.slice();
@@ -80,13 +93,7 @@ export default class P_V_AI extends React.Component {
         else {
             const squares = this.state.squares.slice();
 
-            const possible_moves = this.all_possible_moves(2, squares);
-            const legal_moves = [];
-            for (let i = 0; i < possible_moves.length; i++) {
-                if (this.is_legal_move(possible_moves[i], squares.slice())) {
-                    legal_moves.push(possible_moves[i]);
-                }
-            }
+            const legal_moves = All_legal_moves(2, squares);
 
             this.setState({
                 debug_1: "yo" + legal_moves.length
@@ -134,58 +141,6 @@ export default class P_V_AI extends React.Component {
         });
     }
 
-    is_legal_move(move, squares) {
-        if (squares[move[0]] != null) {
-            const player = squares[move[0]].player;
-            squares[move[1]] = squares[move[0]];
-            squares[move[0]] = null;
-            return !this.king_in_check(player, squares)
-        }
-    }
-
-    king_in_check(player, squares) {
-        let position = 0;
-        for (let i = 0; i < 64; i++) {
-            if (squares[i] != null) {
-                if (squares[i].type_of_piece === "king" && squares[i].player === player) {
-                    position = i;
-                    break;
-                }
-            }
-        }
-        const enemy_moves = this.all_possible_moves(this.opposite_player(player), squares)
-        if (enemy_moves.length === 0) {
-            // patt eller matt
-        }
-        else {
-            for (let i = 0; i < enemy_moves.length; i++) {
-                if (enemy_moves[i][1] === position) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    all_possible_moves(player, squares) {
-        const possible_moves = [];
-
-        for (let i = 0; i < 64; i++) {
-            if (squares[i] != null) {
-                if (squares[i].player === player) {
-                    const moves = squares[i].possible_moves(i, squares);
-                    for (let y = 0; y < moves.length; y++) {
-                        possible_moves.push(moves[y]);
-                    }
-                }
-            }
-        }
-        return possible_moves;
-    }
-
-    opposite_player(player) {
-        return player === 1 ? 2 : 1;
-    }
 
 
     render() {

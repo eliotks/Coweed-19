@@ -1,10 +1,10 @@
 
 export default class Piece {
 
-    constructor(player, iconUrl) {
+    constructor(player, iconUrl, score) {
         this.player = player;
         this.style = {backgroundImage: "url('"+iconUrl+"')"};
-        this.type_of_piece = "not_important"
+        this.score = score;
     }
 
     possible_line_moves(source, squares, directions, steps) {

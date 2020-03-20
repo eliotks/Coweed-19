@@ -2,7 +2,7 @@ import Piece from './Piece.js';
 
 export default class Queen extends Piece {
     constructor(player) {
-        super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg"));
+        super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/1/15/Chess_qlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/4/47/Chess_qdt45.svg"), 9);
         this.diagonal_directions = [-9, -7, 7, 9];
         this.straight_directions = [-1, -8, 1, 8];
     }
