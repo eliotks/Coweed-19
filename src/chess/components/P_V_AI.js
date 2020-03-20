@@ -51,11 +51,13 @@ export default class P_V_AI extends React.Component {
                 }
                 else {
                     const squares = this.state.squares.slice();
-                    const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, !!squares[i]);
-                    const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
-                    const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
-                    if (isMovePossible && isMoveLegal) {
+                    const move = [this.state.sourceSelection, i];
+                    const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares);
+                    let move_string = JSON.stringify(move);
+                    let moves_string = JSON.stringify(moves);
+
+                    if (moves_string.indexOf(move_string) !== -1) {
                         this.add_taken_piece(i);
                         squares[i] = squares[this.state.sourceSelection];
                         squares[this.state.sourceSelection] = null;
@@ -101,40 +103,36 @@ export default class P_V_AI extends React.Component {
                         continue;
                     }
                 }
-                let isMovePossible = squares[sources[i]].isMovePossible(sources[i], y, );
-                let srcToDestPath = squares[sources[i]].getSrcToDestPath(sources[i], y);
-                let isMoveLegal = this.isMoveLegal(srcToDestPath);
-                if (isMoveLegal && isMovePossible) {
-                    possible_moves.push([sources[i], y])
+                let move = [sources[i], y];
+                let moves = squares[sources[i]].possible_moves(sources[i], squares);
+                let move_string = JSON.stringify(move);
+                let moves_string = JSON.stringify(moves);
+                if (moves_string.indexOf(move_string) !== -1) {
+                    possible_moves.push(move);
                 }
             }
         }
 
-        const move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
-        const source = move[0];
-        const dest = move[1];
-
-        this.add_taken_piece(dest);
-
-        squares[dest] = squares[source];
-        squares[source] = null;
-        this.setState({
-            sourceSelection: -1,
-            squares: squares,
-            status: '',
-            turn: "white",
-            ai_turn_text: "Det er din tur. Gjør noe lurt!"
-        });
-    }
-
-    isMoveLegal(srcToDestPath){
-        let isLegal = true;
-        for(let i = 0; i < srcToDestPath.length; i++){
-            if(this.state.squares[srcToDestPath[i]] !== null){
-                isLegal = false;
-            }
+        if (possible_moves.length === 0) {
+            // patt eller matt
         }
-        return isLegal;
+        else {
+            const chosen_move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
+            const source = chosen_move[0];
+            const dest = chosen_move[1];
+
+            this.add_taken_piece(dest);
+
+            squares[dest] = squares[source];
+            squares[source] = null;
+            this.setState({
+                sourceSelection: -1,
+                squares: squares,
+                status: '',
+                turn: "white",
+                ai_turn_text: "Det er din tur. Gjør noe lurt!"
+            });
+        }
     }
 
     add_taken_piece(i) {
@@ -174,8 +172,8 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="ai_turn_text">{this.state.ai_turn_text}</div>
                     <div className="game_status">{this.state.status}</div>
-                    <div className="debug">{this.state.debug_1}</div>
-                    <div className="debug">{this.state.debug_2}</div>
+                    <div className="debug">Debug 1: {this.state.debug_1}</div>
+                    <div className="debug">Debug 2: {this.state.debug_2}</div>
                 </div>
             </div>
         );
