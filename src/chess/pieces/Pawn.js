@@ -6,21 +6,22 @@ export default class Pawn extends Piece {
         this.initialPositions = {
             1: [48, 49, 50, 51, 52, 53, 54, 55],
             2: [8, 9, 10, 11, 12, 13, 14, 15]
-        }
+        };
     }
 
     possible_moves(source, squares) {
         const moves = [];
         const direction = this.player === 1 ? -1 : 1;
-        if (this.initialPositions[this.player].includes(source)) {
-            moves.push([source, source + direction*16])
-            // an passant = true
-        }
+
         if (source in this.initialPositions[this.player-direction]) {
             // time_to_queen
         }
         if (squares[source + direction*8] == null) {
-            moves.push([source, source + direction*8])
+            moves.push([source, source + direction*8]);
+            if (this.initialPositions[this.player].includes(source) && squares[source + direction*8] == null) {
+                moves.push([source, source + direction*16])
+                // an passant = true
+            }
         }
         if (source % 8 !== 7) {
             if (this.player === 1) {

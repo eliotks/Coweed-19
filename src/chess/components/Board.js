@@ -1,5 +1,4 @@
 import React from 'react';
-
 import '../chess_index.css';
 import Square from './Square.js';
 

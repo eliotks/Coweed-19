@@ -1,5 +1,4 @@
 import React from 'react';
-
 import '../chess_index.css';
 import Board from "./Board";
 import Taken_pieces from "./Taken_pieces";
@@ -79,59 +78,41 @@ export default class P_V_AI extends React.Component {
             }
         }
         else {
-            this.makeBlackMove();
-        }
-    }
+            const squares = this.state.squares.slice();
 
-    makeBlackMove() {
-        const squares = this.state.squares.slice();
-
-        const sources = [];
-        for (let i = 0; i < 64; i++) {
-            if (squares[i] !== null) {
-                if (squares[i].player === 2) {
-                    sources.push(i)
+            const possible_moves = this.all_possible_moves(2, squares);
+            const legal_moves = [];
+            for (let i = 0; i < possible_moves.length; i++) {
+                if (this.is_legal_move(possible_moves[i], squares.slice())) {
+                    legal_moves.push(possible_moves[i]);
                 }
             }
-        }
 
-        const possible_moves = [];
-        for (let i = 0; i < sources.length; i++) {
-            for (let y = 0; y < 64; y++) {
-                if (squares[y] !== null) {
-                    if (squares[y].player === 2) {
-                        continue;
-                    }
-                }
-                let move = [sources[i], y];
-                let moves = squares[sources[i]].possible_moves(sources[i], squares);
-                let move_string = JSON.stringify(move);
-                let moves_string = JSON.stringify(moves);
-                if (moves_string.indexOf(move_string) !== -1) {
-                    possible_moves.push(move);
-                }
-            }
-        }
-
-        if (possible_moves.length === 0) {
-            // patt eller matt
-        }
-        else {
-            const chosen_move = possible_moves[Math.floor(Math.random() * possible_moves.length)];
-            const source = chosen_move[0];
-            const dest = chosen_move[1];
-
-            this.add_taken_piece(dest);
-
-            squares[dest] = squares[source];
-            squares[source] = null;
             this.setState({
-                sourceSelection: -1,
-                squares: squares,
-                status: '',
-                turn: "white",
-                ai_turn_text: "Det er din tur. Gjør noe lurt!"
+                debug_1: "yo" + legal_moves.length
             });
+
+            if (legal_moves.length === 0) {
+                // patt eller matt
+            }
+            else {
+                const black_move = legal_moves[Math.floor(Math.random() * legal_moves.length)];
+                const source = black_move[0];
+                const dest = black_move[1];
+
+                this.add_taken_piece(dest);
+
+                squares[dest] = squares[source];
+                squares[source] = null;
+
+                this.setState({
+                    sourceSelection: -1,
+                    squares: squares,
+                    status: '',
+                    turn: "white",
+                    ai_turn_text: "Det er din tur. Gjør noe lurt!"
+                });
+            }
         }
     }
 
@@ -139,7 +120,7 @@ export default class P_V_AI extends React.Component {
         const squares = this.state.squares;
         const white_taken_pieces = this.state.white_taken_pieces.slice();
         const black_taken_pieces = this.state.black_taken_pieces.slice();
-        if (squares[i] !== null) {
+        if (squares[i] != null) {
             if (squares[i].player === 1) {
                 white_taken_pieces.push(squares[i]);
             }
@@ -153,8 +134,61 @@ export default class P_V_AI extends React.Component {
         });
     }
 
-    render() {
+    is_legal_move(move, squares) {
+        if (squares[move[0]] != null) {
+            const player = squares[move[0]].player;
+            squares[move[1]] = squares[move[0]];
+            squares[move[0]] = null;
+            return !this.king_in_check(player, squares)
+        }
+    }
 
+    king_in_check(player, squares) {
+        let position = 0;
+        for (let i = 0; i < 64; i++) {
+            if (squares[i] != null) {
+                if (squares[i].type_of_piece === "king" && squares[i].player === player) {
+                    position = i;
+                    break;
+                }
+            }
+        }
+        const enemy_moves = this.all_possible_moves(this.opposite_player(player), squares)
+        if (enemy_moves.length === 0) {
+            // patt eller matt
+        }
+        else {
+            for (let i = 0; i < enemy_moves.length; i++) {
+                if (enemy_moves[i][1] === position) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    all_possible_moves(player, squares) {
+        const possible_moves = [];
+
+        for (let i = 0; i < 64; i++) {
+            if (squares[i] != null) {
+                if (squares[i].player === player) {
+                    const moves = squares[i].possible_moves(i, squares);
+                    for (let y = 0; y < moves.length; y++) {
+                        possible_moves.push(moves[y]);
+                    }
+                }
+            }
+        }
+        return possible_moves;
+    }
+
+    opposite_player(player) {
+        return player === 1 ? 2 : 1;
+    }
+
+
+    render() {
         return (
             <div>
                 <div className="game">

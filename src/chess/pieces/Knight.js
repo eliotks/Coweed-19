@@ -6,11 +6,34 @@ export default class Knight extends Piece {
     }
 
     possible_moves(source, squares) {
-        const directions = [-17, -15, -10, -6, 6, 10, 15, 17];
+        const directions = [];
         const up = Math.floor(source/8);
         const left = source % 8;
 
-        // funker ikke. Må gjøre noe lurt her med å sjekke up/left
+        if (up > 1 && left > 0) {
+            directions.push(-17);
+        }
+        if (up > 0 && left > 1) {
+            directions.push(-10);
+        }
+        if (up < 6 && left > 0) {
+            directions.push(15);
+        }
+        if (up < 7 && left > 1) {
+            directions.push(6);
+        }
+        if (up > 1 && left < 7) {
+            directions.push(-15);
+        }
+        if (up > 0 && left < 6) {
+            directions.push(-6);
+        }
+        if (up < 6 && left < 7) {
+            directions.push(17);
+        }
+        if (up < 7 && left < 6) {
+            directions.push(10);
+        }
 
         return this.possible_one_step_moves(source, squares, directions);
     }

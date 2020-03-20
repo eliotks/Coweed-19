@@ -19,6 +19,24 @@ export default class P_V_P extends React.Component {
         }
     }
 
+    add_taken_piece(i) {
+        const squares = this.state.squares;
+        const white_taken_pieces = this.state.white_taken_pieces.slice();
+        const black_taken_pieces = this.state.black_taken_pieces.slice();
+        if (squares[i] !== null) {
+            if (squares[i].player === 1) {
+                white_taken_pieces.push(squares[i]);
+            }
+            else {
+                black_taken_pieces.push(squares[i]);
+            }
+        }
+        this.setState({
+            white_taken_pieces: white_taken_pieces,
+            black_taken_pieces: black_taken_pieces,
+        });
+    }
+
     handleClick(i){
         const squares = this.state.squares.slice();
 
@@ -47,57 +65,37 @@ export default class P_V_P extends React.Component {
                 });
             }
             else{
-
                 const squares = this.state.squares.slice();
-                const white_taken_pieces = this.state.white_taken_pieces.slice();
-                const black_taken_pieces = this.state.black_taken_pieces.slice();
-                const isDestEnemyOccupied = !!squares[i];
-                const isMovePossible = squares[this.state.sourceSelection].isMovePossible(this.state.sourceSelection, i, isDestEnemyOccupied);
-                const srcToDestPath = squares[this.state.sourceSelection].getSrcToDestPath(this.state.sourceSelection, i);
-                const isMoveLegal = this.isMoveLegal(srcToDestPath);
 
-                if(isMovePossible && isMoveLegal){
-                    if(squares[i] !== null){
-                        if(squares[i].player === 1){
-                            white_taken_pieces.push(squares[i]);
-                        }
-                        else{
-                            black_taken_pieces.push(squares[i]);
-                        }
-                    }
+                const move = [this.state.sourceSelection, i];
+                const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares);
+                let move_string = JSON.stringify(move);
+                let moves_string = JSON.stringify(moves);
+
+
+                if (moves_string.indexOf(move_string) !== -1) {
+                    this.add_taken_piece(i);
                     squares[i] = squares[this.state.sourceSelection];
                     squares[this.state.sourceSelection] = null;
-                    let player = this.state.player === 1? 2: 1;
-                    let turn = this.state.turn === 'white'? 'black' : 'white';
+                    let player = this.state.player === 1 ? 2 : 1;
                     this.setState({
                         sourceSelection: -1,
-                        squares: squares,
-                        white_taken_pieces: white_taken_pieces,
-                        black_taken_pieces: black_taken_pieces,
                         player: player,
+                        squares: squares,
                         status: '',
-                        turn: turn
+                        turn: "black",
+                        ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
                     });
                 }
-                else{
+                else {
                     this.setState({
-                        status: "Wrong selection. Choose valid source and destination again.",
+                        status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
                         sourceSelection: -1,
                     });
                 }
             }
         }
 
-    }
-
-    isMoveLegal(srcToDestPath){
-        let isLegal = true;
-        for(let i = 0; i < srcToDestPath.length; i++){
-            if(this.state.squares[srcToDestPath[i]] !== null){
-                isLegal = false;
-            }
-        }
-        return isLegal;
     }
 
     render() {

@@ -1,8 +1,10 @@
+
 export default class Piece {
 
     constructor(player, iconUrl) {
         this.player = player;
         this.style = {backgroundImage: "url('"+iconUrl+"')"};
+        this.type_of_piece = "not_important"
     }
 
     possible_line_moves(source, squares, directions, steps) {
