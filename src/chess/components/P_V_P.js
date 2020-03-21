@@ -3,7 +3,7 @@ import React from 'react';
 import '../chess_index.css';
 import Board from "./Board";
 import Taken_pieces from "./Taken_pieces";
-import Initializer from "../helpers/Initializer";
+import Initializer from "../helpers/initializer";
 
 export default class P_V_P extends React.Component {
     constructor(props){

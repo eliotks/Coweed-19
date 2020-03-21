@@ -1,8 +1,6 @@
-import All_legal_moves from "./All_legal_moves";
+import all_legal_moves from "./all_legal_moves";
 
-
-
-export default function Evaluate_board(squares) {
+export default function evaluate_board(squares) {
     let score = 0;
     let white_position_sum = 0;
     let white_pieces = 0;
@@ -31,23 +29,18 @@ export default function Evaluate_board(squares) {
     score += (average - white_position_score)*0.03;
     score += (average - black_position_score)*0.03;
 
-    let black_moves = All_legal_moves(2, squares);
-    let white_moves = All_legal_moves(1, squares);
-
-    score += white_moves*0.05;
-    score -= black_moves*0.05;
-
-    const center_position = [27, 28, 35, 36];
+    const white_moves = all_legal_moves(1, squares);
+    const black_moves = all_legal_moves(2, squares);
+    const center = [27, 28, 35, 36];
 
     for (let i = 0; i < 4; i++) {
-        for (let y = 0; y < white_moves.length; y++) {
-            if (white_moves[y] === center_position[i]) {
+        for (let w = 0; w < white_moves.length; w++) {
+            if (white_moves[w][1] === center[i]) {
                 score += 0.1;
             }
         }
-
-        for (let y = 0; y < black_moves; y++) {
-            if (white_moves[y] === center_position[i]) {
+        for (let b = 0; b < black_moves.length; b++) {
+            if (black_moves[b][1] === center[i]) {
                 score -= 0.1;
             }
         }

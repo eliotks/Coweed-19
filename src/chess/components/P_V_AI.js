@@ -2,15 +2,16 @@ import React from 'react';
 import '../chess_index.css';
 import Board from "./Board";
 import Taken_pieces from "./Taken_pieces";
-import Initializer from "../helpers/Initializer";
-import All_legal_moves from "../helpers/All_legal_moves";
-import Evaluate_board from "../helpers/Evaluate_board";
+import initializer from "../helpers/initializer";
+import all_legal_moves from "../helpers/all_legal_moves";
+import is_legal_move from "../helpers/is_legal_move";
+import evaluate_board from "../helpers/evaluate_board";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            squares: Initializer(),
+            squares: initializer(),
             white_taken_pieces: [],
             black_taken_pieces: [],
             sourceSelection: -1,
@@ -69,7 +70,7 @@ export default class P_V_AI extends React.Component {
                     let move_string = JSON.stringify(move);
                     let moves_string = JSON.stringify(moves);
 
-                    if (moves_string.indexOf(move_string) !== -1) {
+                    if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
                         this.add_taken_piece(i);
                         squares[i] = squares[this.state.sourceSelection];
                         squares[this.state.sourceSelection] = null;
@@ -93,7 +94,7 @@ export default class P_V_AI extends React.Component {
         else {
             const squares = this.state.squares.slice();
 
-            const legal_moves = All_legal_moves(2, squares);
+            const legal_moves = all_legal_moves(2, squares);
 
             this.setState({
                 debug_1: "yo" + legal_moves.length
@@ -103,7 +104,20 @@ export default class P_V_AI extends React.Component {
                 // patt eller matt
             }
             else {
-                const black_move = legal_moves[Math.floor(Math.random() * legal_moves.length)];
+                let black_move = [];
+                let score = 100000;
+
+                for (let i = 0; i < legal_moves.length; i++) {
+                    let score_squares = squares.slice();
+                    score_squares[legal_moves[i][1]] = score_squares[legal_moves[i][0]];
+                    score_squares[legal_moves[i][0]] = null;
+                    let current_score = evaluate_board(score_squares);
+                    if (current_score < score) {
+                        black_move = legal_moves[i];
+                        score = current_score;
+                    }
+                }
+
                 const source = black_move[0];
                 const dest = black_move[1];
 
@@ -117,7 +131,8 @@ export default class P_V_AI extends React.Component {
                     squares: squares,
                     status: '',
                     turn: "white",
-                    ai_turn_text: "Det er din tur. Gjør noe lurt!"
+                    ai_turn_text: "Det er din tur. Gjør noe lurt!",
+                    debug_1: "hei" + score
                 });
             }
         }
@@ -142,7 +157,6 @@ export default class P_V_AI extends React.Component {
     }
 
 
-
     render() {
         return (
             <div>
@@ -153,7 +167,7 @@ export default class P_V_AI extends React.Component {
                     <div className="game_board">
                         <Board
                             squares = {this.state.squares}
-                            onClick = {(i) => this.handleClick(i)}
+                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>
                     <div className="taken_pieces">
