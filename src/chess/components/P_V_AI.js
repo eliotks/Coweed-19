@@ -23,7 +23,7 @@ export default class P_V_AI extends React.Component {
         }
     }
 
-    // mangler rokkade - easy
+    // mangler rokkade - halvveis easy
     // mangler an passant - ganske easy
     // mangler patt _ hvertfall easy
     // mangler sjakkmatt - eeeasy
@@ -72,8 +72,24 @@ export default class P_V_AI extends React.Component {
 
                     if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
                         this.add_taken_piece(i);
+
                         squares[i] = squares[this.state.sourceSelection];
                         squares[this.state.sourceSelection] = null;
+
+                        if (squares[i].score === 5 || squares[i].score === 100) {
+                            squares[i].has_not_moved = false;
+                            if (squares[i].score === 100 && i - this.state.sourceSelection === 2) {
+                                squares[i-1] = squares[i+1];
+                                squares[i+1] = null;
+                                squares[i].has_castled = true;
+                            }
+                            else if (squares[i].score === 100 && this.state.sourceSelection - i === 2) {
+                                squares[i+1] = squares[i-2];
+                                squares[i-2] = null;
+                                squares[i].has_castled = true;
+                            }
+                        }
+
                         this.setState({
                             sourceSelection: -1,
                             squares: squares,
@@ -113,6 +129,20 @@ export default class P_V_AI extends React.Component {
 
                 squares[dest] = squares[source];
                 squares[source] = null;
+
+                if (squares[dest].score === 5 || squares[dest].score === 100) {
+                    squares[dest].has_not_moved = false;
+                    if (squares[dest].score === 100 && dest - this.state.sourceSelection === 2) {
+                        squares[dest-1] = squares[dest+1];
+                        squares[dest+1] = null;
+                        squares[dest].has_castled = true;
+                    }
+                    else if (squares[dest].score === 100 && this.state.sourceSelection - dest === 2) {
+                        squares[dest+1] = squares[dest-2];
+                        squares[dest-2] = null;
+                        squares[dest].has_castled = true;
+                    }
+                }
 
                 this.setState({
                     sourceSelection: -1,

@@ -46,5 +46,31 @@ export default function evaluate_board(squares) {
         }
     }
 
+    let white_king_position = 0;
+    let black_king_position = 0;
+
+    for (let i = 0; i < 64; i++) {
+        if (squares[i] != null) {
+            if (squares[i].score === 100) {
+                if (squares[i].player === 1) {
+                    white_king_position = i;
+                }
+                else {
+                    black_king_position = i;
+                }
+            }
+        }
+    }
+
+    if (squares[white_king_position].has_castled) {
+        score += 1;
+    }
+
+    if (squares[black_king_position].has_castled) {
+        score -= 1;
+    }
+
+    // antall brikker utviklet?
+
     return score;
 }

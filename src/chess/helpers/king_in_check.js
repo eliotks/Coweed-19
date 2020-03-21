@@ -1,5 +1,6 @@
 import all_possible_moves from "./all_possible_moves";
 import opposite_player from "./opposite_player";
+
 export default function king_in_check(player, squares) {
     let position = 0;
     for (let i = 0; i < 64; i++) {

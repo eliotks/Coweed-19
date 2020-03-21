@@ -6,7 +6,7 @@ export default function find_next_move(squares, player) {
     // alpha starter på -1000
     // beta starter på 1000
 
-    const global_depth = 4;
+    const global_depth = 3;
 
     let next_move = [];
 
