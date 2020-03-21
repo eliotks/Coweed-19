@@ -18,7 +18,7 @@ export default class Pawn extends Piece {
         }
         if (squares[source + direction*8] == null) {
             moves.push([source, source + direction*8]);
-            if (this.initialPositions[this.player].includes(source) && squares[source + direction*8] == null) {
+            if (this.initialPositions[this.player].includes(source) && squares[source + direction*16] == null) {
                 moves.push([source, source + direction*16])
                 // an passant = true
             }

@@ -5,7 +5,7 @@ import Taken_pieces from "./Taken_pieces";
 import initializer from "../helpers/initializer";
 import all_legal_moves from "../helpers/all_legal_moves";
 import is_legal_move from "../helpers/is_legal_move";
-import evaluate_board from "../helpers/evaluate_board";
+import find_next_move from "../helpers/find_next_move";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
@@ -104,19 +104,7 @@ export default class P_V_AI extends React.Component {
                 // patt eller matt
             }
             else {
-                let black_move = [];
-                let score = 100000;
-
-                for (let i = 0; i < legal_moves.length; i++) {
-                    let score_squares = squares.slice();
-                    score_squares[legal_moves[i][1]] = score_squares[legal_moves[i][0]];
-                    score_squares[legal_moves[i][0]] = null;
-                    let current_score = evaluate_board(score_squares);
-                    if (current_score < score) {
-                        black_move = legal_moves[i];
-                        score = current_score;
-                    }
-                }
+                let black_move = find_next_move(squares, 2);
 
                 const source = black_move[0];
                 const dest = black_move[1];
@@ -131,8 +119,7 @@ export default class P_V_AI extends React.Component {
                     squares: squares,
                     status: '',
                     turn: "white",
-                    ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: "hei" + score
+                    ai_turn_text: "Det er din tur. Gjør noe lurt!"
                 });
             }
         }
