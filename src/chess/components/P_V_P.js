@@ -4,6 +4,8 @@ import '../chess_index.css';
 import Board from "./Board";
 import Taken_pieces from "./Taken_pieces";
 import Initializer from "../helpers/initializer";
+import is_legal_move from "../helpers/is_legal_move";
+import evaluate_board from "../helpers/evaluate_board";
 
 export default class P_V_P extends React.Component {
     constructor(props){
@@ -15,7 +17,8 @@ export default class P_V_P extends React.Component {
             player: 1,
             sourceSelection: -1,
             status: '',
-            turn: 'white'
+            turn: 'white',
+            debug: ""
         }
     }
 
@@ -73,10 +76,25 @@ export default class P_V_P extends React.Component {
                 let moves_string = JSON.stringify(moves);
 
 
-                if (moves_string.indexOf(move_string) !== -1) {
+                if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
                     this.add_taken_piece(i);
                     squares[i] = squares[this.state.sourceSelection];
                     squares[this.state.sourceSelection] = null;
+
+                    if (squares[i].score === 5 || squares[i].score === 100) {
+                        squares[i].has_not_moved = false;
+                        if (squares[i].score === 100 && i - this.state.sourceSelection === 2) {
+                            squares[i-1] = squares[i+1];
+                            squares[i+1] = null;
+                            squares[i].has_castled = true;
+                        }
+                        else if (squares[i].score === 100 && this.state.sourceSelection - i === 2) {
+                            squares[i+1] = squares[i-2];
+                            squares[i-2] = null;
+                            squares[i].has_castled = true;
+                        }
+                    }
+
                     let player = this.state.player === 1 ? 2 : 1;
                     this.setState({
                         sourceSelection: -1,
@@ -84,7 +102,8 @@ export default class P_V_P extends React.Component {
                         squares: squares,
                         status: '',
                         turn: "black",
-                        ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
+                        ai_turn_text: "Det er svart sin tur.",
+                        debug: evaluate_board(squares)
                     });
                 }
                 else {
@@ -117,6 +136,7 @@ export default class P_V_P extends React.Component {
                     </div>
                     <div id="player_turn_box" style={{backgroundColor: this.state.turn}}/>
                     <div className="game_status">{this.state.status}</div>
+                    <div className="debug">Debug: {this.state.debug}</div>
                 </div>
             </div>
         );

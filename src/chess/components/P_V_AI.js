@@ -6,6 +6,8 @@ import initializer from "../helpers/initializer";
 import all_legal_moves from "../helpers/all_legal_moves";
 import is_legal_move from "../helpers/is_legal_move";
 import find_next_move from "../helpers/find_next_move";
+import evaluate_board from "../helpers/evaluate_board";
+import king_in_check from "../helpers/king_in_check";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
@@ -23,10 +25,13 @@ export default class P_V_AI extends React.Component {
         }
     }
 
-    // mangler rokkade - halvveis easy
+    // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
+    // er truet fordi da må jeg bruke metoden all_possible_moves, som igjen må bruke king.possible_moves -> evig loop
+
+    // find_next_move vil ikke rokkere - hvorfor? kanskje kopieringen i find_next_move er overkill
+
     // mangler an passant - ganske easy
-    // mangler patt _ hvertfall easy
-    // mangler sjakkmatt - eeeasy
+
     // mangler bonde->dronning - ikke såå easy
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
@@ -37,89 +42,92 @@ export default class P_V_AI extends React.Component {
     handleClick(i){
         const squares = this.state.squares.slice();
 
-        if (this.state.turn === "white") {
-            if (this.state.sourceSelection === -1) {
-                if (!squares[i] || squares[i].player !== 1) {
-                    this.setState({status: "Du må velge en hvit brikke!"});
-                    if (squares[i]) {
-                        squares[i].style = {...squares[i].style, backgroundColor: ""};
-                    }
-                }
-                else{
-                    squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
-                    this.setState({
-                        status: "Hvor vil du flytte brikken?",
-                        sourceSelection: i
-                    });
-                }
-            }
+        if (this.player_has_won(1, squares)) {
+            // hvit har vunnet
+        }
 
-            else if (this.state.sourceSelection > -1) {
-                squares[this.state.sourceSelection].style = {...squares[this.state.sourceSelection].style, backgroundColor: ""};
-                if (squares[i] && squares[i].player === 1) {
-                    this.setState({
-                        status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
-                        sourceSelection: -1,
-                    });
-                }
-                else {
-                    const squares = this.state.squares.slice();
+        else if (this.player_has_won(2, squares)) {
+            // svart har vunnet
+        }
 
-                    const move = [this.state.sourceSelection, i];
-                    const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares);
-                    let move_string = JSON.stringify(move);
-                    let moves_string = JSON.stringify(moves);
+        else if (this.patt(squares)) {
+            // patt
+        }
 
-                    if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
-                        this.add_taken_piece(i);
-
-                        squares[i] = squares[this.state.sourceSelection];
-                        squares[this.state.sourceSelection] = null;
-
-                        if (squares[i].score === 5 || squares[i].score === 100) {
-                            squares[i].has_not_moved = false;
-                            if (squares[i].score === 100 && i - this.state.sourceSelection === 2) {
-                                squares[i-1] = squares[i+1];
-                                squares[i+1] = null;
-                                squares[i].has_castled = true;
-                            }
-                            else if (squares[i].score === 100 && this.state.sourceSelection - i === 2) {
-                                squares[i+1] = squares[i-2];
-                                squares[i-2] = null;
-                                squares[i].has_castled = true;
-                            }
+        else {
+            if (this.state.turn === "white") {
+                if (this.state.sourceSelection === -1) {
+                    if (!squares[i] || squares[i].player !== 1) {
+                        this.setState({status: "Du må velge en hvit brikke!"});
+                        if (squares[i]) {
+                            squares[i].style = {...squares[i].style, backgroundColor: ""};
                         }
-
+                    }
+                    else{
+                        squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
                         this.setState({
-                            sourceSelection: -1,
-                            squares: squares,
-                            status: '',
-                            turn: "black",
-                            ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
+                            status: "Hvor vil du flytte brikken?",
+                            sourceSelection: i
                         });
                     }
-                    else {
+                }
+
+                else if (this.state.sourceSelection > -1) {
+                    squares[this.state.sourceSelection].style = {...squares[this.state.sourceSelection].style, backgroundColor: ""};
+                    if (squares[i] && squares[i].player === 1) {
                         this.setState({
                             status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
                             sourceSelection: -1,
                         });
                     }
+                    else {
+                        const squares = this.state.squares.slice();
+
+                        const move = [this.state.sourceSelection, i];
+                        const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares);
+                        let move_string = JSON.stringify(move);
+                        let moves_string = JSON.stringify(moves);
+
+                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
+                            this.add_taken_piece(i);
+
+                            squares[i] = squares[this.state.sourceSelection];
+                            squares[this.state.sourceSelection] = null;
+
+                            if (squares[i].score === 5 || squares[i].score === 100) {
+                                squares[i].has_not_moved = false;
+                                if (squares[i].score === 100 && i - this.state.sourceSelection === 2) {
+                                    squares[i-1] = squares[i+1];
+                                    squares[i+1] = null;
+                                    squares[i].has_castled = true;
+                                }
+                                else if (squares[i].score === 100 && this.state.sourceSelection - i === 2) {
+                                    squares[i+1] = squares[i-2];
+                                    squares[i-2] = null;
+                                    squares[i].has_castled = true;
+                                }
+                            }
+
+                            this.setState({
+                                sourceSelection: -1,
+                                squares: squares,
+                                status: '',
+                                turn: "black",
+                                ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
+                            });
+                        }
+                        else {
+                            this.setState({
+                                status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
+                                sourceSelection: -1,
+                            });
+                        }
+                    }
                 }
             }
-        }
-        else {
-            const squares = this.state.squares.slice();
-
-            const legal_moves = all_legal_moves(2, squares);
-
-            this.setState({
-                debug_1: "yo" + legal_moves.length
-            });
-
-            if (legal_moves.length === 0) {
-                // patt eller matt
-            }
             else {
+                const squares = this.state.squares.slice();
+
                 let black_move = find_next_move(squares, 2);
 
                 const source = black_move[0];
@@ -132,12 +140,12 @@ export default class P_V_AI extends React.Component {
 
                 if (squares[dest].score === 5 || squares[dest].score === 100) {
                     squares[dest].has_not_moved = false;
-                    if (squares[dest].score === 100 && dest - this.state.sourceSelection === 2) {
+                    if (squares[dest].score === 100 && dest - source === 2) {
                         squares[dest-1] = squares[dest+1];
                         squares[dest+1] = null;
                         squares[dest].has_castled = true;
                     }
-                    else if (squares[dest].score === 100 && this.state.sourceSelection - dest === 2) {
+                    else if (squares[dest].score === 100 && source - dest === 2) {
                         squares[dest+1] = squares[dest-2];
                         squares[dest-2] = null;
                         squares[dest].has_castled = true;
@@ -149,7 +157,8 @@ export default class P_V_AI extends React.Component {
                     squares: squares,
                     status: '',
                     turn: "white",
-                    ai_turn_text: "Det er din tur. Gjør noe lurt!"
+                    ai_turn_text: "Det er din tur. Gjør noe lurt!",
+                    debug_1: "" + evaluate_board(squares)
                 });
             }
         }
@@ -173,6 +182,18 @@ export default class P_V_AI extends React.Component {
         });
     }
 
+    player_has_won(squares, player) {
+        if (player === 1) {
+            return all_legal_moves(2, squares).length === 0 && king_in_check(2, squares);
+        }
+        return all_legal_moves(1, squares).length === 0 && king_in_check(1, squares);
+    }
+
+    patt(squares) {
+        if (all_legal_moves(2, squares).length === 0 && all_legal_moves(2, squares).length === 0) {
+            return !(king_in_check(1, squares) || king_in_check(2, squares));
+        }
+    }
 
     render() {
         return (

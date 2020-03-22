@@ -63,11 +63,11 @@ export default function evaluate_board(squares) {
     }
 
     if (squares[white_king_position].has_castled) {
-        score += 1;
+        score += 1000;
     }
 
     if (squares[black_king_position].has_castled) {
-        score -= 1;
+        score -= 1000;
     }
 
     // antall brikker utviklet?
