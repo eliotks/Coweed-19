@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '../chess_index.css';
-import Board from "./Board";
+import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import Initializer from "../helpers/initializer";
 import is_legal_move from "../helpers/is_legal_move";
@@ -126,7 +126,7 @@ export default class P_V_P extends React.Component {
                         <Taken_pieces taken_pieces = {this.state.white_taken_pieces} />
                     </div>
                     <div className="game_board">
-                        <Board
+                        <Board_renderer
                             squares = {this.state.squares}
                             onClick = {(i) => this.handleClick(i)}
                         />

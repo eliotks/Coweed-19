@@ -1,5 +1,4 @@
 import Piece from './Piece.js';
-import king_in_check from "../helpers/king_in_check";
 
 export default class King extends Piece {
     constructor(player) {

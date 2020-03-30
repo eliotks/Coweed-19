@@ -1,6 +1,6 @@
 import React from 'react';
 import '../chess_index.css';
-import Board from "./Board";
+import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import initializer from "../helpers/initializer";
 import all_legal_moves from "../helpers/all_legal_moves";
@@ -8,6 +8,7 @@ import is_legal_move from "../helpers/is_legal_move";
 import find_next_move from "../helpers/find_next_move";
 import evaluate_board from "../helpers/evaluate_board";
 import king_in_check from "../helpers/king_in_check";
+import Board from "./Board";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
@@ -30,14 +31,16 @@ export default class P_V_AI extends React.Component {
 
     // find_next_move vil ikke rokkere - hvorfor? kanskje kopieringen i find_next_move er overkill
 
-    // mangler an passant - ganske easy
+    // kan potensielt spare kjøretid på å klone/kopiere et board-objekt istedenfor å initialisere nye objekter
 
+    // mangler an passant - ganske easy
     // mangler bonde->dronning - ikke såå easy
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
     // mangler at brukeren skal kunne velge enten PvP eller PvAi
     // mangler at brukeren skal kunne velge farge hvis PvAi er valgt
-    // mangler en grov AI
+
+
 
     handleClick(i){
         const squares = this.state.squares.slice();
@@ -182,19 +185,6 @@ export default class P_V_AI extends React.Component {
         });
     }
 
-    player_has_won(squares, player) {
-        if (player === 1) {
-            return all_legal_moves(2, squares).length === 0 && king_in_check(2, squares);
-        }
-        return all_legal_moves(1, squares).length === 0 && king_in_check(1, squares);
-    }
-
-    patt(squares) {
-        if (all_legal_moves(2, squares).length === 0 && all_legal_moves(2, squares).length === 0) {
-            return !(king_in_check(1, squares) || king_in_check(2, squares));
-        }
-    }
-
     render() {
         return (
             <div>
@@ -203,9 +193,9 @@ export default class P_V_AI extends React.Component {
                         <Taken_pieces taken_pieces = {this.state.white_taken_pieces} />
                     </div>
                     <div className="game_board">
-                        <Board
+                        <Board_renderer
                             squares = {this.state.squares}
-                             onClick = {(i) => this.handleClick(i)}
+                            onClick = {(i) => this.handleClick(i)}
                         />
                     </div>
                     <div className="taken_pieces">
