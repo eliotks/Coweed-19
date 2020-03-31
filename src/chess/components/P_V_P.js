@@ -5,7 +5,6 @@ import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import Initializer from "../helpers/initializer";
 import is_legal_move from "../helpers/is_legal_move";
-import evaluate_board from "../helpers/evaluate_board";
 
 export default class P_V_P extends React.Component {
     constructor(props){
@@ -21,6 +20,8 @@ export default class P_V_P extends React.Component {
             debug: ""
         }
     }
+
+    // trenger en update grunnet klassen board -> er stort sett bare å bytte squares med board.get_squares()
 
     add_taken_piece(i) {
         const squares = this.state.squares;
@@ -102,8 +103,7 @@ export default class P_V_P extends React.Component {
                         squares: squares,
                         status: '',
                         turn: "black",
-                        ai_turn_text: "Det er svart sin tur.",
-                        debug: evaluate_board(squares)
+                        ai_turn_text: "Det er svart sin tur."
                     });
                 }
                 else {

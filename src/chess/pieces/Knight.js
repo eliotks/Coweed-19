@@ -5,7 +5,7 @@ export default class Knight extends Piece {
         super(player, (player === 1? "https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" : "https://upload.wikimedia.org/wikipedia/commons/e/ef/Chess_ndt45.svg"), 3);
     }
 
-    possible_moves(source, squares) {
+    possible_moves(source, board) {
         const directions = [];
         const up = Math.floor(source/8);
         const left = source % 8;
@@ -35,6 +35,6 @@ export default class Knight extends Piece {
             directions.push(10);
         }
 
-        return this.possible_one_step_moves(source, squares, directions);
+        return this.possible_one_step_moves(source, board.get_squares(), directions);
     }
 }

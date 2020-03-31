@@ -3,28 +3,32 @@ import '../chess_index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import initializer from "../helpers/initializer";
-import all_legal_moves from "../helpers/all_legal_moves";
 import is_legal_move from "../helpers/is_legal_move";
 import find_next_move from "../helpers/find_next_move";
-import evaluate_board from "../helpers/evaluate_board";
-import king_in_check from "../helpers/king_in_check";
 import Board from "./Board";
 
 export default class P_V_AI extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            squares: initializer(),
+            board: new Board([initializer(), 0, null, 60, 4, [true, true, true, true], false, false]),
             white_taken_pieces: [],
             black_taken_pieces: [],
             sourceSelection: -1,
             status: '',
             turn: 'white',
             ai_turn_text: "Det er din tur. Gjør no lurt!",
+            winner: "",
             debug_1: "",
             debug_2: ""
         }
     }
+
+
+
+    // Funker ikke atm grunnet problemer med å kopiere/klone board-objekter i find_next_move :(
+
+
 
     // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
     // er truet fordi da må jeg bruke metoden all_possible_moves, som igjen må bruke king.possible_moves -> evig loop
@@ -40,34 +44,35 @@ export default class P_V_AI extends React.Component {
     // mangler at brukeren skal kunne velge enten PvP eller PvAi
     // mangler at brukeren skal kunne velge farge hvis PvAi er valgt
 
+    // hadde vært kult om man lagret alle squares slik at man kunne "bla" frem og tilbake blant trekkene
 
 
     handleClick(i){
-        const squares = this.state.squares.slice();
 
-        if (this.player_has_won(1, squares)) {
-            // hvit har vunnet
+        if (this.state.board.winner === "white") {
+            this.setState({
+                winner: "white"
+            });
         }
 
-        else if (this.player_has_won(2, squares)) {
-            // svart har vunnet
-        }
+        else if (this.state.board.winner === "black") {
+            this.setState({
+                winner: "black"
+            });        }
 
-        else if (this.patt(squares)) {
-            // patt
-        }
+        else if (this.state.board.winner === "stalemate") {
+            this.setState({
+                winner: "stalemate"
+            });        }
 
         else {
             if (this.state.turn === "white") {
                 if (this.state.sourceSelection === -1) {
-                    if (!squares[i] || squares[i].player !== 1) {
+                    if (!this.state.board.get_squares()[i] || this.state.board.get_squares()[i].player !== 1) {
                         this.setState({status: "Du må velge en hvit brikke!"});
-                        if (squares[i]) {
-                            squares[i].style = {...squares[i].style, backgroundColor: ""};
-                        }
                     }
                     else{
-                        squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                        this.state.board.get_squares()[i].style = {...this.state.board.get_squares()[i].style, backgroundColor: "RGB(80,220,100)"};
                         this.setState({
                             status: "Hvor vil du flytte brikken?",
                             sourceSelection: i
@@ -76,44 +81,26 @@ export default class P_V_AI extends React.Component {
                 }
 
                 else if (this.state.sourceSelection > -1) {
-                    squares[this.state.sourceSelection].style = {...squares[this.state.sourceSelection].style, backgroundColor: ""};
-                    if (squares[i] && squares[i].player === 1) {
+                    this.state.board.get_squares()[this.state.sourceSelection].style = {...this.state.board.get_squares()[this.state.sourceSelection].style, backgroundColor: ""};
+                    if (this.state.board.get_squares()[i] && this.state.board.get_squares()[i].player === 1) {
                         this.setState({
                             status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
                             sourceSelection: -1,
                         });
                     }
                     else {
-                        const squares = this.state.squares.slice();
-
                         const move = [this.state.sourceSelection, i];
-                        const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares);
+                        const moves = this.state.board.get_squares()[this.state.sourceSelection].possible_moves(this.state.sourceSelection, this.state.board);
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
-                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, squares)) {
+                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, this.state.board)) {
                             this.add_taken_piece(i);
 
-                            squares[i] = squares[this.state.sourceSelection];
-                            squares[this.state.sourceSelection] = null;
-
-                            if (squares[i].score === 5 || squares[i].score === 100) {
-                                squares[i].has_not_moved = false;
-                                if (squares[i].score === 100 && i - this.state.sourceSelection === 2) {
-                                    squares[i-1] = squares[i+1];
-                                    squares[i+1] = null;
-                                    squares[i].has_castled = true;
-                                }
-                                else if (squares[i].score === 100 && this.state.sourceSelection - i === 2) {
-                                    squares[i+1] = squares[i-2];
-                                    squares[i-2] = null;
-                                    squares[i].has_castled = true;
-                                }
-                            }
+                            this.state.board.update_board(move);
 
                             this.setState({
                                 sourceSelection: -1,
-                                squares: squares,
                                 status: '',
                                 turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
@@ -129,54 +116,32 @@ export default class P_V_AI extends React.Component {
                 }
             }
             else {
-                const squares = this.state.squares.slice();
+                let black_move = find_next_move(this.state.board, 2);
 
-                let black_move = find_next_move(squares, 2);
+                this.add_taken_piece(black_move[1]);
 
-                const source = black_move[0];
-                const dest = black_move[1];
-
-                this.add_taken_piece(dest);
-
-                squares[dest] = squares[source];
-                squares[source] = null;
-
-                if (squares[dest].score === 5 || squares[dest].score === 100) {
-                    squares[dest].has_not_moved = false;
-                    if (squares[dest].score === 100 && dest - source === 2) {
-                        squares[dest-1] = squares[dest+1];
-                        squares[dest+1] = null;
-                        squares[dest].has_castled = true;
-                    }
-                    else if (squares[dest].score === 100 && source - dest === 2) {
-                        squares[dest+1] = squares[dest-2];
-                        squares[dest-2] = null;
-                        squares[dest].has_castled = true;
-                    }
-                }
+                this.state.board.update_board(black_move);
 
                 this.setState({
                     sourceSelection: -1,
-                    squares: squares,
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: "" + evaluate_board(squares)
+                    debug_1: "" + this.state.board.evaluate()
                 });
             }
         }
     }
 
     add_taken_piece(i) {
-        const squares = this.state.squares;
         const white_taken_pieces = this.state.white_taken_pieces.slice();
         const black_taken_pieces = this.state.black_taken_pieces.slice();
-        if (squares[i] != null) {
-            if (squares[i].player === 1) {
-                white_taken_pieces.push(squares[i]);
+        if (this.state.board.squares[i] != null) {
+            if (this.state.board.squares[i].player === 1) {
+                white_taken_pieces.push(this.state.board.get_squares()[i]);
             }
             else {
-                black_taken_pieces.push(squares[i]);
+                black_taken_pieces.push(this.state.board.get_squares()[i]);
             }
         }
         this.setState({
@@ -194,7 +159,7 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="game_board">
                         <Board_renderer
-                            squares = {this.state.squares}
+                            squares = {this.state.board.squares}
                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>
@@ -203,6 +168,7 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="ai_turn_text">{this.state.ai_turn_text}</div>
                     <div className="game_status">{this.state.status}</div>
+                    <div className="debug">Winner is {this.state.winner}</div>
                     <div className="debug">Debug 1: {this.state.debug_1}</div>
                     <div className="debug">Debug 2: {this.state.debug_2}</div>
                 </div>

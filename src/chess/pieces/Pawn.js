@@ -9,31 +9,31 @@ export default class Pawn extends Piece {
         };
     }
 
-    possible_moves(source, squares) {
+    possible_moves(source, board) {
         const moves = [];
         const direction = this.player === 1 ? -1 : 1;
 
         if (source in this.initialPositions[this.player-direction]) {
             // time_to_queen
         }
-        if (squares[source + direction*8] == null) {
+        if (board.get_squares()[source + direction*8] == null) {
             moves.push([source, source + direction*8]);
-            if (this.initialPositions[this.player].includes(source) && squares[source + direction*16] == null) {
+            if (this.initialPositions[this.player].includes(source) && board.get_squares()[source + direction*16] == null) {
                 moves.push([source, source + direction*16])
                 // an passant = true
             }
         }
         if (source % 8 !== 7) {
             if (this.player === 1) {
-                if (squares[source - 7] != null) {
-                    if (squares[source - 7].player === 2) {
+                if (board.get_squares()[source - 7] != null) {
+                    if (board.get_squares()[source - 7].player === 2) {
                         moves.push([source, source - 7])
                     }
                 }
             }
             else {
-                if (squares[source + 9] != null) {
-                    if (squares[source + 9].player === 1) {
+                if (board.get_squares()[source + 9] != null) {
+                    if (board.get_squares()[source + 9].player === 1) {
                         moves.push([source, source + 9])
                     }
                 }
@@ -41,15 +41,15 @@ export default class Pawn extends Piece {
         }
         if (source % 8 !== 0) {
             if (this.player === 1) {
-                if (squares[source - 9] != null) {
-                    if (squares[source - 9].player === 2) {
+                if (board.get_squares()[source - 9] != null) {
+                    if (board.get_squares()[source - 9].player === 2) {
                         moves.push([source, source - 9])
                     }
                 }
             }
             else {
-                if (squares[source + 7] != null) {
-                    if (squares[source + 7].player === 1) {
+                if (board.get_squares()[source + 7] != null) {
+                    if (board.get_squares()[source + 7].player === 1) {
                         moves.push([source, source + 7])
                     }
                 }

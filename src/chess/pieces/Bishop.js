@@ -6,10 +6,10 @@ export default class Bishop extends Piece {
         this.directions = [-9, -7, 7, 9];
     }
 
-    possible_moves(source, squares) {
+    possible_moves(source, board) {
         const up = Math.floor(source/8);
         const left = source % 8;
         const steps = [Math.min(left, up), Math.min(7-left, up), Math.min(left, 7-up), Math.min(7-left, 7-up)];
-        return this.possible_line_moves(source, squares, this.directions, steps)
+        return this.possible_line_moves(source, board.get_squares(), this.directions, steps)
     }
 }

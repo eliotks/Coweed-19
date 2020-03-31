@@ -1,17 +1,12 @@
 import all_possible_moves from "./all_possible_moves";
 import opposite_player from "./opposite_player";
 
-export default function king_in_check(player, squares) {
-    let position = 0;
-    for (let i = 0; i < 64; i++) {
-        if (squares[i] != null) {
-            if (squares[i].score === 100 && squares[i].player === player) {
-                position = i;
-                break;
-            }
-        }
+export default function king_in_check(player, board) {
+    let position = board.white_king_position;
+    if (player === 2) {
+        position = board.black_king_position;
     }
-    const enemy_moves = all_possible_moves(opposite_player(player), squares);
+    const enemy_moves = all_possible_moves(opposite_player(player), board);
     if (enemy_moves.length === 0) {
         // patt eller matt
     }
