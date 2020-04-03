@@ -75,9 +75,13 @@ export default class Board {
         }
     }
 
-    white_has_won() {return all_legal_moves(2, this).length === 0 && king_in_check(2, this);}
+    white_has_won() {
+        return all_legal_moves(2, this).length === 0 && king_in_check(2, this);
+    }
 
-    black_has_won() {return all_legal_moves(1, this).length === 0 && king_in_check(1, this);}
+    black_has_won() {
+        return all_legal_moves(1, this).length === 0 && king_in_check(1, this);
+    }
 
     update_winner() {
         if (this.stalemate()) {
@@ -139,7 +143,7 @@ export default class Board {
 
         let score = this.score;
 
-        score += (63 - this.white_position_sum/this.white_pieces - this.black_positions_sum/this.black_pieces)*0.02;
+        score += (63/(this.white_pieces+this.black_pieces) - this.white_position_sum/this.white_pieces - this.black_positions_sum/this.black_pieces)*0.02;
 
         const white_moves = all_legal_moves(1, this);
         score += white_moves.length*0.03;
@@ -176,5 +180,7 @@ export default class Board {
         if (this.can_castle_list[2] || this.can_castle_list[3]) {
             score += 0.3
         }
+
+        return score;
     }
 }

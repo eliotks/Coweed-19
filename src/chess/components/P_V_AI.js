@@ -2,16 +2,18 @@ import React from 'react';
 import '../chess_index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
-import initializer from "../helpers/initializer";
 import is_legal_move from "../helpers/is_legal_move";
-import find_next_move from "../helpers/find_next_move";
-import Board from "./Board";
+import initialize_board from "../helpers/initialize_board";
+import all_legal_moves from "../helpers/all_legal_moves";
+import initialize_squares from "../helpers/initialize_squares";
+import update_squares_and_board from "../helpers/update_squares_and_board";
 
 export default class P_V_AI extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            board: new Board([initializer(), 0, null, 60, 4, [true, true, true, true], false, false]),
+            squares: initialize_squares(),
+            board: initialize_board(),
             white_taken_pieces: [],
             black_taken_pieces: [],
             sourceSelection: -1,
@@ -24,10 +26,7 @@ export default class P_V_AI extends React.Component {
         }
     }
 
-
-
-    // Funker ikke atm grunnet problemer med å kopiere/klone board-objekter i find_next_move :(
-
+    // Funker ikke atm - will fix
 
 
     // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
@@ -47,33 +46,41 @@ export default class P_V_AI extends React.Component {
     // hadde vært kult om man lagret alle squares slik at man kunne "bla" frem og tilbake blant trekkene
 
 
-    handleClick(i){
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        const board = this.state.board.slice();
 
-        if (this.state.board.winner === "white") {
+        if (board[1] === "white") {
             this.setState({
                 winner: "white"
+                // debug_1: "" + evaluate_board(this.state.board),
             });
         }
 
-        else if (this.state.board.winner === "black") {
+        else if (board[1] === "black") {
             this.setState({
                 winner: "black"
-            });        }
+                // debug_1: "" + evaluate_board(this.state.board),
+            });
+        }
 
-        else if (this.state.board.winner === "stalemate") {
+        else if (board[1] === "stalemate") {
             this.setState({
                 winner: "stalemate"
-            });        }
+                // debug_1: "" + evaluate_board(this.state.board),
+            });
+        }
 
         else {
             if (this.state.turn === "white") {
                 if (this.state.sourceSelection === -1) {
-                    if (!this.state.board.get_squares()[i] || this.state.board.get_squares()[i].player !== 1) {
+                    if (!squares[i] || squares[i].player !== 1) {
                         this.setState({status: "Du må velge en hvit brikke!"});
                     }
-                    else{
-                        this.state.board.get_squares()[i].style = {...this.state.board.get_squares()[i].style, backgroundColor: "RGB(80,220,100)"};
+                    else {
+                        squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
                         this.setState({
+                            squares: squares,
                             status: "Hvor vil du flytte brikken?",
                             sourceSelection: i
                         });
@@ -81,34 +88,39 @@ export default class P_V_AI extends React.Component {
                 }
 
                 else if (this.state.sourceSelection > -1) {
-                    this.state.board.get_squares()[this.state.sourceSelection].style = {...this.state.board.get_squares()[this.state.sourceSelection].style, backgroundColor: ""};
-                    if (this.state.board.get_squares()[i] && this.state.board.get_squares()[i].player === 1) {
+                    squares[this.state.sourceSelection].style = {...squares[this.state.sourceSelection].style, backgroundColor: ""};
+                    if (squares[i] && squares[i].player === 1) {
                         this.setState({
+                            squares: squares,
                             status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
                             sourceSelection: -1,
                         });
                     }
                     else {
                         const move = [this.state.sourceSelection, i];
-                        const moves = this.state.board.get_squares()[this.state.sourceSelection].possible_moves(this.state.sourceSelection, this.state.board);
+                        const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares, board);
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
-                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(move, this.state.board)) {
+                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(squares, board, move)) {
                             this.add_taken_piece(i);
 
-                            this.state.board.update_board(move);
+                            const updated_squares_and_board = update_squares_and_board(squares, board, move);
 
                             this.setState({
+                                squares: updated_squares_and_board[0],
+                                board: updated_squares_and_board[1],
                                 sourceSelection: -1,
                                 status: '',
                                 turn: "black",
-                                ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!"
+                                ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
+                                debug_1: ""
                             });
                         }
                         else {
                             this.setState({
-                                status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
+                                squares: squares,
+                                status: "Du kan ikke flytte dit......... Velg en ny hvit brikke!",
                                 sourceSelection: -1,
                             });
                         }
@@ -116,32 +128,37 @@ export default class P_V_AI extends React.Component {
                 }
             }
             else {
-                let black_move = find_next_move(this.state.board, 2);
+
+                const black_moves = all_legal_moves(2, squares, board);
+                const black_move = black_moves[Math.floor(Math.random()*black_moves.length)];
 
                 this.add_taken_piece(black_move[1]);
 
-                this.state.board.update_board(black_move);
+                const updated_squares_and_board = update_squares_and_board(squares, board, black_move);
 
                 this.setState({
+                    squares: updated_squares_and_board[0],
+                    board: updated_squares_and_board[1],
                     sourceSelection: -1,
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: "" + this.state.board.evaluate()
+                    debug_1: ""
                 });
             }
         }
     }
 
     add_taken_piece(i) {
+        const squares = this.state.squares.slice();
         const white_taken_pieces = this.state.white_taken_pieces.slice();
         const black_taken_pieces = this.state.black_taken_pieces.slice();
-        if (this.state.board.squares[i] != null) {
-            if (this.state.board.squares[i].player === 1) {
-                white_taken_pieces.push(this.state.board.get_squares()[i]);
+        if (squares[i] != null) {
+            if (squares[i].player === 1) {
+                white_taken_pieces.push(squares[i]);
             }
             else {
-                black_taken_pieces.push(this.state.board.get_squares()[i]);
+                black_taken_pieces.push(squares[i]);
             }
         }
         this.setState({
@@ -149,6 +166,7 @@ export default class P_V_AI extends React.Component {
             black_taken_pieces: black_taken_pieces,
         });
     }
+
 
     render() {
         return (
@@ -159,7 +177,7 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="game_board">
                         <Board_renderer
-                            squares = {this.state.board.squares}
+                            squares = {this.state.squares}
                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>

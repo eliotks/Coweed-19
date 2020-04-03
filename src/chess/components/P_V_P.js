@@ -3,14 +3,14 @@ import React from 'react';
 import '../chess_index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
-import Initializer from "../helpers/initializer";
+import Initialize_squares from "../helpers/initialize_squares";
 import is_legal_move from "../helpers/is_legal_move";
 
 export default class P_V_P extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            squares: Initializer(),
+            squares: Initialize_squares(),
             white_taken_pieces: [],
             black_taken_pieces: [],
             player: 1,
@@ -21,7 +21,7 @@ export default class P_V_P extends React.Component {
         }
     }
 
-    // trenger en update grunnet klassen board -> er stort sett bare å bytte squares med board.get_squares()
+    // trenger en update grunnet klassen board
 
     add_taken_piece(i) {
         const squares = this.state.squares;

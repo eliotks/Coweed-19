@@ -6,10 +6,10 @@ export default class Rook extends Piece {
         this.directions = [-1, -8, 1, 8];
     }
 
-    possible_moves(source, board) {
+    possible_moves(source, squares, board) {
         const up = Math.floor(source/8);
         const left = source % 8;
         const steps = [left, up, 7-left, 7-up];
-        return this.possible_line_moves(source, board.get_squares(), this.directions, steps)
+        return this.possible_line_moves(source, squares, this.directions, steps)
     }
 }

@@ -7,7 +7,7 @@ export default function find_next_move(board, player) {
     // alpha starter på -1000
     // beta starter på 1000
 
-    const global_depth = 1;
+    const global_depth = 2;
 
     let next_move = [];
 
@@ -24,7 +24,7 @@ export default function find_next_move(board, player) {
             const legal_moves = all_legal_moves(1, board);
 
             for (let i = 0; i < legal_moves.length; i++) {
-                let score_board = new Board(get_board_attributes(board));
+                const score_board = new Board(get_board_attributes(board));
                 score_board.update_board(legal_moves[i]);
 
                 let score = min_max(score_board, depth-1, 2, alpha, beta);
@@ -60,7 +60,7 @@ export default function find_next_move(board, player) {
                 if (score < beta) {
                     beta = score;
                     if (depth === global_depth) {
-                        next_move = legal_moves[i].slice();
+                        next_move = legal_moves.slice(i, i+1);
                     }
                 }
 

@@ -7,13 +7,13 @@ export default class Queen extends Piece {
         this.straight_directions = [-1, -8, 1, 8];
     }
 
-    possible_moves(source, board) {
+    possible_moves(source, squares, board) {
         const up = Math.floor(source/8);
         const left = source % 8;
         const diagonal_steps = [Math.min(left, up), Math.min(7-left, up), Math.min(left, 7-up), Math.min(7-left, 7-up)];
         const straight_steps = [left, up, 7-left, 7-up];
-        const diagonal_moves = this.possible_line_moves(source, board.get_squares(), this.diagonal_directions, diagonal_steps);
-        const straight_moves = this.possible_line_moves(source, board.get_squares(), this.straight_directions, straight_steps);
+        const diagonal_moves = this.possible_line_moves(source, squares, this.diagonal_directions, diagonal_steps);
+        const straight_moves = this.possible_line_moves(source, squares, this.straight_directions, straight_steps);
         return diagonal_moves.concat(straight_moves);
     }
 }

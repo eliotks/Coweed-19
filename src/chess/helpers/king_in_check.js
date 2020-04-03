@@ -1,14 +1,22 @@
 import all_possible_moves from "./all_possible_moves";
 import opposite_player from "./opposite_player";
 
-export default function king_in_check(player, board) {
-    let position = board.white_king_position;
+export default function king_in_check(player, squares, board) {
+    let position = board[2];
     if (player === 2) {
-        position = board.black_king_position;
+        position = board[3];
     }
-    const enemy_moves = all_possible_moves(opposite_player(player), board);
+    const enemy_moves = all_possible_moves(opposite_player(player), squares, board);
     if (enemy_moves.length === 0) {
-        // patt eller matt
+        if (board[1] === "stalemate") {
+            return false;
+        }
+        else if (board[1] === "white") {
+            return player === 2;
+        }
+        else if (board[1] === "black") {
+            return player === 1;
+        }
     }
     else {
         for (let i = 0; i < enemy_moves.length; i++) {
