@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../chess_index.css';
+import '../../index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import Initialize_squares from "../helpers/initialize_squares";

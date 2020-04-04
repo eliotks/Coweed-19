@@ -1,26 +1,36 @@
 import all_legal_moves from "./all_legal_moves";
+import king_in_check from "./king_in_check";
+import black_has_won from "./black_has_won";
+import white_has_won from "./white_has_won";
+import stalemate from "./stalemate";
 
 export default function evaluate_board(squares, board) {
 
-    if (board[1] === "white") {
-        return 1000;
+    if (king_in_check(1, squares, board)) {
+        if (black_has_won(squares, board)) {
+            return -1000;
+        }
     }
-    else if (board[1] === "black") {
-        return -1000;
+
+    if (king_in_check(2, squares, board)) {
+        if (white_has_won(squares, board)) {
+            return -1000;
+        }
     }
-    else if (board[1] === "stalemate") {
-        return 0;
-    }
+
+    // if (stalemate(squares, board)) {
+    //      return 0;
+    //  }
 
     let score = board[0];
 
     score += (63/(board[11]+board[12]) - board[13]/board[11] - board[14]/board[12])*0.02;
 
-    const white_moves = all_legal_moves(1, squares, board);
-    score += white_moves.length*0.03;
+    // const white_moves = all_legal_moves(1, squares, board);
+    // score += white_moves.length*0.03;
 
-    const black_moves = all_legal_moves(2, squares, board);
-    score -= black_moves.length*0.03;
+    // const black_moves = all_legal_moves(2, squares, board);
+    // score -= black_moves.length*0.03;
 
     // const center = [27, 28, 35, 36];
     // for (let i = 0; i < 4; i++) {

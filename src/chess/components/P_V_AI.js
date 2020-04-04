@@ -1,17 +1,21 @@
 import React from 'react';
-import '../chess_index.css';
+import '../../index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import is_legal_move from "../helpers/is_legal_move";
 import initialize_board from "../helpers/initialize_board";
-import all_legal_moves from "../helpers/all_legal_moves";
 import initialize_squares from "../helpers/initialize_squares";
-import update_squares_and_board from "../helpers/update_squares_and_board";
+import update_all from "../helpers/update_all";
+import find_next_move from "../helpers/find_next_move";
+import all_legal_moves from "../helpers/all_legal_moves";
+import all_possible_moves from "../helpers/all_possible_moves";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            white_positions: [59, 56, 63, 57, 62, 58, 61, 60, 52, 51, 53, 50, 54, 49, 55, 48],
+            black_positions: [3, 0, 7, 1, 6, 2, 5, 4, 12, 11, 13, 10, 14, 9, 15, 8],
             squares: initialize_squares(),
             board: initialize_board(),
             white_taken_pieces: [],
@@ -26,15 +30,14 @@ export default class P_V_AI extends React.Component {
         }
     }
 
-    // Funker ikke atm - will fix
+    // sliter litt med positions
 
+    // find_next_move er for treig
 
     // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
     // er truet fordi da må jeg bruke metoden all_possible_moves, som igjen må bruke king.possible_moves -> evig loop
 
-    // find_next_move vil ikke rokkere - hvorfor? kanskje kopieringen i find_next_move er overkill
-
-    // kan potensielt spare kjøretid på å klone/kopiere et board-objekt istedenfor å initialisere nye objekter
+    // påningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
 
     // mangler an passant - ganske easy
     // mangler bonde->dronning - ikke såå easy
@@ -47,6 +50,8 @@ export default class P_V_AI extends React.Component {
 
 
     handleClick(i) {
+        const white_positions = this.state.white_positions.slice();
+        const black_positions = this.state.black_positions.slice();
         const squares = this.state.squares.slice();
         const board = this.state.board.slice();
 
@@ -102,19 +107,25 @@ export default class P_V_AI extends React.Component {
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
-                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(squares, board, move)) {
+                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(1, white_positions, black_positions, squares, board, move)) {
                             this.add_taken_piece(i);
 
-                            const updated_squares_and_board = update_squares_and_board(squares, board, move);
+                            const test = white_positions.length;
+
+                            const testesen = black_positions.length;
+
+                            const updated = update_all(white_positions, black_positions, squares, board, move);
 
                             this.setState({
-                                squares: updated_squares_and_board[0],
-                                board: updated_squares_and_board[1],
+                                white_positions: updated[0],
+                                black_positions: updated[1],
+                                squares: updated[2],
+                                board: updated[3],
                                 sourceSelection: -1,
                                 status: '',
                                 turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
-                                debug_1: ""
+                                debug_1: "" + test + " - " + testesen + " - " + updated[0].length + " - " + updated[1].length
                             });
                         }
                         else {
@@ -129,21 +140,25 @@ export default class P_V_AI extends React.Component {
             }
             else {
 
-                const black_moves = all_legal_moves(2, squares, board);
-                const black_move = black_moves[Math.floor(Math.random()*black_moves.length)];
+                const move = find_next_move(2, white_positions, black_positions, squares, board);
 
-                this.add_taken_piece(black_move[1]);
+                const test = all_legal_moves(2, black_positions, white_positions, squares, board);
 
-                const updated_squares_and_board = update_squares_and_board(squares, board, black_move);
+                const testesen = all_possible_moves(2, black_positions, squares, board);
+                // this.add_taken_piece(move[1]);
+
+                // const updated = update_all(white_positions, black_positions, squares, board, move);
 
                 this.setState({
-                    squares: updated_squares_and_board[0],
-                    board: updated_squares_and_board[1],
+                    //white_positions: updated[0],
+                    //black_positions: updated[1],
+                    //squares: updated[2],
+                    //board: updated[3],
                     sourceSelection: -1,
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: ""
+                    debug_1: "" + test.length + " - " + testesen.length + " - " + white_positions.length + " - " + black_positions.length
                 });
             }
         }

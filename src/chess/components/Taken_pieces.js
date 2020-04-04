@@ -1,5 +1,5 @@
 import React from 'react';
-import '../chess_index.css';
+import '../../index.css';
 import Square from './Square.js';
 
 export default class Taken_pieces extends React.Component {

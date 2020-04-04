@@ -1,39 +1,48 @@
 import all_legal_moves from "./all_legal_moves";
-import Board from "../components/Board";
-import get_board_attributes from "./get_board_attributes";
+import evaluate_board from "./evaluate_board";
+import update_efficiently from "./update_efficiently";
 
-export default function find_next_move(board, player) {
+export default function find_next_move(player, white_positions, black_position, squares, board) {
 
     // alpha starter på -1000
     // beta starter på 1000
 
-    const global_depth = 2;
+    squares = squares.slice();
+    board = board.slice();
+    white_positions = white_positions.slice();
+    black_position = black_position.slice();
+
+    const global_depth = 4;
 
     let next_move = [];
 
-    function min_max(board, depth, player, alpha, beta) {
+    function min_max(white_positions, black_positions, squares, board, depth, player, alpha, beta) {
 
         if (depth === 0) {
-            return board.evaluate();
+            return evaluate_board(squares, board);
         }
 
         if (player === 1) {
 
             let max_score = -1000;
 
-            const legal_moves = all_legal_moves(1, board);
+            const legal_moves = all_legal_moves(1, white_positions, black_positions, squares, board);
 
             for (let i = 0; i < legal_moves.length; i++) {
-                const score_board = new Board(get_board_attributes(board));
-                score_board.update_board(legal_moves[i]);
+                const new_board = board.slice();
+                const new_squares = squares.slice();
+                const new_white_positions = white_positions.slice();
+                const new_black_positions = black_positions.slice();
 
-                let score = min_max(score_board, depth-1, 2, alpha, beta);
+                const updated = update_efficiently(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
+
+                let score = min_max(updated[0], updated[1], updated[2], updated[3], depth-1, 2, alpha, beta);
                 max_score = Math.max(max_score, score);
 
                 if (score > alpha) {
                     alpha = score;
                     if (depth === global_depth) {
-                        next_move = legal_moves.slice(i, i+1);
+                        next_move = legal_moves[i];
                     }
                 }
 
@@ -48,19 +57,23 @@ export default function find_next_move(board, player) {
 
             let min_score = 1000;
 
-            const legal_moves = all_legal_moves(2, board);
+            const legal_moves = all_legal_moves(2, black_positions, white_positions, squares, board);
 
             for (let i = 0; i < legal_moves.length; i++) {
-                let score_board = new Board(get_board_attributes(board));
-                score_board.update_board(legal_moves[i]);
+                const score_board = board.slice();
+                const score_squares = squares.slice();
+                const new_white_positions = white_positions.slice();
+                const new_black_positions = black_positions.slice();
 
-                let score = min_max(score_board, depth-1, 1, alpha, beta);
+                const updated = update_efficiently(new_white_positions, new_black_positions, score_squares, score_board, legal_moves[i]);
+
+                let score = min_max(updated[0], updated[1], updated[2], updated[3], depth-1, 1, alpha, beta);
                 min_score = Math.min(min_score, score);
 
                 if (score < beta) {
                     beta = score;
                     if (depth === global_depth) {
-                        next_move = legal_moves.slice(i, i+1);
+                        next_move = legal_moves[i];
                     }
                 }
 
@@ -72,7 +85,7 @@ export default function find_next_move(board, player) {
         }
     }
 
-    min_max(board, global_depth, player, -10000, 10000);
+    min_max(white_positions, black_position, squares, board, global_depth, player, -10000, 10000);
 
     return next_move;
 }
