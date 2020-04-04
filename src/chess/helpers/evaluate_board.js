@@ -4,16 +4,16 @@ import black_has_won from "./black_has_won";
 import white_has_won from "./white_has_won";
 import stalemate from "./stalemate";
 
-export default function evaluate_board(squares, board) {
+export default function evaluate_board(white_positions, black_positions, squares, board) {
 
-    if (king_in_check(1, squares, board)) {
-        if (black_has_won(squares, board)) {
+    if (king_in_check(1, white_positions, black_positions, squares, board)) {
+        if (black_has_won(white_positions, black_positions, squares, board)) {
             return -1000;
         }
     }
 
-    if (king_in_check(2, squares, board)) {
-        if (white_has_won(squares, board)) {
+    if (king_in_check(2, white_positions, black_positions, squares, board)) {
+        if (white_has_won(white_positions, black_positions, squares, board)) {
             return -1000;
         }
     }

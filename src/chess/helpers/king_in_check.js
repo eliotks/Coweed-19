@@ -1,12 +1,14 @@
 import all_possible_moves from "./all_possible_moves";
 import opposite_player from "./opposite_player";
 
-export default function king_in_check(player, opposite_positions, squares, board) {
+export default function king_in_check(player, white_positions, black_positions, squares, board) {
+
     let position = board[2];
     if (player === 2) {
         position = board[3];
     }
-    const enemy_moves = all_possible_moves(opposite_player(player), opposite_positions, squares, board);
+    const enemy_moves = all_possible_moves(opposite_player(player), white_positions, black_positions, squares, board);
+
     if (enemy_moves.length === 0) {
         if (board[1] === "stalemate") {
             return false;

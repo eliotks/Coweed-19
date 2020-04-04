@@ -7,8 +7,6 @@ import initialize_board from "../helpers/initialize_board";
 import initialize_squares from "../helpers/initialize_squares";
 import update_all from "../helpers/update_all";
 import find_next_move from "../helpers/find_next_move";
-import all_legal_moves from "../helpers/all_legal_moves";
-import all_possible_moves from "../helpers/all_possible_moves";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
@@ -108,13 +106,13 @@ export default class P_V_AI extends React.Component {
                         let moves_string = JSON.stringify(moves);
 
                         if (moves_string.indexOf(move_string) !== -1 && is_legal_move(1, white_positions, black_positions, squares, board, move)) {
+
                             this.add_taken_piece(i);
 
-                            const test = white_positions.length;
-
-                            const testesen = black_positions.length;
-
                             const updated = update_all(white_positions, black_positions, squares, board, move);
+
+                            const x = updated[0];
+                            const y = updated[1];
 
                             this.setState({
                                 white_positions: updated[0],
@@ -125,7 +123,8 @@ export default class P_V_AI extends React.Component {
                                 status: '',
                                 turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
-                                debug_1: "" + test + " - " + testesen + " - " + updated[0].length + " - " + updated[1].length
+                                debug_1: "" + x + y,
+                                debug_2: "" + x.length + y.length
                             });
                         }
                         else {
@@ -142,23 +141,24 @@ export default class P_V_AI extends React.Component {
 
                 const move = find_next_move(2, white_positions, black_positions, squares, board);
 
-                const test = all_legal_moves(2, black_positions, white_positions, squares, board);
+                this.add_taken_piece(move[1]);
 
-                const testesen = all_possible_moves(2, black_positions, squares, board);
-                // this.add_taken_piece(move[1]);
+                const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                // const updated = update_all(white_positions, black_positions, squares, board, move);
+                const x = updated[0];
+                const y = updated[1];
 
                 this.setState({
-                    //white_positions: updated[0],
-                    //black_positions: updated[1],
-                    //squares: updated[2],
-                    //board: updated[3],
+                    white_positions: updated[0],
+                    black_positions: updated[1],
+                    squares: updated[2],
+                    board: updated[3],
                     sourceSelection: -1,
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: "" + test.length + " - " + testesen.length + " - " + white_positions.length + " - " + black_positions.length
+                    debug_1: "" + x + y,
+                    debug_2: "" + x.length + y.length
                 });
             }
         }

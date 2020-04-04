@@ -19,7 +19,7 @@ export default function find_next_move(player, white_positions, black_position, 
     function min_max(white_positions, black_positions, squares, board, depth, player, alpha, beta) {
 
         if (depth === 0) {
-            return evaluate_board(squares, board);
+            return evaluate_board(white_positions, black_positions, squares, board);
         }
 
         if (player === 1) {
@@ -57,15 +57,15 @@ export default function find_next_move(player, white_positions, black_position, 
 
             let min_score = 1000;
 
-            const legal_moves = all_legal_moves(2, black_positions, white_positions, squares, board);
+            const legal_moves = all_legal_moves(2, white_positions, black_positions, squares, board);
 
             for (let i = 0; i < legal_moves.length; i++) {
-                const score_board = board.slice();
-                const score_squares = squares.slice();
+                const new_board = board.slice();
+                const new_squares = squares.slice();
                 const new_white_positions = white_positions.slice();
                 const new_black_positions = black_positions.slice();
 
-                const updated = update_efficiently(new_white_positions, new_black_positions, score_squares, score_board, legal_moves[i]);
+                const updated = update_efficiently(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
 
                 let score = min_max(updated[0], updated[1], updated[2], updated[3], depth-1, 1, alpha, beta);
                 min_score = Math.min(min_score, score);

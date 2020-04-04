@@ -14,9 +14,9 @@ export default function update_all(white_positions, black_positions, squares, bo
 
     const updated_squares = update_squares(squares, updated_kings_and_castles_board, move);
 
-    // const updated_board = update_winner(positions[0], positions[1], updated_squares, updated_kings_and_castles_board);
+    const updated_board = update_winner(positions[0], positions[1], updated_squares, updated_kings_and_castles_board);
 
     updated_kings_and_castles_board[10] = false;
 
-    return [positions[0], positions[1], updated_squares, updated_kings_and_castles_board];
+    return [positions[0], positions[1], updated_squares, updated_board];
 }
