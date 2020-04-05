@@ -4,6 +4,7 @@ import Knight from "../pieces/Knight";
 import Pawn from "../pieces/Pawn";
 import Queen from '../pieces/Queen.js';
 import Rook from '../pieces/Rook.js';
+import Empty_piece from "../pieces/Empty_piece";
 
 export default function initialize_squares(){
     const squares = Array(64).fill(null);
@@ -32,6 +33,10 @@ export default function initialize_squares(){
 
     squares[59] = new Queen(1);
     squares[60] = new King(1);
+
+    // for (let i = 16; i < 48; i++) {
+    //     squares[i] = new Empty_piece();
+    // }
 
     return squares;
 }

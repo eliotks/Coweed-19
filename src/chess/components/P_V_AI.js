@@ -30,7 +30,9 @@ export default class P_V_AI extends React.Component {
 
     // sliter litt med positions
 
-    // find_next_move er for treig
+    // kan innføre number_of_pieces_developed - kan være en attribute i board
+
+    // må innføre empty_piece for å kunne vise lovlige trekk når hvit har valgt en brikke
 
     // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
     // er truet fordi da må jeg bruke metoden all_possible_moves, som igjen må bruke king.possible_moves -> evig loop
@@ -82,6 +84,16 @@ export default class P_V_AI extends React.Component {
                     }
                     else {
                         squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
+
+                        // to show possible squares the piece can move to
+                        // need to remove comments in initialize_squares
+                        //
+                        // const moves = squares[i].possible_moves(i, squares, board);
+                        // for (let i = 0; i < moves.length; i++) {
+                        //     const tile = moves[i][1];
+                        //     squares[tile].style = {...squares[tile].style, backgroundColor: "RGB(80,220,100)"};
+                        // }
+
                         this.setState({
                             squares: squares,
                             status: "Hvor vil du flytte brikken?",
@@ -111,8 +123,8 @@ export default class P_V_AI extends React.Component {
 
                             const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                            const x = updated[0];
-                            const y = updated[1];
+                            // const x = updated[0];
+                            // const y = updated[1];
 
                             this.setState({
                                 white_positions: updated[0],
@@ -123,8 +135,8 @@ export default class P_V_AI extends React.Component {
                                 status: '',
                                 turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
-                                debug_1: "" + x + y,
-                                debug_2: "" + x.length + y.length
+                                // debug_1: "" + x + y,
+                                // debug_2: "" + x.length + y.length
                             });
                         }
                         else {
@@ -145,8 +157,8 @@ export default class P_V_AI extends React.Component {
 
                 const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                const x = updated[0];
-                const y = updated[1];
+                // const x = updated[0];
+                // const y = updated[1];
 
                 this.setState({
                     white_positions: updated[0],
@@ -157,8 +169,8 @@ export default class P_V_AI extends React.Component {
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    debug_1: "" + x + y,
-                    debug_2: "" + x.length + y.length
+                    // debug_1: "" + x + y,
+                    // debug_2: "" + x.length + y.length
                 });
             }
         }
