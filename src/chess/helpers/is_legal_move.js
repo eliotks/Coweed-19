@@ -1,7 +1,7 @@
 import king_in_check from "./king_in_check";
-import update_kings_and_castles from "./update_kings_and_castles";
-import update_squares from "./update_squares";
-import update_positions from "./update_positions";
+import update_kings_and_castles from "./updates/update_kings_and_castles";
+import update_squares from "./updates/update_squares";
+import update_positions from "./updates/update_positions";
 
 export default function is_legal_move(player, white_positions, black_positions, squares, board, move) {
 

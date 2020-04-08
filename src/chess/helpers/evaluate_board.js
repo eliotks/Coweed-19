@@ -1,8 +1,8 @@
 import all_legal_moves from "./all_legal_moves";
 import king_in_check from "./king_in_check";
-import black_has_won from "./black_has_won";
-import white_has_won from "./white_has_won";
-import stalemate from "./stalemate";
+import black_has_won from "./game_over/black_has_won";
+import white_has_won from "./game_over/white_has_won";
+import stalemate from "./game_over/stalemate";
 
 export default function evaluate_board(white_positions, black_positions, squares, board) {
 

@@ -3,10 +3,13 @@ import '../../index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import is_legal_move from "../helpers/is_legal_move";
-import initialize_board from "../helpers/initialize_board";
-import initialize_squares from "../helpers/initialize_squares";
-import update_all from "../helpers/update_all";
+import initialize_board from "../helpers/initializers/initialize_board";
+import initialize_squares from "../helpers/initializers/initialize_squares";
+import update_all from "../helpers/updates/update_all";
 import find_next_move from "../helpers/find_next_move";
+import initialize_rendered_squares from "../helpers/initializers/initialize_rendered_squares";
+import clear_colors from "../helpers/clear_colors";
+import update_rendered_squares from "../helpers/updates/update_rendered_squares";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
@@ -16,9 +19,10 @@ export default class P_V_AI extends React.Component {
             black_positions: [3, 0, 7, 1, 6, 2, 5, 4, 12, 11, 13, 10, 14, 9, 15, 8],
             squares: initialize_squares(),
             board: initialize_board(),
+            rendered_squares: initialize_rendered_squares(),
             white_taken_pieces: [],
             black_taken_pieces: [],
-            sourceSelection: -1,
+            source_selection: -1,
             status: '',
             turn: 'white',
             ai_turn_text: "Det er din tur. Gjør no lurt!",
@@ -54,6 +58,7 @@ export default class P_V_AI extends React.Component {
         const black_positions = this.state.black_positions.slice();
         const squares = this.state.squares.slice();
         const board = this.state.board.slice();
+        const rendered_squares = this.state.rendered_squares.slice();
 
         if (board[1] === "white") {
             this.setState({
@@ -78,42 +83,38 @@ export default class P_V_AI extends React.Component {
 
         else {
             if (this.state.turn === "white") {
-                if (this.state.sourceSelection === -1) {
+                if (this.state.source_selection === -1) {
                     if (!squares[i] || squares[i].player !== 1) {
                         this.setState({status: "Du må velge en hvit brikke!"});
                     }
                     else {
-                        squares[i].style = {...squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                        rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
 
-                        // to show possible squares the piece can move to
-                        // need to remove comments in initialize_squares
-                        //
-                        // const moves = squares[i].possible_moves(i, squares, board);
-                        // for (let i = 0; i < moves.length; i++) {
-                        //     const tile = moves[i][1];
-                        //     squares[tile].style = {...squares[tile].style, backgroundColor: "RGB(80,220,100)"};
-                        // }
+                        const moves = squares[i].possible_moves(i, squares, board);
+                        for (let i = 0; i < moves.length; i++) {
+                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                        }
 
                         this.setState({
-                            squares: squares,
+                            rendered_squares: rendered_squares,
                             status: "Hvor vil du flytte brikken?",
-                            sourceSelection: i
+                            source_selection: i
                         });
                     }
                 }
 
-                else if (this.state.sourceSelection > -1) {
-                    squares[this.state.sourceSelection].style = {...squares[this.state.sourceSelection].style, backgroundColor: ""};
+                else if (this.state.source_selection > -1) {
+                    const cleared_squares = clear_colors(rendered_squares);
                     if (squares[i] && squares[i].player === 1) {
                         this.setState({
-                            squares: squares,
+                            rendered_squares: cleared_squares,
                             status: "Du kan ikke flytte dit... Velg en ny hvit brikke!",
-                            sourceSelection: -1,
+                            source_selection: -1,
                         });
                     }
                     else {
-                        const move = [this.state.sourceSelection, i];
-                        const moves = squares[this.state.sourceSelection].possible_moves(this.state.sourceSelection, squares, board);
+                        const move = [this.state.source_selection, i];
+                        const moves = squares[this.state.source_selection].possible_moves(this.state.source_selection, squares, board);
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
@@ -123,6 +124,8 @@ export default class P_V_AI extends React.Component {
 
                             const updated = update_all(white_positions, black_positions, squares, board, move);
 
+                            const updated_rendered_squares = update_rendered_squares(cleared_squares, move);
+
                             // const x = updated[0];
                             // const y = updated[1];
 
@@ -131,7 +134,8 @@ export default class P_V_AI extends React.Component {
                                 black_positions: updated[1],
                                 squares: updated[2],
                                 board: updated[3],
-                                sourceSelection: -1,
+                                rendered_squares: updated_rendered_squares,
+                                source_selection: -1,
                                 status: '',
                                 turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
@@ -141,9 +145,9 @@ export default class P_V_AI extends React.Component {
                         }
                         else {
                             this.setState({
-                                squares: squares,
+                                rendered_squares: cleared_squares,
                                 status: "Du kan ikke flytte dit......... Velg en ny hvit brikke!",
-                                sourceSelection: -1,
+                                source_selection: -1,
                             });
                         }
                     }
@@ -157,6 +161,8 @@ export default class P_V_AI extends React.Component {
 
                 const updated = update_all(white_positions, black_positions, squares, board, move);
 
+                const updated_rendered_squares = update_rendered_squares(rendered_squares, move);
+
                 // const x = updated[0];
                 // const y = updated[1];
 
@@ -165,7 +171,8 @@ export default class P_V_AI extends React.Component {
                     black_positions: updated[1],
                     squares: updated[2],
                     board: updated[3],
-                    sourceSelection: -1,
+                    rendered_squares: updated_rendered_squares,
+                    source_selection: -1,
                     status: '',
                     turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
@@ -204,7 +211,7 @@ export default class P_V_AI extends React.Component {
                     </div>
                     <div className="game_board">
                         <Board_renderer
-                            squares = {this.state.squares}
+                            squares = {this.state.rendered_squares}
                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>

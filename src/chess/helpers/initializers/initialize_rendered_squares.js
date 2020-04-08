@@ -1,18 +1,19 @@
-import Bishop from "../pieces/Bishop";
-import King from "../pieces/King";
-import Knight from "../pieces/Knight";
-import Pawn from "../pieces/Pawn";
-import Queen from '../pieces/Queen.js';
-import Rook from '../pieces/Rook.js';
-import Empty_piece from "../pieces/Empty_piece";
+import Bishop from "../../pieces/Bishop";
+import King from "../../pieces/King";
+import Knight from "../../pieces/Knight";
+import Pawn from "../../pieces/Pawn";
+import Queen from '../../pieces/Queen.js';
+import Rook from '../../pieces/Rook.js';
+import Empty_piece from "../../pieces/Empty_piece";
 
-export default function initialize_squares(){
+export default function initialize_rendered_squares() {
     const squares = Array(64).fill(null);
 
-    for(let i = 8; i < 16; i++){
+    for (let i = 8; i < 16; i++){
         squares[i] = new Pawn(2);
         squares[i+40] = new Pawn(1);
     }
+
     squares[0] = new Rook(2);
     squares[7] = new Rook(2);
     squares[56] = new Rook(1);
@@ -34,9 +35,9 @@ export default function initialize_squares(){
     squares[59] = new Queen(1);
     squares[60] = new King(1);
 
-    // for (let i = 16; i < 48; i++) {
-    //     squares[i] = new Empty_piece();
-    // }
+    for (let i = 16; i < 48; i++) {
+        squares[i] = new Empty_piece();
+    }
 
     return squares;
 }

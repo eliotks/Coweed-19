@@ -1,6 +1,6 @@
 import all_legal_moves from "./all_legal_moves";
 import evaluate_board from "./evaluate_board";
-import update_efficiently from "./update_efficiently";
+import update_efficiently from "./updates/update_efficiently";
 
 export default function find_next_move(player, white_positions, black_position, squares, board) {
 
