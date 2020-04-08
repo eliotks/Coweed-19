@@ -10,6 +10,7 @@ import find_next_move from "../helpers/find_next_move";
 import initialize_rendered_squares from "../helpers/initializers/initialize_rendered_squares";
 import clear_colors from "../helpers/clear_colors";
 import update_rendered_squares from "../helpers/updates/update_rendered_squares";
+import is_light_square from "../helpers/is_light_square";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
@@ -20,6 +21,7 @@ export default class P_V_AI extends React.Component {
             squares: initialize_squares(),
             board: initialize_board(),
             rendered_squares: initialize_rendered_squares(),
+            last_black_move: null,
             white_taken_pieces: [],
             black_taken_pieces: [],
             source_selection: -1,
@@ -88,13 +90,21 @@ export default class P_V_AI extends React.Component {
                         this.setState({status: "Du må velge en hvit brikke!"});
                     }
                     else {
-                        rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
-
+                        if (is_light_square(i)) {
+                            rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                        }
+                        else {
+                            rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
+                        }
                         const moves = squares[i].possible_moves(i, squares, board);
                         for (let i = 0; i < moves.length; i++) {
-                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                            if (is_light_square(moves[i][1])) {
+                                rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                            }
+                            else {
+                                rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
+                            }
                         }
-
                         this.setState({
                             rendered_squares: rendered_squares,
                             status: "Hvor vil du flytte brikken?",
@@ -104,7 +114,7 @@ export default class P_V_AI extends React.Component {
                 }
 
                 else if (this.state.source_selection > -1) {
-                    const cleared_squares = clear_colors(rendered_squares);
+                    const cleared_squares = clear_colors(rendered_squares, this.state.last_black_move);
                     if (squares[i] && squares[i].player === 1) {
                         this.setState({
                             rendered_squares: cleared_squares,
@@ -124,7 +134,7 @@ export default class P_V_AI extends React.Component {
 
                             const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                            const updated_rendered_squares = update_rendered_squares(cleared_squares, move);
+                            const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
 
                             // const x = updated[0];
                             // const y = updated[1];
@@ -161,7 +171,7 @@ export default class P_V_AI extends React.Component {
 
                 const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                const updated_rendered_squares = update_rendered_squares(rendered_squares, move);
+                const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
 
                 // const x = updated[0];
                 // const y = updated[1];
@@ -172,6 +182,7 @@ export default class P_V_AI extends React.Component {
                     squares: updated[2],
                     board: updated[3],
                     rendered_squares: updated_rendered_squares,
+                    last_black_move: move,
                     source_selection: -1,
                     status: '',
                     turn: "white",
