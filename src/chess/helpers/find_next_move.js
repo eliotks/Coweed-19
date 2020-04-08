@@ -1,6 +1,6 @@
 import all_legal_moves from "./all_legal_moves";
 import evaluate_board from "./evaluate_board";
-import update_efficiently from "./updates/update_efficiently";
+import update_efficiently from "../updates/update_efficiently";
 
 export default function find_next_move(player, white_positions, black_position, squares, board) {
 
@@ -12,7 +12,7 @@ export default function find_next_move(player, white_positions, black_position, 
     white_positions = white_positions.slice();
     black_position = black_position.slice();
 
-    const global_depth = 4;
+    const global_depth = 5;
 
     let next_move = [];
 

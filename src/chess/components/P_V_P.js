@@ -3,7 +3,7 @@ import React from 'react';
 import '../../index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
-import Initialize_squares from "../helpers/initializers/initialize_squares";
+import Initialize_squares from "../initializers/initialize_squares";
 import is_legal_move from "../helpers/is_legal_move";
 
 export default class P_V_P extends React.Component {
@@ -21,7 +21,7 @@ export default class P_V_P extends React.Component {
         }
     }
 
-    // trenger en update grunnet klassen board
+    // trenger en update
 
     add_taken_piece(i) {
         const squares = this.state.squares;

@@ -1,9 +1,9 @@
-import Bishop from "../../pieces/Bishop";
-import King from "../../pieces/King";
-import Knight from "../../pieces/Knight";
-import Pawn from "../../pieces/Pawn";
-import Queen from '../../pieces/Queen.js';
-import Rook from '../../pieces/Rook.js';
+import Bishop from "../pieces/Bishop";
+import King from "../pieces/King";
+import Knight from "../pieces/Knight";
+import Pawn from "../pieces/Pawn";
+import Queen from '../pieces/Queen.js';
+import Rook from '../pieces/Rook.js';
 
 export default function initialize_squares(){
     const squares = Array(64).fill(null);

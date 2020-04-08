@@ -1,5 +1,5 @@
-import all_legal_moves from "../all_legal_moves";
-import king_in_check from "../king_in_check";
+import all_legal_moves from "../helpers/all_legal_moves";
+import king_in_check from "../helpers/king_in_check";
 
 // funker ikke - må sjekke hvem sin tur det er
 

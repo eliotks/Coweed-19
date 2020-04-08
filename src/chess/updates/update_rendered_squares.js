@@ -1,5 +1,5 @@
-import Empty_piece from "../../pieces/Empty_piece";
-import is_light_square from "../is_light_square";
+import Empty_piece from "../pieces/Empty_piece";
+import is_light_square from "../helpers/is_light_square";
 
 export default function update_rendered_squares(rendered_squares, move) {
     rendered_squares = rendered_squares.slice();

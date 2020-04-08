@@ -3,13 +3,13 @@ import '../../index.css';
 import Board_renderer from "./Board_renderer";
 import Taken_pieces from "./Taken_pieces";
 import is_legal_move from "../helpers/is_legal_move";
-import initialize_board from "../helpers/initializers/initialize_board";
-import initialize_squares from "../helpers/initializers/initialize_squares";
-import update_all from "../helpers/updates/update_all";
+import initialize_board from "../initializers/initialize_board";
+import initialize_squares from "../initializers/initialize_squares";
+import update_all from "../updates/update_all";
 import find_next_move from "../helpers/find_next_move";
-import initialize_rendered_squares from "../helpers/initializers/initialize_rendered_squares";
+import initialize_rendered_squares from "../initializers/initialize_rendered_squares";
 import clear_colors from "../helpers/clear_colors";
-import update_rendered_squares from "../helpers/updates/update_rendered_squares";
+import update_rendered_squares from "../updates/update_rendered_squares";
 import is_light_square from "../helpers/is_light_square";
 
 export default class P_V_AI extends React.Component {
@@ -36,17 +36,19 @@ export default class P_V_AI extends React.Component {
 
     // sliter litt med positions
 
+    // må finne ut hvordan svart kan gjøre trekket sitt uten at brukeren må trykke
+    //  - funker ikke å kjøre svart sitt trekk rett etter hvit sitt trekk
+    //     - dette er fordi brettet oppdateres kun etter at handle_click har kjørt ferdig
+
+    // må vurdere om jeg skal fjerne 'winner' fra board
+    // må også vurdere om jeg skal legge til 'turn' til board - hadde løst 'stalemate'-funksjonen
+
     // kan innføre number_of_pieces_developed - kan være en attribute i board
-
-    // må innføre empty_piece for å kunne vise lovlige trekk når hvit har valgt en brikke
-
-    // mangler noe logikk med rokkade - kan ikke sjekke om kongen er i sjakk eller om feltene mellom kongen og tårnet
-    // er truet fordi da må jeg bruke metoden all_possible_moves, som igjen må bruke king.possible_moves -> evig loop
 
     // påningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
 
-    // mangler an passant - ganske easy
-    // mangler bonde->dronning - ikke såå easy
+    // mangler an passant
+    // mangler bonde->dronning
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
     // mangler at brukeren skal kunne velge enten PvP eller PvAi
@@ -55,7 +57,7 @@ export default class P_V_AI extends React.Component {
     // hadde vært kult om man lagret alle squares slik at man kunne "bla" frem og tilbake blant trekkene
 
 
-    handleClick(i) {
+    handle_click(i) {
         const white_positions = this.state.white_positions.slice();
         const black_positions = this.state.black_positions.slice();
         const squares = this.state.squares.slice();
@@ -223,7 +225,7 @@ export default class P_V_AI extends React.Component {
                     <div className="game_board">
                         <Board_renderer
                             squares = {this.state.rendered_squares}
-                            onClick = {(i) => this.handleClick(i)}
+                            onClick = {(i) => this.handle_click(i)}
                         />
                     </div>
                     <div className="taken_pieces">
