@@ -2,7 +2,7 @@
 export default function initialize_board() {
 
     // board[0] = score
-    // board[1] = winner
+    // board[1] = turn
     // board[2] = white_king_position
     // board[3] = black_king_position
 
@@ -25,7 +25,7 @@ export default function initialize_board() {
     const board = [];
 
     board.push(0);
-    board.push(null);
+    board.push(1);
     board.push(60);
     board.push(4);
     board.push(true);

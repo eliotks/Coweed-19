@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../index.css';
-import Board_renderer from "./Board_renderer";
-import Taken_pieces from "./Taken_pieces";
+import Board from "./Board";
+import TakenPieces from "./TakenPieces";
 import is_legal_move from "../helpers/is_legal_move";
 import initialize_board from "../initializers/initialize_board";
 import initialize_squares from "../initializers/initialize_squares";
@@ -11,6 +11,9 @@ import initialize_rendered_squares from "../initializers/initialize_rendered_squ
 import clear_colors from "../helpers/clear_colors";
 import update_rendered_squares from "../updates/update_rendered_squares";
 import is_light_square from "../helpers/is_light_square";
+import white_has_won from "../game_over/white_has_won";
+import black_has_won from "../game_over/black_has_won";
+import stalemate from "../game_over/stalemate";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
@@ -26,7 +29,6 @@ export default class P_V_AI extends React.Component {
             black_taken_pieces: [],
             source_selection: -1,
             status: '',
-            turn: 'white',
             ai_turn_text: "Det er din tur. Gjør no lurt!",
             winner: "",
             debug_1: "",
@@ -36,16 +38,15 @@ export default class P_V_AI extends React.Component {
 
     // sliter litt med positions
 
+    // iterative deepening? med move ordering og transition table?
+
     // må finne ut hvordan svart kan gjøre trekket sitt uten at brukeren må trykke
     //  - funker ikke å kjøre svart sitt trekk rett etter hvit sitt trekk
     //     - dette er fordi brettet oppdateres kun etter at handle_click har kjørt ferdig
 
-    // må vurdere om jeg skal fjerne 'winner' fra board
-    // må også vurdere om jeg skal legge til 'turn' til board - hadde løst 'stalemate'-funksjonen
-
     // kan innføre number_of_pieces_developed - kan være en attribute i board
 
-    // påningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
+    // åpningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
 
     // mangler an passant
     // mangler bonde->dronning
@@ -64,21 +65,21 @@ export default class P_V_AI extends React.Component {
         const board = this.state.board.slice();
         const rendered_squares = this.state.rendered_squares.slice();
 
-        if (board[1] === "white") {
+        if (white_has_won(white_positions, black_positions, squares, board)) {
             this.setState({
                 winner: "white"
                 // debug_1: "" + evaluate_board(this.state.board),
             });
         }
 
-        else if (board[1] === "black") {
+        else if (black_has_won(white_positions, black_positions, squares, board)) {
             this.setState({
                 winner: "black"
                 // debug_1: "" + evaluate_board(this.state.board),
             });
         }
 
-        else if (board[1] === "stalemate") {
+        else if (stalemate(white_positions, black_positions, squares, board)) {
             this.setState({
                 winner: "stalemate"
                 // debug_1: "" + evaluate_board(this.state.board),
@@ -86,7 +87,7 @@ export default class P_V_AI extends React.Component {
         }
 
         else {
-            if (this.state.turn === "white") {
+            if (board[1] === 1) {
                 if (this.state.source_selection === -1) {
                     if (!squares[i] || squares[i].player !== 1) {
                         this.setState({status: "Du må velge en hvit brikke!"});
@@ -149,7 +150,6 @@ export default class P_V_AI extends React.Component {
                                 rendered_squares: updated_rendered_squares,
                                 source_selection: -1,
                                 status: '',
-                                turn: "black",
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
                                 // debug_1: "" + x + y,
                                 // debug_2: "" + x.length + y.length
@@ -187,7 +187,6 @@ export default class P_V_AI extends React.Component {
                     last_black_move: move,
                     source_selection: -1,
                     status: '',
-                    turn: "white",
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
                     // debug_1: "" + x + y,
                     // debug_2: "" + x.length + y.length
@@ -220,16 +219,16 @@ export default class P_V_AI extends React.Component {
             <div>
                 <div className="game">
                     <div className="taken_pieces">
-                        <Taken_pieces taken_pieces = {this.state.white_taken_pieces} />
+                        <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
                     </div>
                     <div className="game_board">
-                        <Board_renderer
+                        <Board
                             squares = {this.state.rendered_squares}
                             onClick = {(i) => this.handle_click(i)}
                         />
                     </div>
                     <div className="taken_pieces">
-                        <Taken_pieces taken_pieces = {this.state.black_taken_pieces} />
+                        <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
                     </div>
                     <div className="ai_turn_text">{this.state.ai_turn_text}</div>
                     <div className="game_status">{this.state.status}</div>

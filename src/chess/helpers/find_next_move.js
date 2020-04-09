@@ -1,6 +1,6 @@
 import all_legal_moves from "./all_legal_moves";
 import evaluate_board from "./evaluate_board";
-import update_efficiently from "../updates/update_efficiently";
+import update_all from "../updates/update_all";
 
 export default function find_next_move(player, white_positions, black_position, squares, board) {
 
@@ -12,7 +12,7 @@ export default function find_next_move(player, white_positions, black_position, 
     white_positions = white_positions.slice();
     black_position = black_position.slice();
 
-    const global_depth = 5;
+    const global_depth = 4;
 
     let next_move = [];
 
@@ -34,7 +34,7 @@ export default function find_next_move(player, white_positions, black_position, 
                 const new_white_positions = white_positions.slice();
                 const new_black_positions = black_positions.slice();
 
-                const updated = update_efficiently(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
+                const updated = update_all(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
 
                 let score = min_max(updated[0], updated[1], updated[2], updated[3], depth-1, 2, alpha, beta);
                 max_score = Math.max(max_score, score);
@@ -65,7 +65,7 @@ export default function find_next_move(player, white_positions, black_position, 
                 const new_white_positions = white_positions.slice();
                 const new_black_positions = black_positions.slice();
 
-                const updated = update_efficiently(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
+                const updated = update_all(new_white_positions, new_black_positions, new_squares, new_board, legal_moves[i]);
 
                 let score = min_max(updated[0], updated[1], updated[2], updated[3], depth-1, 1, alpha, beta);
                 min_score = Math.min(min_score, score);

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import '../../index.css';
-import Board_renderer from "./Board_renderer";
-import Taken_pieces from "./Taken_pieces";
+import Board from "./Board";
+import TakenPieces from "./TakenPieces";
 import Initialize_squares from "../initializers/initialize_squares";
 import is_legal_move from "../helpers/is_legal_move";
 
@@ -123,16 +123,16 @@ export default class P_V_P extends React.Component {
             <div>
                 <div className="game">
                     <div className="taken_pieces">
-                        <Taken_pieces taken_pieces = {this.state.white_taken_pieces} />
+                        <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
                     </div>
                     <div className="game_board">
-                        <Board_renderer
+                        <Board
                             squares = {this.state.squares}
                             onClick = {(i) => this.handleClick(i)}
                         />
                     </div>
                     <div className="taken_pieces">
-                        <Taken_pieces taken_pieces = {this.state.black_taken_pieces} />
+                        <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
                     </div>
                     <div id="player_turn_box" style={{backgroundColor: this.state.turn}}/>
                     <div className="game_status">{this.state.status}</div>
