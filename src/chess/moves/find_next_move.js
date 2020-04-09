@@ -1,5 +1,5 @@
 import all_legal_moves from "./all_legal_moves";
-import evaluate_board from "./evaluate_board";
+import evaluate_board from "../helpers/evaluate_board";
 import update_all from "../updates/update_all";
 
 export default function find_next_move(player, white_positions, black_position, squares, board) {

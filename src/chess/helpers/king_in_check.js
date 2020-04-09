@@ -1,4 +1,4 @@
-import all_possible_moves from "./all_possible_moves";
+import all_possible_moves from "../moves/all_possible_moves";
 import opposite_player from "./opposite_player";
 
 export default function king_in_check(player, white_positions, black_positions, squares, board) {

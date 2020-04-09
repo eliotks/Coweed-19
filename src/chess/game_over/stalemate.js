@@ -1,4 +1,4 @@
-import all_legal_moves from "../helpers/all_legal_moves";
+import all_legal_moves from "../moves/all_legal_moves";
 import king_in_check from "../helpers/king_in_check";
 
 

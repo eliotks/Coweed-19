@@ -4,7 +4,7 @@ import '../../index.css';
 import Board from "./Board";
 import TakenPieces from "./TakenPieces";
 import Initialize_squares from "../initializers/initialize_squares";
-import is_legal_move from "../helpers/is_legal_move";
+import is_legal_move from "../moves/is_legal_move";
 
 export default class P_V_P extends React.Component {
     constructor(props){

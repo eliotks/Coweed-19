@@ -2,11 +2,11 @@ import React from 'react';
 import '../../index.css';
 import Board from "./Board";
 import TakenPieces from "./TakenPieces";
-import is_legal_move from "../helpers/is_legal_move";
+import is_legal_move from "../moves/is_legal_move";
 import initialize_board from "../initializers/initialize_board";
 import initialize_squares from "../initializers/initialize_squares";
 import update_all from "../updates/update_all";
-import find_next_move from "../helpers/find_next_move";
+import find_next_move from "../moves/find_next_move";
 import initialize_rendered_squares from "../initializers/initialize_rendered_squares";
 import clear_colors from "../helpers/clear_colors";
 import update_rendered_squares from "../updates/update_rendered_squares";
@@ -14,6 +14,7 @@ import is_light_square from "../helpers/is_light_square";
 import white_has_won from "../game_over/white_has_won";
 import black_has_won from "../game_over/black_has_won";
 import stalemate from "../game_over/stalemate";
+import evaluate_board from "../helpers/evaluate_board";
 
 export default class P_V_AI extends React.Component {
     constructor(props) {
@@ -99,7 +100,7 @@ export default class P_V_AI extends React.Component {
                         else {
                             rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
                         }
-                        const moves = squares[i].possible_moves(i, squares, board);
+                        const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
                         for (let i = 0; i < moves.length; i++) {
                             if (is_light_square(moves[i][1])) {
                                 rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
@@ -127,7 +128,7 @@ export default class P_V_AI extends React.Component {
                     }
                     else {
                         const move = [this.state.source_selection, i];
-                        const moves = squares[this.state.source_selection].possible_moves(this.state.source_selection, squares, board);
+                        const moves = squares[this.state.source_selection].possible_moves(this.state.source_selection, squares, board, white_positions, black_positions);
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
@@ -139,9 +140,6 @@ export default class P_V_AI extends React.Component {
 
                             const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
 
-                            // const x = updated[0];
-                            // const y = updated[1];
-
                             this.setState({
                                 white_positions: updated[0],
                                 black_positions: updated[1],
@@ -151,8 +149,8 @@ export default class P_V_AI extends React.Component {
                                 source_selection: -1,
                                 status: '',
                                 ai_turn_text: "Det er svart sin tur. Vær tålmodig og la algoritmene jobbe litt!",
-                                // debug_1: "" + x + y,
-                                // debug_2: "" + x.length + y.length
+                                debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3])
+                                // debug_2: "Debug 2: " +
                             });
                         }
                         else {
@@ -175,9 +173,6 @@ export default class P_V_AI extends React.Component {
 
                 const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
 
-                // const x = updated[0];
-                // const y = updated[1];
-
                 this.setState({
                     white_positions: updated[0],
                     black_positions: updated[1],
@@ -188,8 +183,8 @@ export default class P_V_AI extends React.Component {
                     source_selection: -1,
                     status: '',
                     ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                    // debug_1: "" + x + y,
-                    // debug_2: "" + x.length + y.length
+                    debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3])
+                    // debug_2: "Debug 2: " +
                 });
             }
         }
@@ -213,7 +208,6 @@ export default class P_V_AI extends React.Component {
         });
     }
 
-
     render() {
         return (
             <div>
@@ -233,8 +227,8 @@ export default class P_V_AI extends React.Component {
                     <div className="ai_turn_text">{this.state.ai_turn_text}</div>
                     <div className="game_status">{this.state.status}</div>
                     <div className="debug">Winner is {this.state.winner}</div>
-                    <div className="debug">Debug 1: {this.state.debug_1}</div>
-                    <div className="debug">Debug 2: {this.state.debug_2}</div>
+                    <div className="debug">{this.state.debug_1}</div>
+                    <div className="debug">{this.state.debug_2}</div>
                 </div>
             </div>
         );

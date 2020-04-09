@@ -11,7 +11,7 @@ export default function update_all(white_positions, black_positions, squares, bo
 
     const updated_board = update_kings_and_castles(squares, updated_score_board, move);
 
-    const positions = update_positions(white_positions, black_positions, squares, board, move);
+    const positions = update_positions(white_positions, black_positions, squares, updated_board, move);
 
     const updated_squares = update_squares(squares, updated_board, move);
 

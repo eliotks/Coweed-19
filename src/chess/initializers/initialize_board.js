@@ -37,8 +37,8 @@ export default function initialize_board() {
     board.push(false);
     board.push(16);
     board.push(16);
-    board.push(55.5);
-    board.push(7.5);
+    board.push(888);
+    board.push(120);
 
     return board;
 }
