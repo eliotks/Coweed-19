@@ -29,32 +29,47 @@ body {
     align-items: center;
 }
 
-.game_status, .taken_pieces{
+.game_status, .taken_pieces {
     margin-top: 25px;
     margin-bottom: 25px;
     min-height: 50px;
     font-size: 20px;
 }
 
-.dark_square{
+.dark_square {
     background-color: rgb(133,94,66);
 }
 
-.light_square{
+.light_square {
     background-color: rgb(218,184,136);
 }
 
-#player_turn_box{
+#player_turn_box {
     width: 32px;
     height: 32px;
     border: 1px solid #000;
     margin-bottom: 10px;
 }
 
-.ai_turn_text{
+.ai_turn_text {
     text-align: center;
     justify-content: center;
     font-size: 24px;
+}
+
+.game_board {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button {
+    padding: 12px;
+    margin: 9px;
+}
+
+.buttons {
+    padding: 12px;
 }
 
 .debug {
