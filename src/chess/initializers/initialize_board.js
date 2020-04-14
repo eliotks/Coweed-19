@@ -20,7 +20,7 @@ export default function initialize_board() {
     // board[13] = white_position_sum
     // board[14] = black_position_sum
 
-    // could use dictionary - can you .slice() a dictionary?
+    // board[15] = en_passant_square
 
     const board = [];
 
@@ -39,6 +39,7 @@ export default function initialize_board() {
     board.push(16);
     board.push(888);
     board.push(120);
+    board.push(null);
 
     return board;
 }

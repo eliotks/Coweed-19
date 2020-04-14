@@ -13,14 +13,15 @@ export default class Pawn extends Piece {
         const moves = [];
         const direction = this.player === 1 ? -1 : 1;
 
-        if (source in this.initialPositions[this.player-direction]) {
-            // time_to_queen
-        }
+        // do not need this - just need to check if the pawn moves to the last rank while updating
+        // if (source in this.initialPositions[this.player-direction]) {
+               // time_to_queen
+        // }
+
         if (squares[source + direction*8] == null) {
             moves.push([source, source + direction*8]);
             if (this.initialPositions[this.player].includes(source) && squares[source + direction*16] == null) {
                 moves.push([source, source + direction*16])
-                // an passant = true
             }
         }
         if (source % 8 !== 7) {
@@ -30,10 +31,20 @@ export default class Pawn extends Piece {
                         moves.push([source, source - 7])
                     }
                 }
+                else {
+                    if (board[15] === source + 1) {
+                        moves.push([source, source - 7])
+                    }
+                }
             }
             else {
                 if (squares[source + 9] != null) {
                     if (squares[source + 9].player === 1) {
+                        moves.push([source, source + 9])
+                    }
+                }
+                else {
+                    if (board[15] === source + 1) {
                         moves.push([source, source + 9])
                     }
                 }
@@ -46,10 +57,20 @@ export default class Pawn extends Piece {
                         moves.push([source, source - 9])
                     }
                 }
+                else {
+                    if (board[15] === source - 1) {
+                        moves.push([source, source - 9])
+                    }
+                }
             }
             else {
                 if (squares[source + 7] != null) {
                     if (squares[source + 7].player === 1) {
+                        moves.push([source, source + 7])
+                    }
+                }
+                else {
+                    if (board[15] === source - 1) {
                         moves.push([source, source + 7])
                     }
                 }

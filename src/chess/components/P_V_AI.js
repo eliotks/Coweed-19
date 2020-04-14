@@ -42,6 +42,9 @@ export default class P_V_AI extends React.Component {
         this.state.all_squares.push(this.state.rendered_squares.slice())
     }
 
+    // gjøre sånn at hvis man velger en hvit brikke og trykker på en ny hvit brikke, vil man velge denne nye brikken
+    // istedenfor å ikke kunne flytte brikken
+
     // iterative deepening? med move ordering og transition table?
 
     // må finne ut hvordan svart kan gjøre trekket sitt uten at brukeren må trykke
@@ -52,7 +55,6 @@ export default class P_V_AI extends React.Component {
 
     // åpningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
 
-    // mangler an passant
     // mangler bonde->dronning
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
