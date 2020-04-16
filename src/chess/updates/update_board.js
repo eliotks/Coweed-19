@@ -1,3 +1,4 @@
+import Queen from "../pieces/Queen";
 
 export default function update_board(squares, board, move) {
 
@@ -24,6 +25,14 @@ export default function update_board(squares, board, move) {
             board[0] = board[0] - 1;
             board[11] = board[11] - 1;
             board[13] = board[13] - (move[0]+1);
+        }
+    }
+    if (squares[move[0]].score === 1 && (Math.floor(move[1]/8) === 0 || Math.floor(move[1]/8) === 7)) {
+        if (squares[move[0]].player === 1) {
+            board[0] = board[0] + 8;
+        }
+        else {
+            board[0] = board[0] + 8;
         }
     }
     if (squares[move[1]] != null) {

@@ -104,11 +104,37 @@ export default class P_V_P extends React.Component {
                 else if (this.state.source_selection > -1) {
                     const cleared_squares = clear_colors(rendered_squares, this.state.last_black_move);
                     if (squares[i] && squares[i].player === this.state.player) {
-                        this.setState({
-                            rendered_squares: cleared_squares,
-                            status: "Du kan ikke flytte dit. Velg en ny hvit brikke!",
-                            source_selection: -1,
-                        });
+                        if (this.state.source_selection === i) {
+                            this.setState({
+                                rendered_squares: cleared_squares,
+                                status: "Du kan ikke flytte dit. Velg en ny hvit brikke!",
+                                source_selection: -1,
+                            });
+                        }
+                        else {
+                            if (is_light_square(i)) {
+                                rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                            }
+                            else {
+                                rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
+                            }
+                            const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
+                            for (let i = 0; i < moves.length; i++) {
+                                if (is_legal_move(1, white_positions, black_positions, squares, board, moves[i])) {
+                                    if (is_light_square(moves[i][1])) {
+                                        rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                                    }
+                                    else {
+                                        rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
+                                    }
+                                }
+                            }
+                            this.setState({
+                                rendered_squares: rendered_squares,
+                                status: "Hvor vil du flytte brikken?",
+                                source_selection: i
+                            });
+                        }
                     }
                     else {
                         const move = [this.state.source_selection, i];

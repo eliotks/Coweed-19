@@ -42,9 +42,6 @@ export default class P_V_AI extends React.Component {
         this.state.all_squares.push(this.state.rendered_squares.slice())
     }
 
-    // gjøre sånn at hvis man velger en hvit brikke og trykker på en ny hvit brikke, vil man velge denne nye brikken
-    // istedenfor å ikke kunne flytte brikken
-
     // iterative deepening? med move ordering og transition table?
 
     // må finne ut hvordan svart kan gjøre trekket sitt uten at brukeren må trykke
@@ -55,7 +52,8 @@ export default class P_V_AI extends React.Component {
 
     // åpningsbok hadde hjulpet mye - find_next_move bruker gjerne lengst tid på de første trekkene
 
-    // mangler bonde->dronning
+    // mangler at man skal kunne velge hvilken brikke bonden skal bli til når man 'queener'
+
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
     // mangler at brukeren skal kunne velge enten PvP eller PvAi
@@ -126,11 +124,37 @@ export default class P_V_AI extends React.Component {
                     else if (this.state.source_selection > -1) {
                         const cleared_squares = clear_colors(rendered_squares, this.state.last_black_move);
                         if (squares[i] && squares[i].player === 1) {
-                            this.setState({
-                                rendered_squares: cleared_squares,
-                                status: "Du kan ikke flytte dit. Velg en ny hvit brikke!",
-                                source_selection: -1,
-                            });
+                            if (this.state.source_selection === i) {
+                                this.setState({
+                                    rendered_squares: cleared_squares,
+                                    status: "Du kan ikke flytte dit. Velg en ny hvit brikke!",
+                                    source_selection: -1,
+                                });
+                            }
+                            else {
+                                if (is_light_square(i)) {
+                                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                                }
+                                else {
+                                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
+                                }
+                                const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
+                                for (let i = 0; i < moves.length; i++) {
+                                    if (is_legal_move(1, white_positions, black_positions, squares, board, moves[i])) {
+                                        if (is_light_square(moves[i][1])) {
+                                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                                        }
+                                        else {
+                                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
+                                        }
+                                    }
+                                }
+                                this.setState({
+                                    rendered_squares: rendered_squares,
+                                    status: "Hvor vil du flytte brikken?",
+                                    source_selection: i
+                                });
+                            }
                         }
                         else {
                             const move = [this.state.source_selection, i];
