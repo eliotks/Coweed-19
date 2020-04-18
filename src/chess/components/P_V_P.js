@@ -6,7 +6,6 @@ import is_legal_move from "../moves/is_legal_move";
 import initialize_board from "../initializers/initialize_board";
 import initialize_squares from "../initializers/initialize_squares";
 import update_all from "../updates/update_all";
-import initialize_rendered_squares from "../initializers/initialize_rendered_squares";
 import clear_colors from "../helpers/clear_colors";
 import update_rendered_squares from "../updates/update_rendered_squares";
 import is_light_square from "../helpers/is_light_square";
@@ -22,9 +21,9 @@ export default class P_V_P extends React.Component {
         this.state = {
             white_positions: [59, 56, 63, 57, 62, 58, 61, 60, 52, 51, 53, 50, 54, 49, 55, 48],
             black_positions: [3, 0, 7, 1, 6, 2, 5, 4, 12, 11, 13, 10, 14, 9, 15, 8],
-            squares: initialize_squares(),
+            squares: initialize_squares(1, false),
             board: initialize_board(),
-            rendered_squares: initialize_rendered_squares(),
+            rendered_squares: initialize_squares(1, true),
             all_squares: [],
             current_squares: 0,
             last_squares: 0,
@@ -40,6 +39,9 @@ export default class P_V_P extends React.Component {
         };
         this.state.all_squares.push(this.state.rendered_squares.slice())
     }
+
+    // kult om brettet snus hver gang man flytter, slik at spilleren som skal flytte alltid har brikkene sine nederst
+    // må lage en funksjon som snur brettet
 
     handle_click(i) {
         if (this.state.current_squares === this.state.last_squares) {

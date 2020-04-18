@@ -1,15 +1,16 @@
 
-export default function initialize_board() {
+export default function initialize_board(player) {
 
     // board[0] = score
     // board[1] = turn
+
     // board[2] = white_king_position
     // board[3] = black_king_position
 
-    // board[4] = can_castle_list (0)
-    // board[5] = can_castle list (1)
-    // board[6] = can_castle_list (2)
-    // board[7] = can_castle_list (3)
+    // board[4] = can_castle - top left
+    // board[5] = can_castle - top right
+    // board[6] = can_castle - bottom left
+    // board[7] = can_castle - bottom right
 
     // board[8] = white_has_castled
     // board[9] = black_has_castled
@@ -26,8 +27,16 @@ export default function initialize_board() {
 
     board.push(0);
     board.push(1);
-    board.push(60);
-    board.push(4);
+
+    if (player === 1) {
+        board.push(60);
+        board.push(4);
+    }
+    else {
+        board.push(3);
+        board.push(59);
+    }
+
     board.push(true);
     board.push(true);
     board.push(true);
