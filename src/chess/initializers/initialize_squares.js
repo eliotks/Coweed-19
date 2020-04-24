@@ -33,17 +33,17 @@ export default function initialize_squares(player, render){
 
     if (player === 1) {
         squares[3] = new Queen(2);
-        squares[4] = new King(2);
+        squares[4] = new King(2, 1);
 
         squares[59] = new Queen(1);
-        squares[60] = new King(1);
+        squares[60] = new King(1, 1);
     }
 
     else {
-        squares[3] = new King(1);
+        squares[3] = new King(1, 2);
         squares[4] = new Queen(1);
 
-        squares[59] = new King(2);
+        squares[59] = new King(2, 2);
         squares[60] = new Queen(2);
     }
 

@@ -6,25 +6,29 @@ export default function update_board(squares, board, move) {
 
     // updates scores and pieces
     if (squares[move[0]].score === 1 && squares[move[1]] == null && (Math.abs(move[1]-move[0]) % 2) === 1) {
-        if (move[1]-move[0] === -7) {
-            board[0] = board[0] + 1;
-            board[12] = board[12] - 1;
-            board[14] = board[14] - (move[0]+1);
-        }
-        else if (move[1]-move[0] === -9) {
-            board[0] = board[0] + 1;
-            board[12] = board[12] - 1;
-            board[14] = board[14] - (move[0]-1);
-        }
-        else if (move[1]-move[0] === 7) {
-            board[0] = board[0] - 1;
-            board[11] = board[11] - 1;
-            board[13] = board[13] - (move[0]-1);
+        if (move[1]-move[0] === -7 || move[1]-move[0] === 9) {
+            if (squares[move[0]].player === 1) {
+                board[0] = board[0] + 1;
+                board[12] = board[12] - 1;
+                board[14] = board[14] - (move[0]+1);
+            }
+            else {
+                board[0] = board[0] - 1;
+                board[11] = board[11] - 1;
+                board[13] = board[13] - (move[0]+1);
+            }
         }
         else {
-            board[0] = board[0] - 1;
-            board[11] = board[11] - 1;
-            board[13] = board[13] - (move[0]+1);
+            if (squares[move[0]].player === 1) {
+                board[0] = board[0] + 1;
+                board[12] = board[12] - 1;
+                board[14] = board[14] - (move[0]-1);
+            }
+            else {
+                board[0] = board[0] - 1;
+                board[11] = board[11] - 1;
+                board[13] = board[13] - (move[0]-1);
+            }
         }
     }
     if (squares[move[0]].score === 1 && (Math.floor(move[1]/8) === 0 || Math.floor(move[1]/8) === 7)) {
@@ -59,8 +63,14 @@ export default function update_board(squares, board, move) {
     if (squares[move[0]].score === 100) {
         if (squares[move[0]].player === 1) {
             board[2] = move[1];
-            board[6] = false;
-            board[7] = false;
+            if (board[16] === 1) {
+                board[6] = false;
+                board[7] = false;
+            }
+            else {
+                board[4] = false;
+                board[5] = false;
+            }
             if (Math.abs(move[1]-move[0]) === 2) {
                 board[8] = true;
                 board[10] = true;
@@ -68,8 +78,14 @@ export default function update_board(squares, board, move) {
         }
         else {
             board[3] = move[1];
-            board[4] = false;
-            board[5] = false;
+            if (board[16] === 1) {
+                board[4] = false;
+                board[5] = false;
+            }
+            else {
+                board[6] = false;
+                board[7] = false;
+            }
             if (Math.abs(move[1]-move[0]) === 2) {
                 board[9] = true;
                 board[10] = true;

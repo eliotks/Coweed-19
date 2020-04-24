@@ -1,4 +1,5 @@
 import Piece from "./Piece";
+import opposite_player from "../helpers/opposite_player";
 
 export default class Pawn extends Piece {
     constructor(player, direction) {
@@ -29,9 +30,9 @@ export default class Pawn extends Piece {
             }
         }
         if (source % 8 !== 7) {
-            if (this.player === 1) {
+            if (direction === -1) {
                 if (squares[source - 7] != null) {
-                    if (squares[source - 7].player === 2) {
+                    if (squares[source - 7].player === opposite_player(this.player)) {
                         moves.push([source, source - 7])
                     }
                 }
@@ -43,7 +44,7 @@ export default class Pawn extends Piece {
             }
             else {
                 if (squares[source + 9] != null) {
-                    if (squares[source + 9].player === 1) {
+                    if (squares[source + 9].player === opposite_player(this.player)) {
                         moves.push([source, source + 9])
                     }
                 }
@@ -55,9 +56,9 @@ export default class Pawn extends Piece {
             }
         }
         if (source % 8 !== 0) {
-            if (this.player === 1) {
+            if (direction === -1) {
                 if (squares[source - 9] != null) {
-                    if (squares[source - 9].player === 2) {
+                    if (squares[source - 9].player === opposite_player(this.player)) {
                         moves.push([source, source - 9])
                     }
                 }
@@ -69,7 +70,7 @@ export default class Pawn extends Piece {
             }
             else {
                 if (squares[source + 7] != null) {
-                    if (squares[source + 7].player === 1) {
+                    if (squares[source + 7].player === opposite_player(this.player)) {
                         moves.push([source, source + 7])
                     }
                 }

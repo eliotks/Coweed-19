@@ -18,12 +18,16 @@ import evaluate_board from "../helpers/evaluate_board";
 export default class P_V_P extends React.Component {
     constructor(props) {
         super(props);
+        const top_positions = [3, 0, 7, 1, 6, 2, 5, 4, 12, 11, 13, 10, 14, 9, 15, 8];
+        const bottom_positions = [59, 56, 63, 57, 62, 58, 61, 60, 52, 51, 53, 50, 54, 49, 55, 48];
+        const white_positions = this.props.player === 1 ? bottom_positions : top_positions;
+        const black_positions = this.props.player === 1 ? top_positions : bottom_positions;
         this.state = {
-            white_positions: [59, 56, 63, 57, 62, 58, 61, 60, 52, 51, 53, 50, 54, 49, 55, 48],
-            black_positions: [3, 0, 7, 1, 6, 2, 5, 4, 12, 11, 13, 10, 14, 9, 15, 8],
-            squares: initialize_squares(1, false),
-            board: initialize_board(),
-            rendered_squares: initialize_squares(1, true),
+            white_positions: white_positions,
+            black_positions: black_positions,
+            squares: initialize_squares(this.props.player, false),
+            board: initialize_board(this.props.player),
+            rendered_squares: initialize_squares(this.props.player, true),
             all_squares: [],
             current_squares: 0,
             last_squares: 0,
@@ -33,7 +37,7 @@ export default class P_V_P extends React.Component {
             source_selection: -1,
             status: '',
             winner: "ingen foreløpig.",
-            player: 1,
+            turn: 1,
             debug_1: "",
             debug_2: ""
         };
@@ -74,7 +78,7 @@ export default class P_V_P extends React.Component {
 
             else {
                 if (this.state.source_selection === -1) {
-                    if (!squares[i] || squares[i].player !== this.state.player) {
+                    if (!squares[i] || squares[i].player !== this.state.turn) {
                         this.setState({status: "Du må velge din brikke!"});
                     }
                     else {
@@ -86,7 +90,7 @@ export default class P_V_P extends React.Component {
                         }
                         const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
                         for (let i = 0; i < moves.length; i++) {
-                            if (is_legal_move(this.state.player, white_positions, black_positions, squares, board, moves[i])) {
+                            if (is_legal_move(this.state.turn, white_positions, black_positions, squares, board, moves[i])) {
                                 if (is_light_square(moves[i][1])) {
                                     rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
                                 }
@@ -104,8 +108,8 @@ export default class P_V_P extends React.Component {
                 }
 
                 else if (this.state.source_selection > -1) {
-                    const cleared_squares = clear_colors(rendered_squares, this.state.last_black_move);
-                    if (squares[i] && squares[i].player === this.state.player) {
+                    const cleared_squares = clear_colors(rendered_squares, null);
+                    if (squares[i] && squares[i].player === this.state.turn) {
                         if (this.state.source_selection === i) {
                             this.setState({
                                 rendered_squares: cleared_squares,
@@ -122,7 +126,7 @@ export default class P_V_P extends React.Component {
                             }
                             const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
                             for (let i = 0; i < moves.length; i++) {
-                                if (is_legal_move(1, white_positions, black_positions, squares, board, moves[i])) {
+                                if (is_legal_move(this.state.turn, white_positions, black_positions, squares, board, moves[i])) {
                                     if (is_light_square(moves[i][1])) {
                                         rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
                                     }
@@ -144,13 +148,13 @@ export default class P_V_P extends React.Component {
                         let move_string = JSON.stringify(move);
                         let moves_string = JSON.stringify(moves);
 
-                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(this.state.player, white_positions, black_positions, squares, board, move)) {
+                        if (moves_string.indexOf(move_string) !== -1 && is_legal_move(this.state.turn, white_positions, black_positions, squares, board, move)) {
 
                             this.add_taken_piece(i);
 
                             const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                            const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
+                            const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move, this.props.player);
 
                             const all_squares = this.state.all_squares;
                             all_squares.push(updated_rendered_squares.slice());
@@ -170,7 +174,7 @@ export default class P_V_P extends React.Component {
                                 all_moves: all_moves,
                                 source_selection: -1,
                                 status: '',
-                                player: opposite_player(this.state.player),
+                                turn: opposite_player(this.state.turn),
                                 debug_1: "" + evaluate_board(updated[0], updated[1], updated[2], updated[3])
                             });
                         }

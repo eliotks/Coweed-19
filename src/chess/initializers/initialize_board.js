@@ -22,6 +22,7 @@ export default function initialize_board(player) {
     // board[14] = black_position_sum
 
     // board[15] = en_passant_square
+    // board[16] = player
 
     const board = [];
 
@@ -49,6 +50,7 @@ export default function initialize_board(player) {
     board.push(888);
     board.push(120);
     board.push(null);
+    board.push(player);
 
     return board;
 }

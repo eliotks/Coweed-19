@@ -27,7 +27,7 @@ export default class P_V_AI extends Component {
             white_positions: white_positions,
             black_positions: black_positions,
             squares: initialize_squares(this.props.player, false),
-            board: initialize_board(),
+            board: initialize_board(this.props.player),
             rendered_squares: initialize_squares(this.props.player, true),
             all_squares: [],
             current_squares: 0,
@@ -51,7 +51,7 @@ export default class P_V_AI extends Component {
     // pawn - flytte rett fram går fint, men må fikse når bonden tar på skrå
     // update_board - an passant og rokkade
 
-
+    // update_board tar ikke hensyn til position_sum ved rokkade
 
     // iterative deepening? med move ordering og transition table?
 
@@ -179,7 +179,7 @@ export default class P_V_AI extends Component {
 
                                 const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                                const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
+                                const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move, this.props.player);
 
                                 const all_squares = this.state.all_squares;
                                 all_squares.push(updated_rendered_squares.slice());
@@ -222,7 +222,7 @@ export default class P_V_AI extends Component {
 
                     const updated = update_all(white_positions, black_positions, squares, board, move);
 
-                    const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move);
+                    const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move, this.props.player);
 
                     const all_squares = this.state.all_squares;
                     all_squares.push(updated_rendered_squares.slice());
@@ -258,7 +258,7 @@ export default class P_V_AI extends Component {
     }
 
     first_squares() {
-        if (this.state.board[1] === 1) {
+        if (this.state.board[1] === this.props.player) {
             this.setState({
                 current_squares: 0,
                 rendered_squares: clear_colors(this.state.all_squares[0])
@@ -267,7 +267,7 @@ export default class P_V_AI extends Component {
     }
 
     previous_squares() {
-        if (this.state.board[1] === 1) {
+        if (this.state.board[1] === this.props.player) {
             if (this.state.current_squares > 0) {
                 this.setState({
                     current_squares: this.state.current_squares-1,
@@ -278,7 +278,7 @@ export default class P_V_AI extends Component {
     }
 
     next_squares() {
-        if (this.state.board[1] === 1){
+        if (this.state.board[1] === this.props.player){
             if (this.state.current_squares < this.state.last_squares) {
                 this.setState({
                     current_squares: this.state.current_squares+1,
@@ -289,7 +289,7 @@ export default class P_V_AI extends Component {
     }
 
     latest_squares() {
-        if (this.state.board[1] === 1) {
+        if (this.state.board[1] === this.props.player) {
             this.setState({
                 current_squares: this.state.last_squares,
                 rendered_squares: clear_colors(this.state.all_squares[this.state.last_squares], this.state.all_moves[this.state.last_squares-1])

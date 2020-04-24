@@ -2,7 +2,7 @@ import Empty_piece from "../pieces/Empty_piece";
 import is_light_square from "../helpers/is_light_square";
 import Queen from "../pieces/Queen";
 
-export default function update_rendered_squares(rendered_squares, move) {
+export default function update_rendered_squares(rendered_squares, move, player) {
 
     rendered_squares = rendered_squares.slice();
 
@@ -18,13 +18,25 @@ export default function update_rendered_squares(rendered_squares, move) {
 
     // castling
     if (rendered_squares[move[0]].score === 100) {
-        if (move[1] - move[0] === 2) {
-            rendered_squares[move[0]+1] = rendered_squares[move[0]+3];
-            rendered_squares[move[0]+3] = new Empty_piece();
+        if (move[1]-move[0] === 2) {
+            if (player === 1) {
+                rendered_squares[move[0]+1] = rendered_squares[move[0]+3];
+                rendered_squares[move[0]+3] = new Empty_piece();
+            }
+            else {
+                rendered_squares[move[0]+1] = rendered_squares[move[0]+4];
+                rendered_squares[move[0]+4] = new Empty_piece();
+            }
         }
-        else if (move[0] - move[1] === 2) {
-            rendered_squares[move[0]-1] = rendered_squares[move[0]-4];
-            rendered_squares[move[0]-4] = new Empty_piece();
+        else if (move[0]-move[1] === 2) {
+            if (player === 1) {
+                rendered_squares[move[0]-1] = rendered_squares[move[0]-4];
+                rendered_squares[move[0]-4] = new Empty_piece();
+            }
+            else {
+                rendered_squares[move[0]-1] = rendered_squares[move[0]-3];
+                rendered_squares[move[0]-3] = new Empty_piece();
+            }
         }
     }
 
