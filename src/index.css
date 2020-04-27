@@ -76,3 +76,37 @@ body {
     text-align: center;
     font-size: 24px;
 }
+
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome {
+    text-align: center;
+    font-size: 24px;
+    padding: 42px;
+}
+
+.welcome_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.welcome_button {
+    padding: 12px;
+    margin: 9px;
+}
+
+.in_game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back_button {
+    padding: 12px;
+    margin: 9px;
+}

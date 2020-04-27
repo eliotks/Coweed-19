@@ -15,5 +15,6 @@ export default function is_legal_move(player, white_positions, black_positions, 
 
         return !king_in_check(player, positions[0], positions[1], updated_squares, updated_board);
     }
+
     return false;
 }

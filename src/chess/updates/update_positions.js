@@ -51,46 +51,54 @@ export default function update_positions(white_positions, black_positions, squar
     }
 
     if (board[10]) {
-        if (move[1]-move[0] === 2) {
+        if (move[1]-move[0] === 2) { // king moving to the right
             if (squares[move[0]].player === 1) {
                 if (board[16] === 1) { // white bottom right
-                    white_positions.splice(63, 1);
+                    const index = white_positions.indexOf(63);
+                    white_positions.splice(index, 1);
                     white_positions.unshift(61);
                 }
                 else { // white top right
-                    white_positions.splice(7, 1);
+                    const index = white_positions.indexOf(7);
+                    white_positions.splice(index, 1);
                     white_positions.unshift(4);
                 }
             }
             else {
                 if (board[16] === 1) { // black top right
-                    black_positions.splice(7, 1);
+                    const index = black_positions.indexOf(7);
+                    black_positions.splice(index, 1);
                     black_positions.unshift(5);
                 }
                 else { // black bottom right
-                    black_positions.splice(63, 1);
+                    const index = black_positions.indexOf(63);
+                    black_positions.splice(index, 1);
                     black_positions.unshift(60);
                 }
             }
         }
-        else {
+        else { // king moving to the left
             if (squares[move[0]].player === 1) {
                 if (board[16] === 1) { // white bottom left
-                    white_positions.splice(56, 1);
+                    const index = white_positions.indexOf(56);
+                    white_positions.splice(index, 1);
                     white_positions.unshift(59);
                 }
                 else { // white top left
-                    white_positions.splice(0, 1);
+                    const index = white_positions.indexOf(0);
+                    white_positions.splice(index, 1);
                     white_positions.unshift(2);
                 }
             }
             else {
                 if (board[16] === 1) { // black top left
-                    black_positions.splice(0, 1);
+                    const index = black_positions.indexOf(0);
+                    black_positions.splice(index, 1);
                     black_positions.unshift(3);
                 }
                 else { // black bottom left
-                    black_positions.splice(56, 1);
+                    const index = black_positions.indexOf(56);
+                    black_positions.splice(index, 1);
                     black_positions.unshift(58);
                 }
             }

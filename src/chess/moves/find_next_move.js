@@ -2,7 +2,7 @@ import all_legal_moves from "./all_legal_moves";
 import evaluate_board from "../helpers/evaluate_board";
 import update_all from "../updates/update_all";
 
-export default function find_next_move(player, white_positions, black_position, squares, board) {
+export default function find_next_move(player, white_positions, black_position, squares, board, depth) {
 
     // alpha starter på -1000
     // beta starter på 1000
@@ -12,7 +12,7 @@ export default function find_next_move(player, white_positions, black_position, 
     white_positions = white_positions.slice();
     black_position = black_position.slice();
 
-    const global_depth = 4;
+    const global_depth = depth;
 
     let next_move = [];
 

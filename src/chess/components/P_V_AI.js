@@ -200,7 +200,7 @@ export default class P_V_AI extends Component {
                                     source_selection: -1,
                                     status: '',
                                     ai_turn_text: "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt.",
-                                    debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
+                                    // debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
                                     // debug_2: "Debug 2: " +
                                 });
                             }
@@ -216,7 +216,7 @@ export default class P_V_AI extends Component {
                 }
                 else {
 
-                    const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board);
+                    const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board, this.props.difficulty);
 
                     this.add_taken_piece(move[1]);
 
@@ -244,7 +244,7 @@ export default class P_V_AI extends Component {
                         source_selection: -1,
                         status: '',
                         ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                        debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
+                        // debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
                         // debug_2: "Debug 2: " +
                     });
                 }

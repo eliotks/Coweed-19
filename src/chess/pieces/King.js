@@ -20,10 +20,10 @@ export default class King extends Piece {
         let castle_moves = [];
         const can_castle = this.can_castle(white_positions, black_positions, squares, board);
         if (can_castle[0]) {
-            castle_moves.push([source, source + 2])
+            castle_moves.push([source, source - 2])
         }
         if (can_castle[1]) {
-            castle_moves.push([source, source - 2])
+            castle_moves.push([source, source + 2])
         }
         const up = Math.floor(source/8);
         const left = source % 8;
@@ -58,7 +58,7 @@ export default class King extends Piece {
 
     can_castle(white_positions, black_positions, squares, board) {
 
-        /*
+
 
         let castle_list = [false, false, false, false]; // [0]=top_left, [1]=top_right, [2]=bottom_left, [3]=bottom_right,
 
@@ -94,6 +94,9 @@ export default class King extends Piece {
                     }
                 }
             }
+            else {
+                castle_list[i] = false;
+            }
         }
 
 
@@ -104,7 +107,7 @@ export default class King extends Piece {
         }
         return [castle_list[0], castle_list[1]];
 
-        */
+        /*
 
         let king_side_castle = false;
         let queen_side_castle = false;
@@ -172,6 +175,6 @@ export default class King extends Piece {
 
         return [king_side_castle, queen_side_castle];
 
-
+         */
     }
 }

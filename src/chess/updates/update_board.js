@@ -1,4 +1,3 @@
-import Queen from "../pieces/Queen";
 
 export default function update_board(squares, board, move) {
 
