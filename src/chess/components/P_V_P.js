@@ -175,7 +175,7 @@ export default class P_V_P extends React.Component {
                                 source_selection: -1,
                                 status: '',
                                 turn: opposite_player(this.state.turn),
-                                // debug_1: "" + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
+                                // debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
                                 // debug_2:
                             });
                         }

@@ -47,8 +47,14 @@ export default function initialize_board(player) {
     board.push(false);
     board.push(16);
     board.push(16);
-    board.push(888);
-    board.push(120);
+    if (player === 1) {
+        board.push(888);
+        board.push(120);
+    }
+    else {
+        board.push(120);
+        board.push(888);
+    }
     board.push(null);
     board.push(player);
 

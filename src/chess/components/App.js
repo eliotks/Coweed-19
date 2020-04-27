@@ -8,9 +8,9 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 1, // 1 = P_V_P, 2 = P_V_AI
-            player: 1, // 1 = plays as white, 2 = plays as black
-            difficulty: 4
+            mode: 0, // 1 = P_V_P, 2 = P_V_AI
+            player: 0, // 1 = plays as white, 2 = plays as black
+            difficulty: 0
         };
     }
 

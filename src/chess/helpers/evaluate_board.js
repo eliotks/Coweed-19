@@ -14,7 +14,7 @@ export default function evaluate_board(white_positions, black_positions, squares
 
     if (king_in_check(2, white_positions, black_positions, squares, board)) {
         if (white_has_won(white_positions, black_positions, squares, board)) {
-            return -1000;
+            return 1000;
         }
     }
 
@@ -24,7 +24,12 @@ export default function evaluate_board(white_positions, black_positions, squares
 
     let score = board[0];
 
-    score += (63 - board[13]/board[11] - board[14]/board[12])*0.01;
+    if (board[16] === 1) {
+        score += (63 - board[13]/board[11] - board[14]/board[12])*0.01;
+    }
+    else {
+        score -= (63 - board[13]/board[11] - board[14]/board[12])*0.01;
+    }
 
     // const white_moves = all_legal_moves(1, white_positions, black_positions, squares, board);
     // score += white_moves.length*0.02;
@@ -54,6 +59,7 @@ export default function evaluate_board(white_positions, black_positions, squares
         score -= 0.7;
     }
 
+    /*
     if (board[4] || board[5]) {
         score -= 0.1;
     }
@@ -61,6 +67,7 @@ export default function evaluate_board(white_positions, black_positions, squares
     if (board[6] || board[7]) {
         score += 0.1;
     }
+     */
 
     return score;
 }
