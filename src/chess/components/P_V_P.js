@@ -36,7 +36,7 @@ export default class P_V_P extends React.Component {
             black_taken_pieces: [],
             source_selection: -1,
             status: '',
-            winner: "ingen foreløpig.",
+            winner: "",
             turn: 1,
             debug_1: "",
             debug_2: ""
@@ -56,37 +56,20 @@ export default class P_V_P extends React.Component {
             const rendered_squares = this.state.rendered_squares.slice();
 
             if (white_has_won(white_positions, black_positions, squares, board)) {
-                let text;
-                if (this.props.player === 1) {
-                    text = "Bra spilt!";
-                }
-                else {
-                    text = "Her har du forbedringspotensiale!"
-                }
                 this.setState({
-                    winner: "Vinneren er hvit." + text
-                    // debug_1: "" + evaluate_board(this.state.board),
+                    winner: "Vinneren er hvit!"
                 });
             }
 
             else if (black_has_won(white_positions, black_positions, squares, board)) {
-                let text;
-                if (this.props.player === 2) {
-                    text = "Bra spilt!";
-                }
-                else {
-                    text = "Her har du forbedringspotensiale!"
-                }
                 this.setState({
-                    winner: "Vinneren er svart." + text
-                    // debug_1: "" + evaluate_board(this.state.board),
+                    winner: "Vinneren er svart."
                 });
             }
 
             else if (stalemate(white_positions, black_positions, squares, board)) {
                 this.setState({
                     winner: "Der ble det patt, gitt!"
-                    // debug_1: "" + evaluate_board(this.state.board),
                 });
             }
 
