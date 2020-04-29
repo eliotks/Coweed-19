@@ -56,22 +56,36 @@ export default class P_V_P extends React.Component {
             const rendered_squares = this.state.rendered_squares.slice();
 
             if (white_has_won(white_positions, black_positions, squares, board)) {
+                let text;
+                if (this.props.player === 1) {
+                    text = "Bra spilt!";
+                }
+                else {
+                    text = "Her har du forbedringspotensiale!"
+                }
                 this.setState({
-                    winner: "hvit!"
+                    winner: "Vinneren er hvit." + text
                     // debug_1: "" + evaluate_board(this.state.board),
                 });
             }
 
             else if (black_has_won(white_positions, black_positions, squares, board)) {
+                let text;
+                if (this.props.player === 2) {
+                    text = "Bra spilt!";
+                }
+                else {
+                    text = "Her har du forbedringspotensiale!"
+                }
                 this.setState({
-                    winner: "svart!"
+                    winner: "Vinneren er svart." + text
                     // debug_1: "" + evaluate_board(this.state.board),
                 });
             }
 
             else if (stalemate(white_positions, black_positions, squares, board)) {
                 this.setState({
-                    winner: "ingen. Det ble patt!"
+                    winner: "Der ble det patt, gitt!"
                     // debug_1: "" + evaluate_board(this.state.board),
                 });
             }
@@ -281,7 +295,7 @@ export default class P_V_P extends React.Component {
                         <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
                     </div>
                     <div className="game_status">{this.state.status}</div>
-                    <div className="debug">Vinneren er {this.state.winner}</div>
+                    <div className="debug">{this.state.winner}</div>
                     <div className="debug">{this.state.debug_1}</div>
                     <div className="debug">{this.state.debug_2}</div>
                 </div>

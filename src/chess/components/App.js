@@ -53,9 +53,16 @@ export default class App extends Component {
                     );
                 }
                 else {
+                    let text;
+                    if (this.state.player === 1) {
+                        text = "Det var nok lurt å velge hvite brikker!"
+                    }
+                    else {
+                        text = "Meget dristig å velge svarte brikker!"
+                    }
                     return (
                         <div className="home">
-                            <div className="welcome">Okey!</div>
+                            <div className="welcome">{text}</div>
                             <div className="welcome">Hvilken vanskelighetsgrad ønsker du?</div>
                             <div className="welcome_buttons">
                                 <button className="welcome_button" onClick={(i) => this.easy_click()}>
