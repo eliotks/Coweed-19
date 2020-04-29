@@ -23,6 +23,13 @@ export default class P_V_AI extends Component {
         const bottom_positions = [59, 56, 63, 57, 62, 58, 61, 60, 52, 51, 53, 50, 54, 49, 55, 48];
         const white_positions = this.props.player === 1 ? bottom_positions : top_positions;
         const black_positions = this.props.player === 1 ? top_positions : bottom_positions;
+        let text;
+        if (this.props.player === 1) {
+            text = "Det er din tur. Gjør no lurt!";
+        }
+        else {
+            text = "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt.";
+        }
         this.state = {
             white_positions: white_positions,
             black_positions: black_positions,
@@ -38,7 +45,7 @@ export default class P_V_AI extends Component {
             black_taken_pieces: [],
             source_selection: -1,
             status: '',
-            ai_turn_text: "Det er din tur. Gjør no lurt!",
+            ai_turn_text: text,
             winner: "ingen foreløpig.",
             debug_1: "",
             debug_2: ""
