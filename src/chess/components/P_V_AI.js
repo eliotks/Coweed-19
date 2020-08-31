@@ -44,23 +44,15 @@ export default class P_V_AI extends Component {
             white_taken_pieces: [],
             black_taken_pieces: [],
             source_selection: -1,
-            status: '',
-            ai_turn_text: text,
-            winner: "",
-            debug_1: "",
-            debug_2: ""
+            status: text,
+            winner: ""
         };
         this.state.all_squares.push(this.state.rendered_squares.slice())
     }
 
-    // for å kunne spiller som svart trenger jeg å fikse:
-    // rokkade - hovedsakling king-klassen
-    // pawn - flytte rett fram går fint, men må fikse når bonden tar på skrå
-    // update_board - an passant og rokkade
-
     // update_board tar ikke hensyn til position_sum ved rokkade
 
-    // iterative deepening? med move ordering og transition table?
+    // iterative deepening? move ordering og transition table?
 
     // må finne ut hvordan svart kan gjøre trekket sitt uten at brukeren må trykke
     //  - funker ikke å kjøre svart sitt trekk rett etter hvit sitt trekk
@@ -74,8 +66,8 @@ export default class P_V_AI extends Component {
 
     // mangler trekkgjentagelse og stillingsrepetisjon
     // kanskje tid/klokke hadde vært nais
-    // mangler at brukeren skal kunne velge enten PvP eller PvAi
-    // mangler at brukeren skal kunne velge farge hvis PvAi er valgt
+
+    // virker som man kan ta rokkade mens man står i sjakk - ikke bra
 
 
     handle_click(i) {
@@ -95,8 +87,8 @@ export default class P_V_AI extends Component {
                     text = "Her har du forbedringspotensiale!"
                 }
                 this.setState({
-                    winner: "Vinneren er hvit." + text
-                    // debug_1: "" + evaluate_board(this.state.board),
+                    winner: "Vinneren er hvit." + text,
+                    status: ''
                 });
             }
 
@@ -109,13 +101,15 @@ export default class P_V_AI extends Component {
                     text = "Her har du forbedringspotensiale!"
                 }
                 this.setState({
-                    winner: "Vinneren er svart." + text
+                    winner: "Vinneren er svart." + text,
+                    status: ''
                 });
             }
 
             else if (stalemate(white_positions, black_positions, squares, board)) {
                 this.setState({
-                    winner: "Der ble det patt, gitt!!"
+                    winner: "Der ble det patt, gitt!!",
+                    status: ''
                 });
             }
 
@@ -217,10 +211,7 @@ export default class P_V_AI extends Component {
                                     last_squares: this.state.last_squares + 1,
                                     all_moves: all_moves,
                                     source_selection: -1,
-                                    status: '',
-                                    ai_turn_text: "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt.",
-                                    // debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
-                                    // debug_2: "Debug 2: " +
+                                    status: "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt."
                                 });
                             }
                             else {
@@ -261,10 +252,7 @@ export default class P_V_AI extends Component {
                         last_move: move,
                         all_moves: all_moves,
                         source_selection: -1,
-                        status: '',
-                        ai_turn_text: "Det er din tur. Gjør noe lurt!",
-                        // debug_1: "Debug 1: " + evaluate_board(updated[0], updated[1], updated[2], updated[3]),
-                        // debug_2: "Debug 2: " +
+                        status: "Det er din tur. Gjør noe lurt!"
                     });
                 }
             }
@@ -337,33 +325,31 @@ export default class P_V_AI extends Component {
 
     render() {
         return (
-            <div>
-                <div className="game">
-                    <div className="taken_pieces">
-                        <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
-                    </div>
-                    <div className="game_board">
-                        <div className="buttons">
-                            <button className="button" onClick={(i) => this.first_squares()}>I&lt;</button>
-                            <button className="button" onClick={(i) => this.previous_squares()}>&lt;</button>
+            <div className="home">
+                <div className="game_border">
+                    <div className="game">
+                        <div className="taken_pieces">
+                            <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
                         </div>
-                        <Board
-                            squares = {this.state.rendered_squares}
-                            onClick = {(i) => this.handle_click(i)}
-                        />
-                        <div className="buttons">
-                            <button className="button" onClick={(i) => this.next_squares()}>&gt;</button>
-                            <button className="button" onClick={(i) => this.latest_squares()}>&gt;I</button>
+                        <div className="game_board">
+                            <div className="buttons">
+                                <button className="button" onClick={(i) => this.first_squares()}>I&lt;</button>
+                                <button className="button" onClick={(i) => this.previous_squares()}>&lt;</button>
+                            </div>
+                            <Board
+                                squares = {this.state.rendered_squares}
+                                onClick = {(i) => this.handle_click(i)}
+                            />
+                            <div className="buttons">
+                                <button className="button" onClick={(i) => this.next_squares()}>&gt;</button>
+                                <button className="button" onClick={(i) => this.latest_squares()}>&gt;I</button>
+                            </div>
                         </div>
+                        <div className="taken_pieces">
+                            <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
+                        </div>
+                        <div className="game_status">{this.state.status}{this.state.winner}</div>
                     </div>
-                    <div className="taken_pieces">
-                        <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
-                    </div>
-                    <div className="ai_turn_text">{this.state.ai_turn_text}</div>
-                    <div className="game_status">{this.state.status}</div>
-                    <div className="debug">{this.state.winner}</div>
-                    <div className="debug">{this.state.debug_1}</div>
-                    <div className="debug">{this.state.debug_2}</div>
                 </div>
             </div>
         );
