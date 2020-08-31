@@ -13,7 +13,6 @@ import white_has_won from "../game_over/white_has_won";
 import black_has_won from "../game_over/black_has_won";
 import stalemate from "../game_over/stalemate";
 import opposite_player from "../helpers/opposite_player";
-import evaluate_board from "../helpers/evaluate_board";
 
 export default class P_V_P extends React.Component {
     constructor(props) {
@@ -32,6 +31,7 @@ export default class P_V_P extends React.Component {
             current_squares: 0,
             last_squares: 0,
             all_moves: [],
+            all_taken_pieces: [],
             white_taken_pieces: [],
             black_taken_pieces: [],
             source_selection: -1,
@@ -77,7 +77,7 @@ export default class P_V_P extends React.Component {
             else {
                 if (this.state.source_selection === -1) {
                     if (!squares[i] || squares[i].player !== this.state.turn) {
-                        this.setState({status: "Du må velge din brikke!"});
+                        this.setState({status: "Du må velge din brikke."});
                     }
                     else {
                         if (is_light_square(i)) {
@@ -111,7 +111,7 @@ export default class P_V_P extends React.Component {
                         if (this.state.source_selection === i) {
                             this.setState({
                                 rendered_squares: cleared_squares,
-                                status: "Du kan ikke flytte dit. Velg en ny brikke!",
+                                status: "Du kan ikke flytte dit. Velg en ny brikke.",
                                 source_selection: -1,
                             });
                         }
@@ -178,7 +178,7 @@ export default class P_V_P extends React.Component {
                         else {
                             this.setState({
                                 rendered_squares: cleared_squares,
-                                status: "Du kan ikke flytte dit. Velg en ny brikke!",
+                                status: "Du kan ikke flytte dit. Velg en ny brikke.",
                                 source_selection: -1,
                             });
                         }
@@ -188,47 +188,62 @@ export default class P_V_P extends React.Component {
         }
         else {
             this.setState({
-                status: "Du kan ikke gjøre trekket ditt nå. Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt!"
+                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
             });
         }
     }
 
     first_squares() {
-        if (this.state.board[1] === 1) {
-            this.setState({
-                current_squares: 0,
-                rendered_squares: clear_colors(this.state.all_squares[0])
-            });
-        }
+        this.setState({
+            current_squares: 0,
+            rendered_squares: clear_colors(this.state.all_squares[0]),
+            white_taken_pieces: [],
+            black_taken_pieces: []
+        });
     }
 
     previous_squares() {
-        if (this.state.board[1] === 1) {
-            if (this.state.current_squares > 0) {
+        if (this.state.current_squares > 0) {
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
+            if (this.state.current_squares === 1) {
                 this.setState({
                     current_squares: this.state.current_squares-1,
-                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2])
+                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2]),
+                    white_taken_pieces: [],
+                    black_taken_pieces: []
+                });
+            }
+            else {
+                this.setState({
+                    current_squares: this.state.current_squares-1,
+                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2]),
+                    white_taken_pieces: all_taken_pieces[2*this.state.current_squares-4],
+                    black_taken_pieces: all_taken_pieces[2*this.state.current_squares-3]
                 });
             }
         }
     }
 
     next_squares() {
-        if (this.state.board[1] === 1){
-            if (this.state.current_squares < this.state.last_squares) {
-                this.setState({
-                    current_squares: this.state.current_squares+1,
-                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares+1], this.state.all_moves[this.state.current_squares])
-                });
-            }
+        if (this.state.current_squares < this.state.last_squares) {
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
+            this.setState({
+                current_squares: this.state.current_squares+1,
+                rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares+1], this.state.all_moves[this.state.current_squares]),
+                white_taken_pieces: all_taken_pieces[2*this.state.current_squares],
+                black_taken_pieces: all_taken_pieces[2*this.state.current_squares+1]
+            });
         }
     }
 
     latest_squares() {
-        if (this.state.board[1] === 1) {
+        if (this.state.current_squares < this.state.last_squares) {
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
             this.setState({
                 current_squares: this.state.last_squares,
-                rendered_squares: clear_colors(this.state.all_squares[this.state.last_squares], this.state.all_moves[this.state.last_squares-1])
+                rendered_squares: clear_colors(this.state.all_squares[this.state.last_squares], this.state.all_moves[this.state.last_squares-1]),
+                white_taken_pieces: all_taken_pieces[2*this.state.last_squares-2],
+                black_taken_pieces: all_taken_pieces[2*this.state.last_squares-1]
             });
         }
     }
@@ -237,6 +252,7 @@ export default class P_V_P extends React.Component {
         const squares = this.state.squares.slice();
         const white_taken_pieces = this.state.white_taken_pieces.slice();
         const black_taken_pieces = this.state.black_taken_pieces.slice();
+        const all_taken_pieces = this.state.all_taken_pieces.slice();
         if (squares[i] != null) {
             if (squares[i].player === 1) {
                 white_taken_pieces.push(squares[i]);
@@ -245,38 +261,42 @@ export default class P_V_P extends React.Component {
                 black_taken_pieces.push(squares[i]);
             }
         }
+        all_taken_pieces.push(white_taken_pieces);
+        all_taken_pieces.push(black_taken_pieces);
         this.setState({
             white_taken_pieces: white_taken_pieces,
             black_taken_pieces: black_taken_pieces,
+            all_taken_pieces: all_taken_pieces
         });
     }
 
 
     render() {
         return (
-            <div>
+            <div className="home">
                 <div className="game_border">
                     <div className="game">
                         <div className="taken_pieces">
                             <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
                         </div>
                         <div className="game_board">
-                            <div className="buttons">
-                                <button className="button" onClick={(i) => this.first_squares()}>I&lt;</button>
-                                <button className="button" onClick={(i) => this.previous_squares()}>&lt;</button>
+                            <div className="game_buttons">
+                                <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
+                                <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
                             </div>
                             <Board
                                 squares = {this.state.rendered_squares}
                                 onClick = {(i) => this.handle_click(i)}
                             />
-                            <div className="buttons">
-                                <button className="button" onClick={(i) => this.next_squares()}>&gt;</button>
-                                <button className="button" onClick={(i) => this.latest_squares()}>&gt;I</button>
+                            <div className="game_buttons">
+                                <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
+                                <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
                             </div>
                         </div>
                         <div className="taken_pieces">
                             <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
                         </div>
+                        <div>{this.state.current_squares} + + + {this.state.all_taken_pieces.length} + + {this.state.last_squares}</div>
                         <div className="game_status">{this.state.status}{this.state.winner}</div>
                     </div>
                 </div>

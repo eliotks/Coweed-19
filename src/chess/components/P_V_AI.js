@@ -13,7 +13,6 @@ import is_light_square from "../helpers/is_light_square";
 import white_has_won from "../game_over/white_has_won";
 import black_has_won from "../game_over/black_has_won";
 import stalemate from "../game_over/stalemate";
-import evaluate_board from "../helpers/evaluate_board";
 import opposite_player from "../helpers/opposite_player";
 
 export default class P_V_AI extends Component {
@@ -25,10 +24,10 @@ export default class P_V_AI extends Component {
         const black_positions = this.props.player === 1 ? top_positions : bottom_positions;
         let text;
         if (this.props.player === 1) {
-            text = "Det er din tur. Gjør no lurt!";
+            text = "Det er din tur. Gjør noe lurt!";
         }
         else {
-            text = "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt.";
+            text = "Det er motstanderen sin tur.";
         }
         this.state = {
             white_positions: white_positions,
@@ -41,6 +40,7 @@ export default class P_V_AI extends Component {
             last_squares: 0,
             last_move: null,
             all_moves: [],
+            all_taken_pieces: [],
             white_taken_pieces: [],
             black_taken_pieces: [],
             source_selection: -1,
@@ -68,6 +68,8 @@ export default class P_V_AI extends Component {
     // kanskje tid/klokke hadde vært nais
 
     // virker som man kan ta rokkade mens man står i sjakk - ikke bra
+
+    // all_taken_pieces-logikken må på plass!
 
 
     handle_click(i) {
@@ -117,7 +119,7 @@ export default class P_V_AI extends Component {
                 if (board[1] === this.props.player) {
                     if (this.state.source_selection === -1) {
                         if (!squares[i] || squares[i].player !== this.props.player) {
-                            this.setState({status: "Du må velge din brikke!"});
+                            this.setState({status: "Du må velge din brikke."});
                         }
                         else {
                             if (is_light_square(i)) {
@@ -151,7 +153,7 @@ export default class P_V_AI extends Component {
                             if (this.state.source_selection === i) {
                                 this.setState({
                                     rendered_squares: cleared_squares,
-                                    status: "Du kan ikke flytte dit. Velg en ny brikke!",
+                                    status: "Du kan ikke flytte dit. Velg en ny brikke.",
                                     source_selection: -1,
                                 });
                             }
@@ -211,13 +213,17 @@ export default class P_V_AI extends Component {
                                     last_squares: this.state.last_squares + 1,
                                     all_moves: all_moves,
                                     source_selection: -1,
-                                    status: "Det er motstanderen sin tur. Trykk hvor som helst på brettet for at motstanderen skal gjøre trekket sitt."
+                                    status: "Det er motstanderen sin tur."
                                 });
+
+                                this.forceUpdate();
+
+                                this.handle_click();
                             }
                             else {
                                 this.setState({
                                     rendered_squares: cleared_squares,
-                                    status: "Du kan ikke flytte dit. Velg en ny brikke!",
+                                    status: "Du kan ikke flytte dit. Velg en ny brikke.",
                                     source_selection: -1,
                                 });
                             }
@@ -259,47 +265,64 @@ export default class P_V_AI extends Component {
         }
         else {
             this.setState({
-                status: "Du kan ikke gjøre trekket ditt nå. Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt!"
+                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
             });
         }
     }
 
     first_squares() {
-        if (this.state.board[1] === this.props.player) {
-            this.setState({
-                current_squares: 0,
-                rendered_squares: clear_colors(this.state.all_squares[0])
-            });
-        }
+        this.setState({
+            current_squares: 0,
+            rendered_squares: clear_colors(this.state.all_squares[0]),
+            white_taken_pieces: [],
+            black_taken_pieces: []
+        });
     }
 
     previous_squares() {
-        if (this.state.board[1] === this.props.player) {
-            if (this.state.current_squares > 0) {
+        if (this.state.board[1] === this.props.player && this.state.current_squares > 0) {
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
+            if (this.state.current_squares === 1) {
                 this.setState({
                     current_squares: this.state.current_squares-1,
-                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2])
+                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2]),
+                    white_taken_pieces: [],
+                    black_taken_pieces: []
+                });
+            }
+            else {
+                this.setState({
+                    current_squares: this.state.current_squares-1,
+                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares-1], this.state.all_moves[this.state.current_squares-2]),
+                    white_taken_pieces: all_taken_pieces[2*this.state.current_squares-4],
+                    black_taken_pieces: all_taken_pieces[2*this.state.current_squares-3]
                 });
             }
         }
     }
 
     next_squares() {
-        if (this.state.board[1] === this.props.player){
+        if (this.state.board[1] === this.props.player && this.state.current_squares < this.state.last_squares){
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
             if (this.state.current_squares < this.state.last_squares) {
                 this.setState({
                     current_squares: this.state.current_squares+1,
-                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares+1], this.state.all_moves[this.state.current_squares])
+                    rendered_squares: clear_colors(this.state.all_squares[this.state.current_squares+1], this.state.all_moves[this.state.current_squares]),
+                    white_taken_pieces: all_taken_pieces[2*this.state.current_squares],
+                    black_taken_pieces: all_taken_pieces[2*this.state.current_squares+1]
                 });
             }
         }
     }
 
     latest_squares() {
-        if (this.state.board[1] === this.props.player) {
+        if (this.state.board[1] === this.props.player && this.state.current_squares < this.state.last_squares) {
+            const all_taken_pieces = this.state.all_taken_pieces.slice();
             this.setState({
                 current_squares: this.state.last_squares,
-                rendered_squares: clear_colors(this.state.all_squares[this.state.last_squares], this.state.all_moves[this.state.last_squares-1])
+                rendered_squares: clear_colors(this.state.all_squares[this.state.last_squares], this.state.all_moves[this.state.last_squares-1]),
+                white_taken_pieces: all_taken_pieces[2*this.state.last_squares-2],
+                black_taken_pieces: all_taken_pieces[2*this.state.last_squares-1]
             });
         }
     }
@@ -308,20 +331,23 @@ export default class P_V_AI extends Component {
         const squares = this.state.squares.slice();
         const white_taken_pieces = this.state.white_taken_pieces.slice();
         const black_taken_pieces = this.state.black_taken_pieces.slice();
+        const all_taken_pieces = this.state.all_taken_pieces.slice();
         if (squares[i] != null) {
-            if (squares[i].player === 1) {
+            if (squares[i].player === this.props.player) {
                 white_taken_pieces.push(squares[i]);
             }
             else {
                 black_taken_pieces.push(squares[i]);
             }
         }
+        all_taken_pieces.push(white_taken_pieces);
+        all_taken_pieces.push(black_taken_pieces);
         this.setState({
             white_taken_pieces: white_taken_pieces,
             black_taken_pieces: black_taken_pieces,
+            all_taken_pieces: all_taken_pieces
         });
     }
-
 
     render() {
         return (
@@ -332,17 +358,17 @@ export default class P_V_AI extends Component {
                             <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
                         </div>
                         <div className="game_board">
-                            <div className="buttons">
-                                <button className="button" onClick={(i) => this.first_squares()}>I&lt;</button>
-                                <button className="button" onClick={(i) => this.previous_squares()}>&lt;</button>
+                            <div className="game_buttons">
+                                <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
+                                <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
                             </div>
                             <Board
                                 squares = {this.state.rendered_squares}
                                 onClick = {(i) => this.handle_click(i)}
                             />
-                            <div className="buttons">
-                                <button className="button" onClick={(i) => this.next_squares()}>&gt;</button>
-                                <button className="button" onClick={(i) => this.latest_squares()}>&gt;I</button>
+                            <div className="game_buttons">
+                                <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
+                                <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
                             </div>
                         </div>
                         <div className="taken_pieces">

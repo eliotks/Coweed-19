@@ -44,7 +44,7 @@ export default class App extends Component {
                         <div>
                             <div className="header" />
                             <div className="home">
-                                <img className="logo" src={logo} />
+                                <img className="logo" src={logo} alt=""/>
                                 <div className="welcome">Vil du spille som hvit eller svart?</div>
                                 <div className="welcome_buttons">
                                     <button className="welcome_button" onClick={(i) => this.white_click()}>
@@ -63,7 +63,7 @@ export default class App extends Component {
                         <div>
                             <div className="header" />
                             <div className="home">
-                                <img className="logo" src={logo} />
+                                <img className="logo" src={logo} alt=""/>
                                 <div className="welcome">Hvilken vanskelighetsgrad ønsker du?</div>
                                 <div className="welcome_buttons">
                                     <button className="welcome_button" onClick={(i) => this.easy_click()}>
@@ -99,7 +99,7 @@ export default class App extends Component {
                 <div>
                     <div className="header" />
                     <div className="home">
-                        <img className="logo" src={logo} />
+                        <img className="logo" src={logo} alt=""/>
                         <div className="welcome">Hvem vil du spille mot?</div>
                         <div className="welcome_buttons">
                             <button className="welcome_button" onClick={(i) => this.left_click()}>
