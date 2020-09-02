@@ -296,7 +296,6 @@ export default class P_V_P extends React.Component {
                         <div className="taken_pieces">
                             <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
                         </div>
-                        <div>{this.state.current_squares} + + + {this.state.all_taken_pieces.length} + + {this.state.last_squares}</div>
                         <div className="game_status">{this.state.status}{this.state.winner}</div>
                     </div>
                 </div>

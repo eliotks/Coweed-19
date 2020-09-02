@@ -4,11 +4,12 @@ import Square from './Square.js';
 
 export default class Board extends React.Component {
 
-    renderSquare(i, squareShade) {
+    render_square(i, square_shade) {
         return <Square
+            key = {i}
             piece = {this.props.squares[i]}
-            style = {this.props.squares[i]? this.props.squares[i].style : null}
-            shade = {squareShade}
+            style = {this.props.squares[i] ? this.props.squares[i].style : null}
+            shade = {square_shade}
             onClick={() => this.props.onClick(i)}
         />
     }
@@ -16,12 +17,12 @@ export default class Board extends React.Component {
     render() {
         const board = [];
         for(let i = 0; i < 8; i++){
-            const squareRows = [];
+            const square_rows = [];
             for(let j = 0; j < 8; j++){
-                const squareShade = (isEven(i) && isEven(j)) || (!isEven(i) && !isEven(j))? "light_square" : "dark_square";
-                squareRows.push(this.renderSquare((i*8) + j, squareShade));
+                const square_shade = (is_even(i) && is_even(j)) || (!is_even(i) && !is_even(j))? "light_square" : "dark_square";
+                square_rows.push(this.render_square((i*8) + j, square_shade));
             }
-            board.push(<div>{squareRows}</div>)
+            board.push(<div key={(i)}>{square_rows}</div>)
         }
 
         return (
@@ -32,6 +33,6 @@ export default class Board extends React.Component {
     }
 }
 
-function isEven(num){
+function is_even(num){
     return num % 2 === 0
 }

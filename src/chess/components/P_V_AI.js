@@ -27,7 +27,7 @@ export default class P_V_AI extends Component {
             text = "Det er din tur. Gjør noe lurt!";
         }
         else {
-            text = "Det er motstanderen sin tur.";
+            text = "Trykk hvor som helst på brettet for å starte partiet.";
         }
         this.state = {
             white_positions: white_positions,
@@ -69,8 +69,6 @@ export default class P_V_AI extends Component {
 
     // virker som man kan ta rokkade mens man står i sjakk - ikke bra
 
-    // all_taken_pieces-logikken må på plass!
-
 
     handle_click(i) {
         if (this.state.current_squares === this.state.last_squares) {
@@ -79,162 +77,103 @@ export default class P_V_AI extends Component {
             const squares = this.state.squares.slice();
             const board = this.state.board.slice();
             const rendered_squares = this.state.rendered_squares.slice();
-
-            if (white_has_won(white_positions, black_positions, squares, board)) {
-                let text;
-                if (this.props.player === 1) {
-                    text = "Bra spilt!";
-                }
-                else {
-                    text = "Her har du forbedringspotensiale!"
-                }
-                this.setState({
-                    winner: "Vinneren er hvit." + text,
-                    status: ''
-                });
-            }
-
-            else if (black_has_won(white_positions, black_positions, squares, board)) {
-                let text;
-                if (this.props.player === 2) {
-                    text = "Bra spilt!";
-                }
-                else {
-                    text = "Her har du forbedringspotensiale!"
-                }
-                this.setState({
-                    winner: "Vinneren er svart." + text,
-                    status: ''
-                });
-            }
-
-            else if (stalemate(white_positions, black_positions, squares, board)) {
-                this.setState({
-                    winner: "Der ble det patt, gitt!!",
-                    status: ''
-                });
-            }
-
-            else {
+            if (!this.game_over(white_positions, black_positions, squares, board)) {
                 if (board[1] === this.props.player) {
-                    if (this.state.source_selection === -1) {
-                        if (!squares[i] || squares[i].player !== this.props.player) {
-                            this.setState({status: "Du må velge din brikke."});
+                    this.move(i);
+                }
+                else {
+                    this.next_move();
+                }
+            }
+        }
+        else {
+            this.setState({
+                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
+            });
+        }
+    }
+
+    move(i) {
+        const white_positions = this.state.white_positions.slice();
+        const black_positions = this.state.black_positions.slice();
+        const squares = this.state.squares.slice();
+        const board = this.state.board.slice();
+        const rendered_squares = this.state.rendered_squares.slice();
+
+        if (this.state.source_selection === -1) {
+            if (!squares[i] || squares[i].player !== this.props.player) {
+                this.setState({status: "Du må velge din brikke."});
+            }
+            else {
+                if (is_light_square(i)) {
+                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                }
+                else {
+                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
+                }
+                const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
+                for (let i = 0; i < moves.length; i++) {
+                    if (is_legal_move(this.props.player, white_positions, black_positions, squares, board, moves[i])) {
+                        if (is_light_square(moves[i][1])) {
+                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
                         }
                         else {
-                            if (is_light_square(i)) {
-                                rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
-                            }
-                            else {
-                                rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
-                            }
-                            const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
-                            for (let i = 0; i < moves.length; i++) {
-                                if (is_legal_move(this.props.player, white_positions, black_positions, squares, board, moves[i])) {
-                                    if (is_light_square(moves[i][1])) {
-                                        rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
-                                    }
-                                    else {
-                                        rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
-                                    }
-                                }
-                            }
-                            this.setState({
-                                rendered_squares: rendered_squares,
-                                status: "Hvor vil du flytte brikken?",
-                                source_selection: i
-                            });
-                        }
-                    }
-
-                    else if (this.state.source_selection > -1) {
-                        const cleared_squares = clear_colors(rendered_squares, this.state.last_move);
-                        if (squares[i] && squares[i].player === this.props.player) {
-                            if (this.state.source_selection === i) {
-                                this.setState({
-                                    rendered_squares: cleared_squares,
-                                    status: "Du kan ikke flytte dit. Velg en ny brikke.",
-                                    source_selection: -1,
-                                });
-                            }
-                            else {
-                                if (is_light_square(i)) {
-                                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
-                                }
-                                else {
-                                    rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
-                                }
-                                const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
-                                for (let i = 0; i < moves.length; i++) {
-                                    if (is_legal_move(this.props.player, white_positions, black_positions, squares, board, moves[i])) {
-                                        if (is_light_square(moves[i][1])) {
-                                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
-                                        }
-                                        else {
-                                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
-                                        }
-                                    }
-                                }
-                                this.setState({
-                                    rendered_squares: rendered_squares,
-                                    status: "Hvor vil du flytte brikken?",
-                                    source_selection: i
-                                });
-                            }
-                        }
-                        else {
-                            const move = [this.state.source_selection, i];
-                            const moves = squares[this.state.source_selection].possible_moves(this.state.source_selection, squares, board, white_positions, black_positions);
-                            let move_string = JSON.stringify(move);
-                            let moves_string = JSON.stringify(moves);
-
-                            if (moves_string.indexOf(move_string) !== -1 && is_legal_move(this.props.player, white_positions, black_positions, squares, board, move)) {
-
-                                this.add_taken_piece(i);
-
-                                const updated = update_all(white_positions, black_positions, squares, board, move);
-
-                                const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move, this.props.player);
-
-                                const all_squares = this.state.all_squares;
-                                all_squares.push(updated_rendered_squares.slice());
-
-                                const all_moves = this.state.all_moves;
-                                all_moves.push(move);
-
-                                this.setState({
-                                    white_positions: updated[0],
-                                    black_positions: updated[1],
-                                    squares: updated[2],
-                                    board: updated[3],
-                                    rendered_squares: updated_rendered_squares,
-                                    all_squares: all_squares,
-                                    current_squares: this.state.current_squares + 1,
-                                    last_squares: this.state.last_squares + 1,
-                                    all_moves: all_moves,
-                                    source_selection: -1,
-                                    status: "Det er motstanderen sin tur."
-                                });
-
-                                this.forceUpdate();
-
-                                this.handle_click();
-                            }
-                            else {
-                                this.setState({
-                                    rendered_squares: cleared_squares,
-                                    status: "Du kan ikke flytte dit. Velg en ny brikke.",
-                                    source_selection: -1,
-                                });
-                            }
+                            rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
                         }
                     }
                 }
+                this.setState({
+                    rendered_squares: rendered_squares,
+                    status: "Hvor vil du flytte brikken?",
+                    source_selection: i
+                });
+            }
+        }
+
+        else if (this.state.source_selection > -1) {
+            const cleared_squares = clear_colors(rendered_squares, this.state.last_move);
+            if (squares[i] && squares[i].player === this.props.player) {
+                if (this.state.source_selection === i) {
+                    this.setState({
+                        rendered_squares: cleared_squares,
+                        status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                        source_selection: -1,
+                    });
+                }
                 else {
+                    if (is_light_square(i)) {
+                        rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(80,220,100)"};
+                    }
+                    else {
+                        rendered_squares[i].style = {...rendered_squares[i].style, backgroundColor: "RGB(0,150,30)"};
+                    }
+                    const moves = squares[i].possible_moves(i, squares, board, white_positions, black_positions);
+                    for (let i = 0; i < moves.length; i++) {
+                        if (is_legal_move(this.props.player, white_positions, black_positions, squares, board, moves[i])) {
+                            if (is_light_square(moves[i][1])) {
+                                rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(80,220,100)"};
+                            }
+                            else {
+                                rendered_squares[moves[i][1]].style = {...rendered_squares[moves[i][1]].style, backgroundColor: "RGB(0,150,30)"};
+                            }
+                        }
+                    }
+                    this.setState({
+                        rendered_squares: rendered_squares,
+                        status: "Hvor vil du flytte brikken?",
+                        source_selection: i
+                    });
+                }
+            }
+            else {
+                const move = [this.state.source_selection, i];
+                const moves = squares[this.state.source_selection].possible_moves(this.state.source_selection, squares, board, white_positions, black_positions);
+                let move_string = JSON.stringify(move);
+                let moves_string = JSON.stringify(moves);
 
-                    const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board, this.props.difficulty);
+                if (moves_string.indexOf(move_string) !== -1 && is_legal_move(this.props.player, white_positions, black_positions, squares, board, move)) {
 
-                    this.add_taken_piece(move[1]);
+                    this.add_taken_piece(i);
 
                     const updated = update_all(white_positions, black_positions, squares, board, move);
 
@@ -251,23 +190,104 @@ export default class P_V_AI extends Component {
                         black_positions: updated[1],
                         squares: updated[2],
                         board: updated[3],
-                        rendered_squares: updated_rendered_squares,
                         all_squares: all_squares,
+                        rendered_squares: updated_rendered_squares,
                         current_squares: this.state.current_squares + 1,
                         last_squares: this.state.last_squares + 1,
-                        last_move: move,
                         all_moves: all_moves,
                         source_selection: -1,
-                        status: "Det er din tur. Gjør noe lurt!"
+                        status: "Det er motstanderen sin tur."
+                    }, () => this.next_move());
+                }
+                else {
+                    this.setState({
+                        rendered_squares: cleared_squares,
+                        status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                        source_selection: -1,
                     });
                 }
             }
         }
-        else {
+    }
+
+    next_move() {
+        const white_positions = this.state.white_positions.slice();
+        const black_positions = this.state.black_positions.slice();
+        const squares = this.state.squares.slice();
+        const board = this.state.board.slice();
+        const rendered_squares = this.state.rendered_squares.slice();
+
+        if (!this.game_over(white_positions, black_positions, squares, board)) {
+            const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board, this.props.difficulty);
+            this.add_taken_piece(move[1]);
+            
+            const updated = update_all(white_positions, black_positions, squares, board, move);
+            const updated_rendered_squares = update_rendered_squares(clear_colors(rendered_squares, null), move, this.props.player);
+            
+            const all_squares = this.state.all_squares;
+            all_squares.push(updated_rendered_squares.slice());
+
+            const all_moves = this.state.all_moves;
+            all_moves.push(move);
+
             this.setState({
-                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
+                white_positions: updated[0],
+                black_positions: updated[1],
+                squares: updated[2],
+                board: updated[3],
+                rendered_squares: updated_rendered_squares,
+                all_squares: all_squares,
+                current_squares: this.state.current_squares + 1,
+                last_squares: this.state.last_squares + 1,
+                last_move: move,
+                all_moves: all_moves,
+                source_selection: -1,
+                status: "Det er din tur. Gjør noe lurt!"
             });
         }
+    }
+
+    game_over(white_positions, black_positions, squares, board) {
+
+        if (white_has_won(white_positions, black_positions, squares, board)) {
+            let text;
+            if (this.props.player === 1) {
+                text = "Bra spilt!";
+            }
+            else {
+                text = "Her har du forbedringspotensiale!"
+            }
+            this.setState({
+                winner: "Vinneren er hvit. " + text,
+                status: ''
+            });
+            return true;
+        }
+
+        else if (black_has_won(white_positions, black_positions, squares, board)) {
+            let text;
+            if (this.props.player === 2) {
+                text = "Bra spilt!";
+            }
+            else {
+                text = "Her har du forbedringspotensiale!"
+            }
+            this.setState({
+                winner: "Vinneren er svart." + text,
+                status: ''
+            });
+            return true;
+        }
+
+        else if (stalemate(white_positions, black_positions, squares, board)) {
+            this.setState({
+                winner: "Der ble det patt, gitt!!",
+                status: ''
+            });
+            return true;
+        }
+
+        return false;
     }
 
     first_squares() {

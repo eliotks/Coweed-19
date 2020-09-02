@@ -40,7 +40,7 @@ body {
     width: 100%;
     position: absolute;
     overflow: hidden;
-    background:linear-gradient(rgba(25, 21, 255, 0.822),transparent);
+    background:linear-gradient(rgb(25, 21, 255),transparent);
     background-color:rgb(22, 26, 66);
 }
 
