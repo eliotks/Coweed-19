@@ -34,43 +34,27 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 90%;
+    height: 100%;
     left: 0;
-    top: 10%;
+    top: 0;
     width: 100%;
     position: absolute;
     overflow: hidden;
-    background:linear-gradient(rgb(25, 21, 255),transparent);
-    background-color:rgb(22, 26, 66);
+    background-image: url(background.jpg);
+    background-color: #F0F0F0;
 }
 
 .game {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 90%;
-    left: 20%;
-    top: 1%;
-    width: 60%;
-    position: absolute;
-    background:linear-gradient(rgba(255, 237, 213, 0.767),transparent);
-    background-color:rgb(255, 221, 170);    
-}
-
-.game_border {
-    top: 0;
-    height: 92%;
-    width: 61%;
-    background-color: rgb(63, 42, 28);
-    box-shadow: 3px 3px 6px 1px rgb(49, 29, 0);
+    padding-top: 120px;  
 }
 
 .game_status {
-    margin-top: 12px;
-    margin-bottom: 12px;
     font-size: 24px;
-    color: black;
-    font-weight: bold;
+    color: white;
+    font-weight: 500;
 }
 
 .taken_pieces {
@@ -86,7 +70,9 @@ body {
 }
 
 .board {
-    border: 5px solid rgb(63, 42, 28);
+    border: 5px solid #000000;
+    -webkit-box-shadow: 0 0 20px #DADADA;
+        box-shadow: 0 0 20px #DADADA;
 }
 
 .button {
@@ -99,36 +85,46 @@ body {
 }
 
 .game_button {
+    border-radius: 10px;
     padding: 10px;
     margin: 8px;
     font-size: 20px;
     font-weight: bold;
-    border: 2px solid rgb(63, 42, 28);
-    background-color: rgb(255, 245, 232);
-    color: rgb(63, 42, 28);
+    border: 2px solid #000000;
+    background-color: #FFFFFF;
+    color: #000000;
     outline: none;
+    -webkit-box-shadow: 0 0 4px #000000;
+        box-shadow: 0 0 4px #000000;
 }
 
 .game_button:hover {
-    background-color: rgb(63, 42, 28);;
-    color: rgb(255, 245, 232);
-    box-shadow: 5px 5px 8px 2px rgba(133, 95, 52, 0.527);
+    background-color: #000000;
+    color: #FFFFFF;
+    -webkit-box-shadow: 0 0 20px #000000;
+        box-shadow: 0 0 20px #000000;
 }
 
 .back_button {
-    margin: 12px;
+    border-radius: 10px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
     padding: 8px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     border: 2px solid black;
     background-color: white;
     outline: none;
+    -webkit-box-shadow: 0 0 4px #000000;
+        box-shadow: 0 0 4px #000000;
 }
 
 .back_button:hover {
     background-color: black;
     color: white;
-    box-shadow: 4px 4px 40px 2px rgb(34, 34, 34);
+    -webkit-box-shadow: 0 0 20px #000000;
+        box-shadow: 0 0 20px #000000;
 }
 
 .welcome_buttons {
@@ -141,44 +137,34 @@ body {
     padding: 10px;
     margin: 8px;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 600;
     border: 2px solid black;
     background-color: white;
     color: black;
     outline: none;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 4px #000000;
+        box-shadow: 0 0 4px #000000;
 }
 
 .welcome_button:hover {
     background-color: black;
     color: white;
-    box-shadow: 6px 6px 40px 2px rgb(34, 34, 34);
+    -webkit-box-shadow: 0 0 16px #000000;
+        box-shadow: 0 0 16px #000000;
 }
 
 .welcome {
     text-align: center;
-    color: rgb(240, 240, 240);
-    font-weight: bold;
-    font-size: 32px;
-    margin: 18px;
-    padding: 18px;
-}
-
-.in_game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: #FFFFFF;
+    font-weight: 500;
+    font-size: 28px;
+    padding-top: 50px;
+    padding-bottom: 20px;
 }
 
 .logo {
-    margin-top: 10px;
-}
-
-.header {
-    height: 10%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    background-color: #030D17;
-    position: absolute;
-    overflow: hidden;
+    margin-top: 120px;
+    -webkit-box-shadow: 0 0 20px #DADADA;
+        box-shadow: 0 0 20px #DADADA;
 }

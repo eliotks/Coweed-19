@@ -24,10 +24,10 @@ export default class P_V_AI extends Component {
         const black_positions = this.props.player === 1 ? top_positions : bottom_positions;
         let text;
         if (this.props.player === 1) {
-            text = "Det er din tur. Gjør noe lurt!";
+            text = "It is your turn!";
         }
         else {
-            text = "Trykk hvor som helst på brettet for å starte partiet.";
+            text = "Click anywhere on the board to start the game!";
         }
         this.state = {
             white_positions: white_positions,
@@ -79,30 +79,29 @@ export default class P_V_AI extends Component {
             const rendered_squares = this.state.rendered_squares.slice();
             if (!this.game_over(white_positions, black_positions, squares, board)) {
                 if (board[1] === this.props.player) {
-                    this.move(i);
+                    this.move(i, white_positions, black_positions, squares, board, rendered_squares);
                 }
                 else {
-                    this.next_move();
+                    this.next_move(white_positions, black_positions, squares, board, rendered_squares);
                 }
             }
         }
         else {
             this.setState({
-                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
+                status: "Press '>|' in order to be able to make a move."
             });
         }
     }
 
-    move(i) {
-        const white_positions = this.state.white_positions.slice();
-        const black_positions = this.state.black_positions.slice();
-        const squares = this.state.squares.slice();
-        const board = this.state.board.slice();
-        const rendered_squares = this.state.rendered_squares.slice();
-
+    move(i, white_positions, black_positions, squares, board, rendered_squares) {
+        
         if (this.state.source_selection === -1) {
             if (!squares[i] || squares[i].player !== this.props.player) {
-                this.setState({status: "Du må velge din brikke."});
+                let message = "You must choose a black piece."
+                if (this.props.player === 1) {
+                    message = "You must choose a white piece."
+                }
+                this.setState({status: message});
             }
             else {
                 if (is_light_square(i)) {
@@ -124,7 +123,7 @@ export default class P_V_AI extends Component {
                 }
                 this.setState({
                     rendered_squares: rendered_squares,
-                    status: "Hvor vil du flytte brikken?",
+                    status: "Where do you want to move?",
                     source_selection: i
                 });
             }
@@ -136,7 +135,7 @@ export default class P_V_AI extends Component {
                 if (this.state.source_selection === i) {
                     this.setState({
                         rendered_squares: cleared_squares,
-                        status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                        status: "You can not move there.",
                         source_selection: -1,
                     });
                 }
@@ -160,7 +159,7 @@ export default class P_V_AI extends Component {
                     }
                     this.setState({
                         rendered_squares: rendered_squares,
-                        status: "Hvor vil du flytte brikken?",
+                        status: "Where do you want to move?",
                         source_selection: i
                     });
                 }
@@ -196,13 +195,13 @@ export default class P_V_AI extends Component {
                         last_squares: this.state.last_squares + 1,
                         all_moves: all_moves,
                         source_selection: -1,
-                        status: "Det er motstanderen sin tur."
-                    }, () => this.next_move());
+                        status: "Click anywhere on the board for the opponent to make a move."
+                    });
                 }
                 else {
                     this.setState({
                         rendered_squares: cleared_squares,
-                        status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                        status: "You can not move there.",
                         source_selection: -1,
                     });
                 }
@@ -210,15 +209,9 @@ export default class P_V_AI extends Component {
         }
     }
 
-    next_move() {
-        const white_positions = this.state.white_positions.slice();
-        const black_positions = this.state.black_positions.slice();
-        const squares = this.state.squares.slice();
-        const board = this.state.board.slice();
-        const rendered_squares = this.state.rendered_squares.slice();
+    next_move(white_positions, black_positions, squares, board, rendered_squares) {
 
-        if (!this.game_over(white_positions, black_positions, squares, board)) {
-            const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board, this.props.difficulty);
+        const move = find_next_move(opposite_player(this.props.player), white_positions, black_positions, squares, board, this.props.difficulty);
             this.add_taken_piece(move[1]);
             
             const updated = update_all(white_positions, black_positions, squares, board, move);
@@ -242,9 +235,8 @@ export default class P_V_AI extends Component {
                 last_move: move,
                 all_moves: all_moves,
                 source_selection: -1,
-                status: "Det er din tur. Gjør noe lurt!"
+                status: "It is your turn!"
             });
-        }
     }
 
     game_over(white_positions, black_positions, squares, board) {
@@ -252,13 +244,13 @@ export default class P_V_AI extends Component {
         if (white_has_won(white_positions, black_positions, squares, board)) {
             let text;
             if (this.props.player === 1) {
-                text = "Bra spilt!";
+                text = "Well played!";
             }
             else {
-                text = "Her har du forbedringspotensiale!"
+                text = "Better luck next time!"
             }
             this.setState({
-                winner: "Vinneren er hvit. " + text,
+                winner: "White has won. " + text,
                 status: ''
             });
             return true;
@@ -267,13 +259,13 @@ export default class P_V_AI extends Component {
         else if (black_has_won(white_positions, black_positions, squares, board)) {
             let text;
             if (this.props.player === 2) {
-                text = "Bra spilt!";
+                text = "Well played!";
             }
             else {
-                text = "Her har du forbedringspotensiale!"
+                text = "Better luck next time!"
             }
             this.setState({
-                winner: "Vinneren er svart." + text,
+                winner: "Black has won." + text,
                 status: ''
             });
             return true;
@@ -281,7 +273,7 @@ export default class P_V_AI extends Component {
 
         else if (stalemate(white_positions, black_positions, squares, board)) {
             this.setState({
-                winner: "Der ble det patt, gitt!!",
+                winner: "Stalemate!",
                 status: ''
             });
             return true;
@@ -371,32 +363,28 @@ export default class P_V_AI extends Component {
 
     render() {
         return (
-            <div className="home">
-                <div className="game_border">
-                    <div className="game">
-                        <div className="taken_pieces">
-                            <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
-                        </div>
-                        <div className="game_board">
-                            <div className="game_buttons">
-                                <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
-                                <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
-                            </div>
-                            <Board
-                                squares = {this.state.rendered_squares}
-                                onClick = {(i) => this.handle_click(i)}
-                            />
-                            <div className="game_buttons">
-                                <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
-                                <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
-                            </div>
-                        </div>
-                        <div className="taken_pieces">
-                            <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
-                        </div>
-                        <div className="game_status">{this.state.status}{this.state.winner}</div>
+            <div className="game">
+                <div className="taken_pieces">
+                    <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
+                </div>
+                <div className="game_board">
+                    <div className="game_buttons">
+                        <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
+                        <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
+                    </div>
+                    <Board
+                        squares = {this.state.rendered_squares}
+                        onClick = {(i) => this.handle_click(i)}
+                    />
+                    <div className="game_buttons">
+                        <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
+                        <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
                     </div>
                 </div>
+                <div className="taken_pieces">
+                    <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
+                </div>
+                <div className="game_status">{this.state.status}{this.state.winner}</div>
             </div>
         );
     }

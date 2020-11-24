@@ -55,21 +55,21 @@ export default class P_V_P extends React.Component {
 
             if (white_has_won(white_positions, black_positions, squares, board)) {
                 this.setState({
-                    winner: "Vinneren er hvit!",
+                    winner: "The winner is white!",
                     status: ''
                 });
             }
 
             else if (black_has_won(white_positions, black_positions, squares, board)) {
                 this.setState({
-                    winner: "Vinneren er svart!",
+                    winner: "The winner is black!",
                     status: ''
                 });
             }
 
             else if (stalemate(white_positions, black_positions, squares, board)) {
                 this.setState({
-                    winner: "Der ble det patt, gitt!",
+                    winner: "Stalemate!",
                     status: ''
                 });
             }
@@ -77,7 +77,11 @@ export default class P_V_P extends React.Component {
             else {
                 if (this.state.source_selection === -1) {
                     if (!squares[i] || squares[i].player !== this.state.turn) {
-                        this.setState({status: "Du må velge din brikke."});
+                        let message = "You must choose a black piece."
+                        if (this.state.turn === 1) {
+                            message = "You must choose a white piece."
+                        }
+                        this.setState({status: message});
                     }
                     else {
                         if (is_light_square(i)) {
@@ -99,7 +103,7 @@ export default class P_V_P extends React.Component {
                         }
                         this.setState({
                             rendered_squares: rendered_squares,
-                            status: "Hvor vil du flytte brikken?",
+                            status: "Where do you want to move?",
                             source_selection: i
                         });
                     }
@@ -111,7 +115,7 @@ export default class P_V_P extends React.Component {
                         if (this.state.source_selection === i) {
                             this.setState({
                                 rendered_squares: cleared_squares,
-                                status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                                status: "You can not move there.",
                                 source_selection: -1,
                             });
                         }
@@ -135,7 +139,7 @@ export default class P_V_P extends React.Component {
                             }
                             this.setState({
                                 rendered_squares: rendered_squares,
-                                status: "Hvor vil du flytte brikken?",
+                                status: "Where do you want to move?",
                                 source_selection: i
                             });
                         }
@@ -178,7 +182,7 @@ export default class P_V_P extends React.Component {
                         else {
                             this.setState({
                                 rendered_squares: cleared_squares,
-                                status: "Du kan ikke flytte dit. Velg en ny brikke.",
+                                status: "You can not move there.",
                                 source_selection: -1,
                             });
                         }
@@ -188,7 +192,7 @@ export default class P_V_P extends React.Component {
         }
         else {
             this.setState({
-                status: "Trykk på '>|' helt til høyre for å kunne gjøre trekket ditt."
+                status: "Press '>|' in order to be able to make a move."
             });
         }
     }
@@ -273,32 +277,28 @@ export default class P_V_P extends React.Component {
 
     render() {
         return (
-            <div className="home">
-                <div className="game_border">
-                    <div className="game">
-                        <div className="taken_pieces">
-                            <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
-                        </div>
-                        <div className="game_board">
-                            <div className="game_buttons">
-                                <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
-                                <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
-                            </div>
-                            <Board
-                                squares = {this.state.rendered_squares}
-                                onClick = {(i) => this.handle_click(i)}
-                            />
-                            <div className="game_buttons">
-                                <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
-                                <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
-                            </div>
-                        </div>
-                        <div className="taken_pieces">
-                            <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
-                        </div>
-                        <div className="game_status">{this.state.status}{this.state.winner}</div>
+            <div className="game">
+                <div className="taken_pieces">
+                    <TakenPieces taken_pieces = {this.state.white_taken_pieces} />
+                </div>
+                <div className="game_board">
+                    <div className="game_buttons">
+                        <button className="game_button" onClick={(i) => this.first_squares()}>I&lt;</button>
+                        <button className="game_button" onClick={(i) => this.previous_squares()}>&lt;</button>
+                    </div>
+                    <Board
+                        squares = {this.state.rendered_squares}
+                        onClick = {(i) => this.handle_click(i)}
+                    />
+                    <div className="game_buttons">
+                        <button className="game_button" onClick={(i) => this.next_squares()}>&gt;</button>
+                        <button className="game_button" onClick={(i) => this.latest_squares()}>&gt;I</button>
                     </div>
                 </div>
+                <div className="taken_pieces">
+                    <TakenPieces taken_pieces = {this.state.black_taken_pieces} />
+                </div>
+                <div className="game_status">{this.state.status}{this.state.winner}</div>
             </div>
         );
     }
