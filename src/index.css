@@ -178,8 +178,7 @@ body {
     width: 100%;
     top: 0;
     left: 0;
-    background:linear-gradient(rgba(0, 3, 36, 0.822),transparent);
-    background-color:rgb(25, 21, 255);
+    background-color: #030D17;
     position: absolute;
     overflow: hidden;
 }
