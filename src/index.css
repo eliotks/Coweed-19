@@ -1,7 +1,5 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
-    background-color: #ECECEA;
 }
 
 .square {
@@ -23,38 +21,62 @@ body {
     outline: none;
 }
 
+
+.dark_square {
+    background-color: rgb(119, 76, 45);
+}
+
+.light_square {
+    background-color: rgb(255, 214, 158);
+}
+
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    left: 0;
+    top: 10%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    background:linear-gradient(rgb(25, 21, 255),transparent);
+    background-color:rgb(22, 26, 66);
+}
+
 .game {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 90%;
+    left: 20%;
+    top: 1%;
+    width: 60%;
+    position: absolute;
+    background:linear-gradient(rgba(255, 237, 213, 0.767),transparent);
+    background-color:rgb(255, 221, 170);    
 }
 
-.game_status, .taken_pieces {
-    margin-top: 25px;
-    margin-bottom: 25px;
-    min-height: 50px;
-    font-size: 20px;
+.game_border {
+    top: 0;
+    height: 92%;
+    width: 61%;
+    background-color: rgb(63, 42, 28);
+    box-shadow: 3px 3px 6px 1px rgb(49, 29, 0);
 }
 
-.dark_square {
-    background-color: rgb(133,94,66);
-}
-
-.light_square {
-    background-color: rgb(218,184,136);
-}
-
-#player_turn_box {
-    width: 32px;
-    height: 32px;
-    border: 1px solid #000;
-    margin-bottom: 10px;
-}
-
-.ai_turn_text {
-    text-align: center;
-    justify-content: center;
+.game_status {
+    margin-top: 12px;
+    margin-bottom: 12px;
     font-size: 24px;
+    color: black;
+    font-weight: bold;
+}
+
+.taken_pieces {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    min-height: 50px;
 }
 
 .game_board {
@@ -63,31 +85,50 @@ body {
     align-items: center;
 }
 
+.board {
+    border: 5px solid rgb(63, 42, 28);
+}
+
 .button {
     padding: 12px;
     margin: 9px;
 }
 
-.buttons {
-    padding: 12px;
+.game_buttons {
+    padding: 30px;
 }
 
-.debug {
-    text-align: center;
-    font-size: 24px;
+.game_button {
+    padding: 10px;
+    margin: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid rgb(63, 42, 28);
+    background-color: rgb(255, 245, 232);
+    color: rgb(63, 42, 28);
+    outline: none;
 }
 
-.home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.game_button:hover {
+    background-color: rgb(63, 42, 28);;
+    color: rgb(255, 245, 232);
+    box-shadow: 5px 5px 8px 2px rgba(133, 95, 52, 0.527);
 }
 
-.welcome {
-    text-align: center;
-    font-size: 24px;
-    padding: 42px;
-    margin-top: 60px;
+.back_button {
+    margin: 12px;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: white;
+    outline: none;
+}
+
+.back_button:hover {
+    background-color: black;
+    color: white;
+    box-shadow: 4px 4px 40px 2px rgb(34, 34, 34);
 }
 
 .welcome_buttons {
@@ -97,8 +138,29 @@ body {
 }
 
 .welcome_button {
-    padding: 12px;
-    margin: 9px;
+    padding: 10px;
+    margin: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    outline: none;
+}
+
+.welcome_button:hover {
+    background-color: black;
+    color: white;
+    box-shadow: 6px 6px 40px 2px rgb(34, 34, 34);
+}
+
+.welcome {
+    text-align: center;
+    color: rgb(240, 240, 240);
+    font-weight: bold;
+    font-size: 32px;
+    margin: 18px;
+    padding: 18px;
 }
 
 .in_game {
@@ -107,7 +169,17 @@ body {
     align-items: center;
 }
 
-.back_button {
-    padding: 12px;
-    margin: 9px;
+.logo {
+    margin-top: 10px;
+}
+
+.header {
+    height: 10%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background:linear-gradient(rgba(0, 3, 36, 0.822),transparent);
+    background-color:rgb(25, 21, 255);
+    position: absolute;
+    overflow: hidden;
 }

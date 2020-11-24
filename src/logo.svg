@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="578" height="413">
+    <path d="M0 0 578 0 578 413 0 413 Z"/>
+
+    <rect x="4" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="4" y="37" fill="black" font-size="31">W</text>
+    <rect x="34" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="68" y="37" fill="black" font-size="31">E</text>
+    <rect x="94" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="128" y="37" fill="black" font-size="31">L</text>
+    <rect x="154" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="188" y="37" fill="black" font-size="31">C</text>
+    <rect x="214" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="247" y="37" fill="black" font-size="31">O</text>
+    <rect x="274" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="305" y="37" fill="black" font-size="31">M</text>
+    <rect x="334" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="368" y="37" fill="black" font-size="31">E</text>
+    <rect x="394" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="489" y="37" fill="black" font-size="31">T</text>
+    <rect x="514" y="4" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="4" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="548" y="37" fill="black" font-size="31">O</text>
+    
+    <rect x="4" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="49" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="49" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+
+    <rect x="4" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="6" y="127" fill="black" font-size="36">Q</text>
+    <rect x="34" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="66" y="129" fill="black" font-size="36">U</text>
+    <rect x="94" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="126" y="129" fill="black" font-size="36">A</text>
+    <rect x="154" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="187" y="129" fill="black" font-size="36">R</text>
+    <rect x="214" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="246" y="129" fill="black" font-size="36">A</text>
+    <rect x="274" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="306" y="129" fill="black" font-size="36">N</text>
+    <rect x="334" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="368" y="129" fill="black" font-size="36">T</text>
+    <rect x="394" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="433" y="129" fill="black" font-size="36">I</text>
+    <rect x="454" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="486" y="129" fill="black" font-size="36">N</text>
+    <rect x="514" y="94" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="94" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <text x="547" y="129" fill="black" font-size="36">E</text>
+    
+    <rect x="4" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="139" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="139" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    
+    <rect x="4" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="184" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="184" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="184" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="184" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="184" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="184" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="184" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="184" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="184" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="184" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    
+    <rect x="4" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="229" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="229" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="229" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="229" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="229" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="229" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    
+    <rect x="4" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="274" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="274" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="274" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="274" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="274" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="274" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="274" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="274" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="274" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="274" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="274" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    
+    <rect x="4" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="319" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="319" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="319" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="319" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="319" width="30" height="45" style="fill:rgb(255,188,119);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="319" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    
+    <rect x="4" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="34" y="364" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="64" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="94" y="364" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="124" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="154" y="364" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="184" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="214" y="364" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="244" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="274" y="364" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="304" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="334" y="364" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="364" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="394" y="364" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="424" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="454" y="364" width="30" height="45" style="fill:rgb(255,206,156);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="484" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="514" y="364" width="30" height="45" style="fill:rgb(150,75,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+    <rect x="544" y="364" width="30" height="45" style="fill:rgb(115,55,0);stroke-width:2.5;stroke:rgb(0,0,0)" />
+
+    <polyline points="4,184 94,184 94,229 34,229 34,364 94,364 94,409" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="124,409 124,184 154,184 154,274 184,274 184,184 214,184 214,409" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="154,409 154,319 184,319 184,409" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="244,409 244,184 334,184 334,229 274,229 274,274 334,274 334,319 274,319 274,364 334,364 334,409" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="364,409 364,364 424,364 424,319 364,319 364,184 454,184 454,229 394,229 394,274 454,274 454,409" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="484,409 484,364 544,364 544,319 484,319 484,184 574,184" style="fill:none;stroke:black;stroke-width:4" />
+    <polyline points="574,229 514,229 514,274 574,274" style="fill:none;stroke:black;stroke-width:4" />
+
+</svg>

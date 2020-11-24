@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../index.css';
 import P_V_AI from "./P_V_AI";
 import P_V_P from "./P_V_P";
+import logo from "../../logo.svg";
 
 export default class App extends Component {
 
@@ -27,9 +28,11 @@ export default class App extends Component {
         if (this.state.mode === 1) {
             return (
                 <div className="in_game">
-                    <button className="back_button" onClick={(i) => this.back_click()}>
-                        Tilbake
-                    </button>
+                    <div className="header">
+                        <button className="back_button" onClick={(i) => this.back_click()}>
+                            Tilbake
+                        </button>
+                    </div>
                     <P_V_P player={1}/>
                 </div>
             );
@@ -38,42 +41,41 @@ export default class App extends Component {
             if (this.state.player === 0 || this.state.difficulty === 0) {
                 if (this.state.player === 0) {
                     return (
-                        <div className="home">
-                            <div className="welcome">Jasså!</div>
-                            <div className="welcome">Vil du spille med hvite eller svarte brikker?</div>
-                            <div className="welcome_buttons">
-                                <button className="welcome_button" onClick={(i) => this.white_click()}>
-                                    Hvit
-                                </button>
-                                <button className="welcome_button" onClick={(i) => this.black_click()}>
-                                    Svart
-                                </button>
+                        <div>
+                            <div className="header" />
+                            <div className="home">
+                                <img className="logo" src={logo} alt=""/>
+                                <div className="welcome">Vil du spille som hvit eller svart?</div>
+                                <div className="welcome_buttons">
+                                    <button className="welcome_button" onClick={(i) => this.white_click()}>
+                                        Hvit
+                                    </button>
+                                    <button className="welcome_button" onClick={(i) => this.black_click()}>
+                                        Svart
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     );
                 }
                 else {
-                    let text;
-                    if (this.state.player === 1) {
-                        text = "Det var nok lurt å velge hvite brikker!"
-                    }
-                    else {
-                        text = "Meget dristig å velge svarte brikker!"
-                    }
                     return (
-                        <div className="home">
-                            <div className="welcome">{text}</div>
-                            <div className="welcome">Hvilken vanskelighetsgrad ønsker du?</div>
-                            <div className="welcome_buttons">
-                                <button className="welcome_button" onClick={(i) => this.easy_click()}>
-                                    Nybegynner
-                                </button>
-                                <button className="welcome_button" onClick={(i) => this.decent_click()}>
-                                    Middels
-                                </button>
-                                <button className="welcome_button" onClick={(i) => this.hard_click()}>
-                                    Verdensklasse
-                                </button>
+                        <div>
+                            <div className="header" />
+                            <div className="home">
+                                <img className="logo" src={logo} alt=""/>
+                                <div className="welcome">Hvilken vanskelighetsgrad ønsker du?</div>
+                                <div className="welcome_buttons">
+                                    <button className="welcome_button" onClick={(i) => this.easy_click()}>
+                                        Nybegynner
+                                    </button>
+                                    <button className="welcome_button" onClick={(i) => this.decent_click()}>
+                                        Middels
+                                    </button>
+                                    <button className="welcome_button" onClick={(i) => this.hard_click()}>
+                                        Verdensklasse
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     );
@@ -82,9 +84,11 @@ export default class App extends Component {
             else {
                 return (
                     <div className="in_game">
-                        <button className="back_button" onClick={(i) => this.back_click()}>
-                            Tilbake
-                        </button>
+                        <div className="header">
+                            <button className="back_button" onClick={(i) => this.back_click()}>
+                                Tilbake
+                            </button>
+                        </div>
                         <P_V_AI player={this.state.player} difficulty={this.state.difficulty}/>
                     </div>
                 );
@@ -92,16 +96,19 @@ export default class App extends Component {
         }
         else {
             return (
-                <div className="home">
-                    <div className="welcome">Velkommen!</div>
-                    <div className="welcome">Hvem vil du spille mot?</div>
-                    <div className="welcome_buttons">
-                        <button className="welcome_button" onClick={(i) => this.left_click()}>
-                            Spill mot en venn eller mot deg selv
-                        </button>
-                        <button className="welcome_button" onClick={(i) => this.right_click()}>
-                            Spill mot Elibot3000
-                        </button>
+                <div>
+                    <div className="header" />
+                    <div className="home">
+                        <img className="logo" src={logo} alt=""/>
+                        <div className="welcome">Hvem vil du spille mot?</div>
+                        <div className="welcome_buttons">
+                            <button className="welcome_button" onClick={(i) => this.left_click()}>
+                                Spill mot en venn eller mot deg selv
+                            </button>
+                            <button className="welcome_button" onClick={(i) => this.right_click()}>
+                                Spill mot QuarantineChess
+                            </button>
+                        </div>
                     </div>
                 </div>
             );
